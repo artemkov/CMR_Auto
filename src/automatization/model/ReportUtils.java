@@ -164,7 +164,7 @@ public class ReportUtils
     
     public static double getDoubleFromProperties (String key, double default_value, Properties properties)
     {
-        if (properties.contains(key))
+        if (properties.containsKey(key))
         {
             try
             {
@@ -185,7 +185,7 @@ public class ReportUtils
     }
     public static boolean getBooleanFromProperties (String key, boolean default_value, Properties properties)
     {
-        if (properties.contains(key))
+        if (properties.containsKey(key))
         {
             if (properties.getProperty(key).equalsIgnoreCase("true"))
             {
