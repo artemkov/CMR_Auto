@@ -156,7 +156,7 @@ public class OlgaWeightedReport
             String curgroupname = curig.getName();
             for (int k=0;k<group1samples.size();k++)
             {
-                List<Double> curvolumeValues = new ArrayList<>();
+                
                 for (int i=0; i<sample1size;i++)
                 {
                     int curindex = k*sample1size+i;
@@ -173,7 +173,7 @@ public class OlgaWeightedReport
                         Double compval = valcompmap.getOrDefault(comprep.findGroupByName(curgroupname), 0.0);
                         Double compsize = comprep.getTotalGroupedWeight();
                         Double comppercent = compsize>0?compval/compsize*100.0:0.0;
-                        Double normDAVal = (curval!=null&&compval!=null)?ReportUtils.getNormDAVal(curval, compval, cursize, compsize):null;
+                        Double normDAVal = (curval!=null&&compval!=null)?ReportUtils.getNormDAVal(curpercent, comppercent, cursize, compsize):null;
                         if ((normDAVal!=null)&&(normDAVal>0))
                         {
                             String val = grdastringList.get(k*sample1size+i);
