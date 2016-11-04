@@ -1,0 +1,1 @@
+java -classpath StatisticsUtil.jar com.ibm.statistics.util.Utility

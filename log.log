@@ -1,0 +1,51 @@
+18:54:46,373  INFO JavaFX Application Thread CMRAuto:start:113 - Properties loaded from properties.properties
+18:54:47,522  INFO JavaFX Application Thread CMRAuto:start:138 - SPSS location D:\SPSS22
+18:54:47,556  INFO JavaFX Application Thread CMRAuto:start:146 - JavaFXML document loaded
+18:54:51,137  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2c\template_b2c_olga1.xlsx
+18:54:51,207  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+18:54:59,516  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2c\nps16svd_merge(2015-2016)_рабочая.sav
+18:55:03,904  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+18:55:03,904  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2c
+18:55:04,066  INFO JavaFX Application Thread ReportProcessor:findValidFilename:318 - File 'b2c_rep_olga1.xlsx'was detected and deleted
+18:55:04,067  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2c_rep_olga1.xlsx
+18:55:04,552  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:412 - Variable header for SV_5 was drawn
+18:55:04,565  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+18:55:04,836  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga1` ReportRow = 3  Samples:2 Size:0*1 per sample>...
+18:55:04,850  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga1` ReportRow = 3  Samples:2 Size:0*1 per sample> was drawn
+18:55:04,908  INFO JavaFX Application Thread CMRAuto:process:183 - Report created. See "b2c_rep_olga1.xlsx"
+18:55:07,909  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2c\template_b2c_olga1.xlsx
+18:55:07,911  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+18:55:08,917  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2c\nps16svd_merge(2015-2016)_рабочая.sav
+18:55:12,797  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+18:55:12,797  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2c
+18:55:12,798  INFO JavaFX Application Thread ReportProcessor:findValidFilename:318 - File 'b2c_rep_olga1.xlsx'was detected and deleted
+18:55:12,798  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2c_rep_olga1.xlsx
+18:55:12,858  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:412 - Variable header for SV_5 was drawn
+18:55:12,859  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+18:55:13,006  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga1` ReportRow = 3  Samples:2 Size:0*1 per sample>...
+18:55:13,007  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga1` ReportRow = 3  Samples:2 Size:0*1 per sample> was drawn
+18:55:13,024  INFO JavaFX Application Thread CMRAuto:process:183 - Report created. See "b2c_rep_olga1.xlsx"
+18:55:47,033  INFO JavaFX Application Thread CMRAuto:start:113 - Properties loaded from properties.properties
+18:55:48,167  INFO JavaFX Application Thread CMRAuto:start:138 - SPSS location D:\SPSS22
+18:55:48,182  INFO JavaFX Application Thread CMRAuto:start:146 - JavaFXML document loaded
+18:55:50,921  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2c\template_b2c_olga1.xlsx
+18:55:50,936  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+18:55:52,124  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2c\nps16svd_merge(2015-2016)_рабочая.sav
+18:55:56,029  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+18:55:56,030  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2c
+18:55:56,036  INFO JavaFX Application Thread ReportProcessor:findValidFilename:318 - File 'b2c_rep_olga1.xlsx'was detected and deleted
+18:55:56,037  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2c_rep_olga1.xlsx
+18:55:56,357  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:412 - Variable header for SV_5 was drawn
+18:55:56,359  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+18:56:33,047  INFO JavaFX Application Thread CMRAuto:start:113 - Properties loaded from properties.properties
+18:56:34,110  INFO JavaFX Application Thread CMRAuto:start:138 - SPSS location D:\SPSS22
+18:56:34,126  INFO JavaFX Application Thread CMRAuto:start:146 - JavaFXML document loaded
+18:56:36,719  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2c\template_b2c_olga1.xlsx
+18:56:36,733  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+18:56:37,910  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2c\nps16svd_merge(2015-2016)_рабочая.sav
+18:56:41,742  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+18:56:41,743  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2c
+18:56:41,748  INFO JavaFX Application Thread ReportProcessor:findValidFilename:318 - File 'b2c_rep_olga1.xlsx'was detected and deleted
+18:56:41,749  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2c_rep_olga1.xlsx
+18:56:42,064  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:412 - Variable header for SV_5 was drawn
+18:56:42,066  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
