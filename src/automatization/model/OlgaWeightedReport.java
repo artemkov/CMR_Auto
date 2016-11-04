@@ -47,7 +47,7 @@ public class OlgaWeightedReport
     List<UniqueList<Map<Content,String>>> group2samples = null;
     String [] dastringarray2s;
     String [] dastringarray1s;
-    Double universe, confLevel;
+    Double universe = DEFAULTUNIVERSE, confLevel = DEFAULTCONFLEVEL;
     DAReport[][][] damatrix ;
     List<Double> confIntervalList = new ArrayList<>();
     Map<String,List<String>> linormDAMap = new HashMap<>();
@@ -232,6 +232,137 @@ public class OlgaWeightedReport
                 }
             }
             linormDAMap.put(gname, dastringList);
+        }
+        //Получение значимостей для средних
+        for (int i=0;i<group2samples.size();i++)
+            meandastringList.add("");
+        valMatrix = new double[group1samples.size()][sample1size][sample1size];
+        stMatrix = new double[group1samples.size()][sample1size][sample1size];
+        for (int k=0;k<group1samples.size();k++)
+        {
+                
+            for (int i=0; i<sample1size;i++)
+            {
+                
+                String dastr ="";
+                ArithmeticMeanReport meanrep = meanReportList.get(k*sample1size+i);
+                Double cursize = meanrep.countSampleWeight(group2samples.get(k*sample1size+i));
+                Double curmean = meanrep.meanList.get(0);
+                Double cursemean = meanrep.semeanList.get(0);
+                for (int j=i+1; j<sample1size;j++)
+                {
+                    ArithmeticMeanReport compmeanrep = meanReportList.get(k*sample1size+j);
+                    Double compsize = compmeanrep.countSampleWeight(group2samples.get(k*sample1size+j));
+                    Double compmean = compmeanrep.meanList.get(0);
+                    Double compsemean = compmeanrep.semeanList.get(0);
+                    Double studentDAVAL = null;
+                    if (cursize!=0&&compsize!=0)
+                        studentDAVAL = ReportUtils.getStudentDAVal(curmean, compmean, cursemean , compsemean, confLevel, cursize+compsize,sample1size);
+                    if (properties.getProperty("DebugVals", "false").equalsIgnoreCase("true"))
+                    {
+                        Double debugVals[] = ReportUtils.getStudentDAValDebug(curmean, compmean, cursemean , compsemean, confLevel, cursize+compsize, sample1size);
+                        if (debugVals!=null)
+                        {
+                            valMatrix[k][i][j]=debugVals[0];
+                            valMatrix[k][j][i]=-debugVals[0];
+                            stMatrix[k][j][i]=debugVals[1];
+                            stMatrix[k][i][j]=debugVals[1];
+                        }
+                    }
+                    if (studentDAVAL!=null)
+                    {
+                        if (studentDAVAL>0)
+                        {
+                            String val = meandastringList.get(k*sample1size+i);
+                            val+=" >"+(j+1);
+                            meandastringList.set(k*sample1size+i,val);
+                        }
+                        else
+                        {
+                            String val = meandastringList.get(k*sample1size+j);
+                            val+=" >"+(i+1);
+                            meandastringList.set(k*sample1size+j,val);
+                        }
+                    }
+                }
+                if (properties.getProperty("DebugVals", "false").equalsIgnoreCase("true"))
+                {
+                    String val="",st="";
+                    for (int j=0; j<sample1size;j++)
+                    {
+                        val+= String.format("%6.2f ", valMatrix[k][i][j]);
+                        st += String.format("%6.2f ", stMatrix[k][i][j]);
+                    }
+                    davaluestringList.add(val);
+                    daststringList.add(st);
+                }
+            }
+        }
+        
+        //Значимости для NPS
+        dastringarray2s = new String[group2samples.size()]; 
+        dastringarray1s = new String[group2samples.size()]; 
+        damatrix = new DAReport[group1samples.size()][group2samples.size()/group1samples.size()][group2samples.size()/group1samples.size()];
+        
+        for(int i=0;i<group1samples.size();i++)
+        {
+            for (int j =0; j< group2samples.size()/group1samples.size();j++)
+            {
+                String toadd2s = "";
+                String toadd1s = "";
+                
+                for (int k =0; k< group2samples.size()/group1samples.size();k++)
+                {
+                    if (j!=k)
+                    {
+                        DAReport darep = new DAReport(npsReportList.get(i*group2samples.size()/group1samples.size()+j), 
+                                                      npsReportList.get(i*group2samples.size()/group1samples.size()+k), 
+                                                      thirdvarname, thirdvarname, 
+                                                      confLevel, universe);
+                        
+                        String conc = darep.conclusion2s==null?"":darep.conclusion2s;
+                        if ((conc.equals("Different")))
+                        {
+                            if (darep.nps1>darep.nps2)
+                            {
+                                toadd2s+=" >"+(k+1);
+                            }
+                        }
+                        
+                        conc = darep.conclusion1s==null?"":darep.conclusion1s;
+                        if ((conc.equals("Different")))
+                        {
+                            if (darep.nps1>darep.nps2)
+                            {
+                                toadd1s+=" >"+(k+1);
+                            }
+                            if (darep.nps2>darep.nps1)
+                            {
+                                toadd1s+=" <"+(k+1);
+                            }
+                        }
+                        
+                        damatrix[i][j][k]=darep;
+                        if (j==0)
+                        {
+                            if (k==1)
+                            {
+                                confIntervalList.add(darep.confInterval1);
+                                confIntervalList.add(darep.confInterval2);
+                            }
+                            else
+                                confIntervalList.add(darep.confInterval2);
+                        }
+                    }
+                    else
+                    {
+                        damatrix[i][j][k]=null;
+                        
+                    }
+                }
+                dastringarray2s[i*group2samples.size()/group1samples.size()+j]=toadd2s;
+                dastringarray1s[i*group2samples.size()/group1samples.size()+j]=toadd1s;
+            }
         }
     }
     

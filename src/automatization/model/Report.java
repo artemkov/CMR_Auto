@@ -491,7 +491,7 @@ public class Report
                 
                 for (GroupsReport gr: grlist)
                 {
-                    Integer val1 = gr.getGroupedTotal();
+                    Integer val1 = gr.getIntGroupedTotal();
                     List<Number> list = new LinkedList<>();
                     if (!hasProperty("HeaderPercentageOnly"))
                         list.add(val1);
@@ -517,7 +517,7 @@ public class Report
                         }
                         else   
                         {
-                            double temp = count*10000/gr.getGroupedTotal();
+                            double temp = count*10000/gr.getIntGroupedTotal();
                             percent = temp/100.0;
                         }
                         
@@ -564,7 +564,7 @@ public class Report
                 for (NPSReport npsr: npsreplist)
                 {
                     Double nps = npsr.getNps();
-                    int total = npsr.getGroupedTotal();
+                    int total = npsr.getIntGroupedTotal();
                     List<Number> list = new LinkedList<>();
                     if ((!hasProperty("HeaderPercentageOnly"))||((hasProperty("HeaderPercentageOnly"))&&(getProperty("HeaderPercentageOnly").equalsIgnoreCase("true"))))
                         list.add(total);
@@ -625,7 +625,7 @@ public class Report
                 break;
             
                 
-            case "CrossSampled NPSDA":
+            /*case "CrossSampled NPSDA":
                 //DAReport (UniqueList<Map<Content,String>> interviews1, UniqueList<Map<Content,String>> interviews2, String var1, String var2, Path groupfilepath1,Path groupfilepath2,Double confLevel, Double universe)
                 if (sampleList.size()<2)
                     throw new NoSampleDataException();
@@ -686,7 +686,7 @@ public class Report
                 
                 NPSReport npsr = NPSReport.getAnswerGroupsWithNPSFromExcel(groupfilepath1);
                 npsr.computeNPS(sampleList.get(0), content.getName());
-                int totalgrouped = npsr.getGroupedTotal();
+                Double totalgrouped = (double)npsr.getIntGroupedTotal();
                 
                 list = new LinkedList<>();
                 rowHeaders.add("Всего в группах");
@@ -758,9 +758,10 @@ public class Report
                 
                 for (int i=1;i<sampleList.size();i++)
                 {
+                    zxvzxcv;
                     DAReport dareport = new DAReport(sampleList.get(i-1),sampleList.get(i),content.getName(),secondvar,groupfilepath1,groupfilepath2,confLevel,universe);
                     
-                    NPSReport npsr2 = dareport.getNpsrep2();
+                    NPSgetter npsr2 = dareport.getNpsrep2();
                     dareports.add(dareport);
                     
                     list = new LinkedList<>();
@@ -814,7 +815,8 @@ public class Report
                     
                 }
                 break;
-            case "NPSDA":
+            */
+            /*case "NPSDA":
                 String filterstring="All",filterstring2="All";
                 if (!hasProperty("groupfile"))
                     throw new ReportParamsNotDefinedException();
@@ -945,11 +947,11 @@ public class Report
                     
                     NPSReport npsr1 = NPSReport.getAnswerGroupsWithNPSFromExcel(groupfilepath1);
                     npsr1.computeNPS(ilist1, content.getName());
-                    int totalgrouped1 = npsr1.getGroupedTotal();
+                    int totalgrouped1 = npsr1.getIntGroupedTotal();
                     
                     NPSReport npsr2 = NPSReport.getAnswerGroupsWithNPSFromExcel(groupfilepath2);
                     npsr2.computeNPS(ilist2, secondvar);
-                    int totalgrouped2 = npsr2.getGroupedTotal();
+                    int totalgrouped2 = npsr2.getIntGroupedTotal();
                     
                     list = new LinkedList<>();
                     list.add(totalgrouped1);list.add(totalgrouped2);
@@ -1004,10 +1006,11 @@ public class Report
                 }
                 
                 break;
-                    
+            */        
                 
                 
             case "Cross":
+                String secondvar;
                 if (hasProperty("secondvar"))
                     secondvar = getProperty("secondvar");
                 else
@@ -1797,8 +1800,8 @@ public class Report
                 return report;
                 
             case "Olga":
-                universe=1000000.0;
-                confLevel=0.95;
+                double universe=1000000.0;
+                double confLevel=0.95;
                 //Главный заголовок
                 
                 if (hasProperty("universe"))
@@ -2036,7 +2039,7 @@ public class Report
                     List<Number> groupedtotalcountlist = new ArrayList<>();
                     for(int j=0;j<olga.npsReportList.size();j++)
                     {
-                        groupedtotalcountlist.add(olga.npsReportList.get(j).getGroupedTotal());
+                        groupedtotalcountlist.add(olga.npsReportList.get(j).getIntGroupedTotal());
                     }
                     addToList(groupedtotalcountlist, "В группах");
                     List<String> ganormDAlist = null;
@@ -2048,14 +2051,14 @@ public class Report
                         for (int k=0;k<olga.npsReportList.size();k++)
                         {
                             NPSReport currentrep = olga.npsReportList.get(k);
-                            Double size = currentrep.getGroupedTotal()+0.0;
+                            Double size = currentrep.getIntGroupedTotal()+0.0;
                             Double count = currentrep.getValuecountermap().get(currentrep.getGroupByName(gname));
                             Double percent = size>0?count/size*100.0:0.0;
                             NPSReport oldrep = null;
                             if (previosolga!=null)
                             {
                                 oldrep=previosolga.npsReportList.get(k);
-                                Double oldsize = oldrep.getGroupedTotal()+0.0;
+                                Double oldsize = oldrep.getIntGroupedTotal()+0.0;
                                 Double oldcount = oldrep.getValuecountermap().get(oldrep.getGroupByName(gname));
                                 Double oldpercent = oldsize>0?oldcount/oldsize*100.0:0.0;
                                 Double davalue = ReportUtils.getNormDAVal(oldpercent, percent, oldsize, size);

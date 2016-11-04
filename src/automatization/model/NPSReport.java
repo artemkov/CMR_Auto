@@ -25,7 +25,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * @author Артем Ковалев
  */
-public class NPSReport extends GroupsReport
+public class NPSReport extends GroupsReport implements NPSgetter
 {
     private List<AnswerGroup> topgList = new ArrayList<>(); 
     private List<AnswerGroup> bottomgList = new ArrayList<>();
@@ -36,6 +36,7 @@ public class NPSReport extends GroupsReport
         super(groups);
     }
 
+    @Override
     public Double getNps() {
         return nps;
     }
@@ -108,7 +109,7 @@ public class NPSReport extends GroupsReport
                     bottom+=this.getValuecountermap().get(ag);
                 
             }
-            int temp = this.getGroupedTotal()!=0?(top-bottom)*10000/this.getGroupedTotal():0;
+            double temp = this.getIntGroupedTotal()!=0?(top-bottom)*10000/this.getIntGroupedTotal():0;
             return (nps=temp/100.0);
             
         }
@@ -235,16 +236,25 @@ public class NPSReport extends GroupsReport
     }
     public Double getPassives()
     {
-        return this.getGroupedTotal()-getTops()-getBottoms();
+        return this.getIntGroupedTotal()-getTops()-getBottoms();
     }
     
        
-    public double getStandartDeviation()
+    @Override
+    public Double getStandartDeviation()
     {
         if (nps==null)
-            return 0;
-        return Math.sqrt(Math.pow(100-nps,2)*getTops()/this.getGroupedTotal()+
-                Math.pow(nps,2)*getPassives()/this.getGroupedTotal()+
-                Math.pow(-100-nps,2)*getBottoms()/this.getGroupedTotal());
+            return 0.0;
+        return Math.sqrt(Math.pow(100-nps,2)*getTops()/this.getIntGroupedTotal()+
+                Math.pow(nps,2)*getPassives()/this.getIntGroupedTotal()+
+                Math.pow(-100-nps,2)*getBottoms()/this.getIntGroupedTotal());
     }
+
+    @Override
+    public Double getGroupedTotal() 
+    {
+        return (double) getIntGroupedTotal();
+    }
+
+    
 }

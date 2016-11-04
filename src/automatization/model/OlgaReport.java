@@ -169,7 +169,7 @@ public class OlgaReport
                     NPSReport crep = npsReportList.get(index);
                     Map<AnswerGroup,Double> valcmap = crep.getValuecountermap();
                     AnswerGroup cag = npsReportList.get(k*sample1size+i).getGroupByName(ag.getName());
-                    Double csize = (double)crep.getGroupedTotal();
+                    Double csize = (double)crep.getIntGroupedTotal();
                             
                     Double cval = csize>0?valcmap.get(cag)/csize*100.0:0.0;
                     curvolumeValues.add(cval);
@@ -177,7 +177,7 @@ public class OlgaReport
                     {
                         
                         AnswerGroup compag = npsReportList.get(k*sample1size+j).getGroupByName(ag.getName());
-                        Double compsize = (double)npsReportList.get(k*sample1size+j).getGroupedTotal();
+                        Double compsize = (double)npsReportList.get(k*sample1size+j).getIntGroupedTotal();
                         Double compval = compsize>0?npsReportList.get(k*sample1size+j).getValuecountermap().get(compag)/compsize*100.0:0.0;
                         Double normDAVal = (cval!=null&&compval!=null)?ReportUtils.getNormDAVal(cval, compval, csize, compsize):null;
                         if ((normDAVal!=null)&&(normDAVal>0))

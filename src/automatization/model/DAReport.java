@@ -9,6 +9,7 @@ import automatization.exceptions.GroupsFileNotFoundException;
 import automatization.exceptions.VariableNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -40,18 +41,19 @@ public class DAReport
     protected double effectiveTotal1;
     protected double effectiveTotal2;
     private boolean counted=false;
-    private NPSReport npsrep1=null,npsrep2=null;
+    private NPSgetter npsrep1=null,npsrep2=null;
+    private WeightedInterviewGroupNPSReport wnpsrep1=null,wnpsrep2=null;
     private double koeff;
 
-    public NPSReport getNpsrep1() {
+    public NPSgetter getNpsrep1() {
         return npsrep1;
     }
 
-    public NPSReport getNpsrep2() {
+    public NPSgetter getNpsrep2() {
         return npsrep2;
     }
     
-    DAReport (NPSReport npsreport1, NPSReport npsreport2,String var1, String var2, Double confLevel, Double universe)
+    DAReport (NPSgetter npsreport1, NPSgetter npsreport2,String var1, String var2, Double confLevel, Double universe)
     {
         if (confLevel!=null)
             this.confLevel=confLevel;
@@ -83,7 +85,6 @@ public class DAReport
             
             computeFormulas(top1,top2,bottom1,bottom2,passive1,passive2,this.confLevel,this.universe);
             testFormulasShort(top1,top2,bottom1,bottom2,passive1,passive2,this.confLevel,this.universe);
-            //testFormulas(162,162,55,81,107,81,this.confLevel,this.universe);
             
             conclusion2s = Math.abs(nps1-nps2)<=minimumSigDif2s?"No difference":"Different";
             conclusion1s  = (nps1-nps2)>minimumSigDif1s?"No difference":"Different";
@@ -92,7 +93,9 @@ public class DAReport
         }
     }
     
-    DAReport (UniqueList<Map<Content,String>> interviews1, UniqueList<Map<Content,String>> interviews2, String var1, String var2, Path groupfilepath1,Path groupfilepath2,Double confLevel, Double universe) throws VariableNotFoundException, GroupsFileNotFoundException
+    
+    
+    /*DAReport (UniqueList<Map<Content,String>> interviews1, UniqueList<Map<Content,String>> interviews2, String var1, String var2, Path groupfilepath1,Path groupfilepath2,Double confLevel, Double universe) throws VariableNotFoundException, GroupsFileNotFoundException
     {
         this.varname1=var1;
         this.varname2=var2;
@@ -109,7 +112,9 @@ public class DAReport
         
         try 
         {
-            npsrep1 = NPSReport.getAnswerGroupsWithNPSFromExcel(groupfilepath1);
+            List<InterviewGroup> var1LinearGroupslist = GroupsReport.getInterviewGroupsFromExcel(groupfilepath1,ContentUtils.getContentByNameFromInterviewList(interviews1, varname1));
+            List<InterviewGroup> var2LinearGroupslist = GroupsReport.getInterviewGroupsFromExcel(groupfilepath2,ContentUtils.getContentByNameFromInterviewList(interviews2, varname2));
+            npsrep1 = new WeightedInterviewGroupReport(var1LinearGroupslist, weightcontent,content3);
             npsrep2 = NPSReport.getAnswerGroupsWithNPSFromExcel(groupfilepath2);
             
             nps1 = npsrep1.computeNPS(interviews1, varname1);
@@ -151,7 +156,7 @@ public class DAReport
         }
         
         
-    }
+    }*/
 
     public boolean isCounted() 
     {

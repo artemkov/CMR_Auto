@@ -28,7 +28,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * @author Дина
  */
-public class WeightedInterviewGroupNPSReport extends WeightedInterviewGroupReport
+public class WeightedInterviewGroupNPSReport extends WeightedInterviewGroupReport implements NPSgetter
 {
     private List<InterviewGroup> topgList = new ArrayList<>(); 
     private List<InterviewGroup> bottomgList = new ArrayList<>();
@@ -48,7 +48,7 @@ public class WeightedInterviewGroupNPSReport extends WeightedInterviewGroupRepor
     public WeightedInterviewGroupNPSReport(Path excelFilePath, Content wc, Content content) throws IOException 
     {
         super(excelFilePath, wc, content);
-        System.out.println(this.groupslist);
+        //System.out.println(this.groupslist);
         getInterviewGroupsWithNPSFromExcel(excelFilePath);
     }
 
@@ -77,6 +77,7 @@ public class WeightedInterviewGroupNPSReport extends WeightedInterviewGroupRepor
             passivegList.add(g);
     }
 
+    @Override
     public Double getNps() {
         return nps;
     }
@@ -174,5 +175,51 @@ public class WeightedInterviewGroupNPSReport extends WeightedInterviewGroupRepor
             System.out.println("Something wrong with groupsfile. IO Error");
             throw new GroupsFileNotFoundException(file.toAbsolutePath().toString());
         }
+    }
+
+    @Override
+    public Double getTops() 
+    {
+        double top = 0.0;
+        for (InterviewGroup topig: topgList)
+        {
+            top+=this.weightedCountmap.getOrDefault(topig, 0.0);
+        }
+        return top;
+    }
+
+    @Override
+    public Double getBottoms() {
+        double bottom = 0.0;
+        for (InterviewGroup topig: bottomgList)
+        {
+            bottom+=this.weightedCountmap.getOrDefault(topig, 0.0);
+        }
+        return bottom;
+    }
+
+    @Override
+    public Double getPassives() {
+        double passive = 0.0;
+        for (InterviewGroup topig: bottomgList)
+        {
+            passive+=this.weightedCountmap.getOrDefault(topig, 0.0);
+        }
+        return passive;
+    }
+    
+    @Override
+    public Double getStandartDeviation()
+    {
+        if (nps==null)
+            return 0.0;
+        return Math.sqrt(Math.pow(100-nps,2)*getTops()/this.getGroupedTotal()+
+                Math.pow(nps,2)*getPassives()/this.getGroupedTotal()+
+                Math.pow(-100-nps,2)*getBottoms()/this.getGroupedTotal());
+    }
+
+    @Override
+    public Double getGroupedTotal() {
+        return this.getTotalGroupedWeight();
     }
 }

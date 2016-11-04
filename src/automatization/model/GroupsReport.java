@@ -278,7 +278,7 @@ public class GroupsReport
         return groupList;
     }
     
-    public int getGroupedTotal()
+    public int getIntGroupedTotal()
     {
         int total=0;
         if ((groups!=null)&&(getValuecountermap()!=null)&&(!getValuecountermap().isEmpty()))
@@ -396,7 +396,7 @@ public class GroupsReport
         return groupList;
     }
     
-    public static List<InterviewGroup> constructInterviewGroupsFormContent(Content content,UniqueList<Map<Content,String>> interviews)
+    public static List<InterviewGroup> constructInterviewGroupsFromContent(Content content,UniqueList<Map<Content,String>> interviews)
     {
         List<InterviewGroup> intGrList = new UniqueList<>();
         TreeSet<String> uniqvalues = new TreeSet<>(new StringIntComparator());
