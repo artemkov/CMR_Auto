@@ -40,7 +40,7 @@ public class OlgaWeightedReport
     Path groupfile1,groupfile2,groupfile3;
     
     GroupsCrossReport gcr = null;
-    List<NPSReport> npsReportList = new ArrayList<>();
+    //List<NPSReport> npsReportList = new ArrayList<>();
     List<WeightedInterviewGroupNPSReport> wig_NPSReportList = new ArrayList<>();
     List<WeightedInterviewGroupReport> wig_LinearReportList = new ArrayList<>();
     List<UniqueList<Map<Content,String>>> group1samples = null;
@@ -315,8 +315,8 @@ public class OlgaWeightedReport
                 {
                     if (j!=k)
                     {
-                        DAReport darep = new DAReport(npsReportList.get(i*group2samples.size()/group1samples.size()+j), 
-                                                      npsReportList.get(i*group2samples.size()/group1samples.size()+k), 
+                        DAReport darep = new DAReport(wig_NPSReportList.get(i*group2samples.size()/group1samples.size()+j), 
+                                                      wig_NPSReportList.get(i*group2samples.size()/group1samples.size()+k), 
                                                       thirdvarname, thirdvarname, 
                                                       confLevel, universe);
                         
