@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.math3.distribution.TDistribution;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -249,12 +250,20 @@ public class NPSReport extends GroupsReport implements NPSgetter
                 Math.pow(nps,2)*getPassives()/this.getIntGroupedTotal()+
                 Math.pow(-100-nps,2)*getBottoms()/this.getIntGroupedTotal());
     }
+    
+    @Override
+    public Double getConfInterval(double conflevel, double univ) 
+    {
+        return ReportUtils.getNPSConfInterval2s (getGroupedTotal(), conflevel, univ, nps, getTops()*100.0/getGroupedTotal(), getBottoms()*100.0/getGroupedTotal(), getPassives()*100.0/getGroupedTotal());
+    }
 
     @Override
     public Double getGroupedTotal() 
     {
         return (double) getIntGroupedTotal();
     }
+
+    
 
     
 }

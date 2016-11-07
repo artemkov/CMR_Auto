@@ -75,6 +75,18 @@ public class ReportUtils
         res[1]=student;
         return res;
     }
+    static Double getNPSConfInterval2s (double total, double conflevel, double univ, Double nps, double tops, double bottoms, double passives)
+    {
+        if (nps!=null)
+        {
+            TDistribution tdist = new TDistribution(null, total-1, 0.00);
+            double student = computeNPSStudentInvCumProbab2s(tdist,1-conflevel);
+            Double confInterval1= student*(1.0-total/univ)*
+                Math.sqrt((Math.pow(100-nps,2)*tops/100+Math.pow(nps,2)*passives/100+Math.pow(-100-nps,2)*bottoms/100)/total);
+            return confInterval1;
+        }
+        return 0.0;
+    }
     public static Double getStudentDAVal (double mean1, double mean2, double semean1, double semean2, double confinterval,double numberofseries)
     {
         if ((semean1==0)||(semean2==0)||numberofseries<2)
@@ -88,6 +100,12 @@ public class ReportUtils
     private static double computeStudentInvCumProbab2s(TDistribution tdist,double arg)
     {
         double convarg = 1-(1-arg)/2;
+        return tdist.inverseCumulativeProbability(convarg);
+    }
+    
+    private static double computeNPSStudentInvCumProbab2s(TDistribution tdist,double arg)
+    {
+        double convarg = 1-arg/2;
         return tdist.inverseCumulativeProbability(convarg);
     }
     

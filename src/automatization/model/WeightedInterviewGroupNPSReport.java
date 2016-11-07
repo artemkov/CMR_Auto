@@ -217,7 +217,13 @@ public class WeightedInterviewGroupNPSReport extends WeightedInterviewGroupRepor
                 Math.pow(nps,2)*getPassives()/this.getGroupedTotal()+
                 Math.pow(-100-nps,2)*getBottoms()/this.getGroupedTotal());
     }
-
+    
+    @Override
+    public Double getConfInterval(double conflevel, double univ) 
+    {
+        return ReportUtils.getNPSConfInterval2s (getGroupedTotal(), conflevel, univ, nps, getTops()*100.0/getGroupedTotal(), getBottoms()*100.0/getGroupedTotal(), getPassives()*100.0/getGroupedTotal());
+    }
+    
     @Override
     public Double getGroupedTotal() {
         return this.getTotalGroupedWeight();

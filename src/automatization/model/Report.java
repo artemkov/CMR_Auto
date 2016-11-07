@@ -2105,10 +2105,13 @@ public class Report
                     
                     rowTypeMap.put("ConfInt","VALUE");
                     List<Number> confIntlist = new ArrayList<>();
-                    for(int j=0;j<olga.confIntervalList.size();j++)
+                    //List<Number> oldconfIntlist = new ArrayList<>();
+                    for(int j=0;j<olga.newconfIntervalList.size();j++)
                     {
-                        Double ci = olga.confIntervalList.get(j);
-                        confIntlist.add(round(ci));
+                        //Double ci = olga.confIntervalList.get(j);
+                        //oldconfIntlist.add(round(ci));
+                        Double newci=olga.newconfIntervalList.get(j);
+                        confIntlist.add(round(newci));
                     }
                     addToList(confIntlist, "ConfInt");
                     

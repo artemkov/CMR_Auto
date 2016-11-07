@@ -17,4 +17,5 @@ public interface NPSgetter
     Double getPassives();
     Double getGroupedTotal();
     Double getStandartDeviation();
+    Double getConfInterval(double conflevel, double universe);
 }

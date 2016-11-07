@@ -212,15 +212,15 @@ public class DAReport
             effectiveTotal2=total2;
         
         
-            tdist = new TDistribution(null,total1-1,0);
-            double arg3 = (1-conflev);
-            confInterval1=computeStudentInvCumProbab2s(tdist,arg3)*(1.0-total1/univ)*
-                Math.sqrt((Math.pow(100-nps1,2)*ptop1/100+Math.pow(nps1,2)*ppassive1/100+Math.pow(-100-nps1,2)*pbottom1/100)/effectiveTotal1);
+            //tdist = new TDistribution(null,total1-1,0);
+            //double arg3 = (1-conflev);
+            //confInterval1=computeStudentInvCumProbab2s(tdist,arg3)*(1.0-total1/univ)*
+            //   Math.sqrt((Math.pow(100-nps1,2)*ptop1/100+Math.pow(nps1,2)*ppassive1/100+Math.pow(-100-nps1,2)*pbottom1/100)/effectiveTotal1);
         
-            tdist = new TDistribution(null,total2-1,0);
-            double arg4 = (1-conflev);
-            confInterval2=computeStudentInvCumProbab2s(tdist,arg4)*(1.0-total2/univ)*
-                Math.sqrt((Math.pow(100-nps2,2)*ptop2/100+Math.pow(nps2,2)*ppassive2/100+Math.pow(-100-nps2,2)*pbottom2/100)/effectiveTotal2);
+            //tdist = new TDistribution(null,total2-1,0);
+            //double arg4 = (1-conflev);
+            //confInterval2=computeStudentInvCumProbab2s(tdist,arg4)*(1.0-total2/univ)*
+            //    Math.sqrt((Math.pow(100-nps2,2)*ptop2/100+Math.pow(nps2,2)*ppassive2/100+Math.pow(-100-nps2,2)*pbottom2/100)/effectiveTotal2);
         
         
             tval2s=stInv2s;

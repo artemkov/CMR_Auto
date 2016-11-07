@@ -46,7 +46,8 @@ public class OlgaReport
     String [] dastringarray1s;
     Double universe, confLevel;
     DAReport[][][] damatrix ;
-    List<Double> confIntervalList = new ArrayList<>();
+    //List<Double> confIntervalList = new ArrayList<>();
+    List<Double> newconfIntervalList = new ArrayList<>();
     Map<String,List<String>> normDAMap = new HashMap<>();
     Map<String,List<String>> ganormDAMap = new HashMap<>();
     List<ArithmeticMeanReport> meanReportList = new ArrayList<>();
@@ -344,7 +345,7 @@ public class OlgaReport
         
         for(int i=0;i<group1samples.size();i++)
         {
-            Double[][] confmatrix = new Double[4][4];
+            
             for (int j =0; j< group2samples.size()/group1samples.size();j++)
             {
                 String toadd2s = "";
@@ -400,7 +401,7 @@ public class OlgaReport
                         
                         //confmatrix[j][k]=darep.confInterval2;
                         
-                        if (j==0)
+                        /*if (j==0)
                         {
                             if (k==1)
                             {
@@ -409,7 +410,7 @@ public class OlgaReport
                             }
                             else
                                 confIntervalList.add(darep.confInterval2);
-                        }
+                        }*/
                     }
                     else
                     {
@@ -418,6 +419,9 @@ public class OlgaReport
                         //dastringarray1s[i*group1samples.size()+j]="";
                     }
                 }
+                NPSReport npsr = npsReportList.get(i*group2samples.size()/group1samples.size()+j);
+                Double nci = npsr.getConfInterval(confLevel, universe);
+                newconfIntervalList.add(nci);
                 dastringarray2s[i*group2samples.size()/group1samples.size()+j]=toadd2s;
                 dastringarray1s[i*group2samples.size()/group1samples.size()+j]=toadd1s;
             }
