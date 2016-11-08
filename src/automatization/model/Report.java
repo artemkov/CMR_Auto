@@ -2497,6 +2497,18 @@ public class Report
         return Math.round(d);
     }
     
+    public void setNoFirstString(boolean noFirstString) 
+    {
+        this.noFirstString = noFirstString;
+    }
+    
+    public void addRowType(String rowHeader, String rowType)
+    {
+        this.rowTypeMap.put(rowHeader, rowType);
+    }
+           
+    
+    
     @Override
     public String toString()
     {
@@ -2506,10 +2518,9 @@ public class Report
         return "Type:"+this.getReportType()+" ReportRow = "+this.repRow +" "+(tag==null?"":" Tag:"+tag)+" Samples:"+this.sampleNames.size()+" Size:"+this.rowHeaders.size()+"*"+this.sampleWidth+" per sample";
     }
 
-    public void setNoFirstString(boolean noFirstString) 
-    {
-        this.noFirstString = noFirstString;
-    }
+    
+    
+    
 
     
 

@@ -343,25 +343,17 @@ public class OlgaWeightedReport
                         }
                         
                         damatrix[i][j][k]=darep;
-                        if (j==0)
-                        {
-                            if (k==1)
-                            {
-                                confIntervalList.add(darep.confInterval1);
-                                confIntervalList.add(darep.confInterval2);
-                            }
-                            else
-                                confIntervalList.add(darep.confInterval2);
-                        }
+                        
                     }
                     else
                     {
                         damatrix[i][j][k]=null;
-                        
                     }
                 }
                 dastringarray2s[i*group2samples.size()/group1samples.size()+j]=toadd2s;
                 dastringarray1s[i*group2samples.size()/group1samples.size()+j]=toadd1s;
+                Double nci = wig_NPSReportList.get(i*group2samples.size()/group1samples.size()+j).getConfInterval(confLevel, universe);
+                confIntervalList.add(nci);
             }
         }
     }
