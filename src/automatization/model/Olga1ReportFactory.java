@@ -41,6 +41,9 @@ public class Olga1ReportFactory implements ReportFactory
     {
         
         Report report = new Report();
+        report.setReportType(level3node.getData());
+        report.setRepRow(level3node.getExcelRow());
+        
         report.addProperties(properties);
         report.setContent(content);
         double universe=1000000.0;
@@ -60,7 +63,7 @@ public class Olga1ReportFactory implements ReportFactory
         for (int i=0; i<sampleList.size(); i++)
         {
             
-            OlgaWeightedReport owr = new OlgaWeightedReport(sampleList.get(i), content, properties, level3node);
+            OlgaWeightedReport owr = new OlgaWeightedReport(sampleList.get(i), content, properties, level3node.findRootNode());
             OlgaWeightedReport previosowr = i>0?olrlist.get(i-1):null;
             olrlist.add(owr);
             if (i==0)
@@ -253,14 +256,15 @@ public class Olga1ReportFactory implements ReportFactory
                 {
                     WeightedInterviewGroupNPSReport currentrep = owr.wig_NPSReportList.get(k),oldrep;
                     Double size = currentrep.getGroupedTotal();
-                    Double count = currentrep.weightedCountmap.get(currentrep.findGroupByName(gname));
+                    Double count = currentrep.weightedCountmap.getOrDefault(currentrep.findGroupByName(gname),0.0);
+                    
                     Double percent = size>0?count/size*100.0:0.0;
                     
                     if (previosowr!=null)
                     {
                         oldrep=previosowr.wig_NPSReportList.get(k);
                         Double oldsize = oldrep.getGroupedTotal();
-                        Double oldcount = oldrep.weightedCountmap.get(oldrep.findGroupByName(gname));
+                        Double oldcount = oldrep.weightedCountmap.getOrDefault(oldrep.findGroupByName(gname),0.0);
                         Double oldpercent = oldsize>0?oldcount/oldsize*100.0:0.0;
                         Double davalue = ReportUtils.getNormDAVal(oldpercent, percent, oldsize, size);
                         Color color = ReportUtils.getColorFromDiff(davalue);
@@ -283,20 +287,16 @@ public class Olga1ReportFactory implements ReportFactory
                 }
             }
             
-            
-            
+            List<Number> npscountlist = new ArrayList<>();
+            for(int j=0;j<owr.wig_NPSReportList.size();j++)
+            {
+                Double nps = owr.wig_NPSReportList.get(j).getNps()==null?0:owr.wig_NPSReportList.get(j).getNps();
+                npscountlist.add(report.round_p(nps));
+            }
+            report.addToList(npscountlist, "NPS "+owr.content3.getName());
         }
-        
-        
-                
-        
-        
-        
-        
-       
         return report;
-
-        
+    
     }
     
     

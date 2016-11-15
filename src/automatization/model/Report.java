@@ -66,6 +66,10 @@ public class Report
         return repRow;
     }
     
+    public void setRepRow(int repRow) {
+        this.repRow=repRow;
+    }
+    
     public String getMainHeader() {
         return mainHeader;
     }
@@ -1796,7 +1800,7 @@ public class Report
                 break;
             case "Olga1":
                 ReportFactory rf = new Olga1ReportFactory();
-                Report report = rf.makeReport(level3node.findRootNode(),content, reportProperties,splittedSamples,splittedNames);
+                Report report = rf.makeReport(level3node,content, reportProperties,splittedSamples,splittedNames);
                 return report;
                 
             case "Olga":
