@@ -45,6 +45,7 @@ public class DAReport
     private WeightedInterviewGroupNPSReport wnpsrep1=null,wnpsrep2=null;
     private double koeff;
 
+    
     public NPSgetter getNpsrep1() {
         return npsrep1;
     }
@@ -68,9 +69,17 @@ public class DAReport
         {
             double gtotal1 = npsrep1.getGroupedTotal();
             double gtotal2 = npsrep2.getGroupedTotal();
+            
+            if (gtotal1==0||gtotal2==0)
+            {
+                counted=false;
+                return;
+            }
+            
             double tot = gtotal1+gtotal2;
             double top1 = npsrep1.getTops();
             double top2 = npsrep2.getTops();
+                  
             double bottom1 = npsrep1.getBottoms();
             double bottom2 = npsrep2.getBottoms();
             double passive1 = npsrep1.getPassives();
@@ -86,10 +95,15 @@ public class DAReport
             computeFormulas(top1,top2,bottom1,bottom2,passive1,passive2,this.confLevel,this.universe);
             testFormulasShort(top1,top2,bottom1,bottom2,passive1,passive2,this.confLevel,this.universe);
             
+            
             conclusion2s = Math.abs(nps1-nps2)<=minimumSigDif2s?"No difference":"Different";
             conclusion1s  = (nps1-nps2)>minimumSigDif1s?"No difference":"Different";
             
             counted=true;
+        }
+        else
+        {
+            counted=false;
         }
     }
     

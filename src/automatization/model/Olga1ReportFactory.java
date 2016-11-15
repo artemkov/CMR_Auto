@@ -20,6 +20,8 @@ import static automatization.model.ReportUtils.getStringFromProperties;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -53,10 +55,13 @@ public class Olga1ReportFactory implements ReportFactory
         confLevel = getConflevelFromProperties(confLevel, properties);
         weightContentName = getWeghtcontentnameFromProperties(weightContentName,properties);
         boolean addall = ReportUtils.getBooleanFromProperties("AddAll", false, properties);
+        List<InterviewGroup> agList = null;
         
         for (int i=0; i<sampleList.size(); i++)
         {
+            
             OlgaWeightedReport owr = new OlgaWeightedReport(sampleList.get(i), content, properties, level3node);
+            OlgaWeightedReport previosowr = i>0?olrlist.get(i-1):null;
             olrlist.add(owr);
             if (i==0)
             {
@@ -125,7 +130,7 @@ public class Olga1ReportFactory implements ReportFactory
                         
                         
                 //Группы NPS
-                List<InterviewGroup> agList = owr.wig_NPSReportList.get(0).groupslist;   
+                agList = owr.wig_NPSReportList.get(0).groupslist;   
                 for (InterviewGroup ag: agList)
                 {
                     report.addRowHeader(ag.getName());
@@ -135,6 +140,8 @@ public class Olga1ReportFactory implements ReportFactory
                     report.addRowType("Значимости "+ag.getName(),"VALUE;NOCHANGEODD;DA");
                 }
             }
+            
+            //Заголовки разделов (переменная content1)
             List<String>volumenameslist=new ArrayList<>();
             for(InterviewGroup ag: owr.gcr.getAgroup1())
             {
@@ -158,6 +165,125 @@ public class Olga1ReportFactory implements ReportFactory
                 }
                 report.addStrToList(namelist, totalrowheader);
             }
+            report.addStrToList(volumenameslist, volumeheader);
+            
+            //Значимости NPS
+            List<Color> cList = new ArrayList<>();
+            for(int j=0;j<owr.group2samples.size();j++)
+            {
+                if (previosowr!=null)
+                {
+                    NPSgetter rep1 = previosowr.wig_NPSReportList.get(j);
+                    NPSgetter rep2 = owr.wig_NPSReportList.get(j);
+                                
+                        if (rep1!=null&&rep2!=null)
+                        {    
+                            DAReport crossdarep = new DAReport(rep1, rep2, owr.content2.getName(), owr.content2.getName(), confLevel, universe);
+                            Double nps1 = rep1.getNps();
+                            Double nps2 = rep2.getNps();
+                            String conclusion2s = crossdarep.conclusion2s;
+                            if ((conclusion2s!=null)&&(conclusion2s.equals("Different")))
+                                if (nps2>nps1)
+                                {
+                                    cList.add(Color.BLUE);
+                                }
+                                else
+                                {
+                                    cList.add(Color.RED);
+                                }
+                                else
+                                    cList.add(Color.BLACK);
+                        }
+                        else
+                           cList.add(Color.BLACK);
+                }
+                else
+                {
+                    cList.add(Color.BLACK);
+                }    
+            }
+            report.getColorMap().put("NPS "+owr.content3.getName(), cList);
+            
+            for (InterviewGroup ag1: owr.gcr.getAgroup1())
+            {
+                String name1="";
+                if (owr.gcr.isAgrop1fictive())
+                    if (owr.content1.getAnswerCodeMap()!=null)
+                    {
+                        name1 = owr.content1.getAnswerCodeMap().get(ag1.getName());
+                    }
+                if ((name1==null)||(name1.isEmpty()))
+                    name1 = ag1.getName();
+                List<String> namelist = new ArrayList<>();
+                for (InterviewGroup ag2: owr.gcr.getAgroup2())
+                {
+                    String name2="";
+                    if (owr.gcr.isAgrop2fictive())
+                        if (owr.content2.getAnswerCodeMap()!=null)
+                        {
+                            name2 = owr.content2.getAnswerCodeMap().get(ag2.getName());
+                        }
+                    if ((name2==null)||(name2.isEmpty()))
+                        name2 = ag2.getName();
+                    namelist.add(name2);
+                }
+                report.addStrToList(namelist, totalrowheader);
+            }
+            
+            List<Number> samplecountlist = new ArrayList<>();
+            for(int j=0;j<owr.group2samples.size();j++)
+                samplecountlist.add(owr.group2samples.get(j).size());
+            report.addToList(samplecountlist, "Размер выборки");
+                    
+                    
+            List<Number> groupedtotalcountlist = new ArrayList<>();
+            for(int j=0;j<owr.wig_NPSReportList.size();j++)
+            {
+                groupedtotalcountlist.add(owr.wig_NPSReportList.get(j).getGroupedTotal());
+            }
+            report.addToList(groupedtotalcountlist, "В группах");
+            
+            List<String> ganormDAlist = null;
+            Map<String,List<Number>> grValList = new HashMap<>();
+            for (InterviewGroup ag: agList)
+            {
+                String gname = ag.getName();
+                List<Number> valList = new ArrayList<>();
+                for (int k=0;k<owr.wig_NPSReportList.size();k++)
+                {
+                    WeightedInterviewGroupNPSReport currentrep = owr.wig_NPSReportList.get(k),oldrep;
+                    Double size = currentrep.getGroupedTotal();
+                    Double count = currentrep.weightedCountmap.get(currentrep.findGroupByName(gname));
+                    Double percent = size>0?count/size*100.0:0.0;
+                    
+                    if (previosowr!=null)
+                    {
+                        oldrep=previosowr.wig_NPSReportList.get(k);
+                        Double oldsize = oldrep.getGroupedTotal();
+                        Double oldcount = oldrep.weightedCountmap.get(oldrep.findGroupByName(gname));
+                        Double oldpercent = oldsize>0?oldcount/oldsize*100.0:0.0;
+                        Double davalue = ReportUtils.getNormDAVal(oldpercent, percent, oldsize, size);
+                        Color color = ReportUtils.getColorFromDiff(davalue);
+                        report.addToColorMap(gname,color);
+                    }
+                    else
+                    {
+                        report.addToColorMap(gname,Color.BLACK);
+                    }
+                    valList.add(report.round_p(percent));
+                }
+                grValList.put(gname, valList);
+                report.addToList(valList,gname);
+                        
+                if (owr.ganormDAMap.containsKey(gname))
+                {
+                    ganormDAlist=owr.ganormDAMap.get(gname);
+                    report.addStrToList(ganormDAlist, "Значимости "+gname);
+                    report.getColorMap().put("Значимости "+gname, Collections.nCopies(sampleList.size()*owr.group2samples.size(), Color.GREEN));
+                }
+            }
+            
+            
             
         }
         
@@ -167,7 +293,7 @@ public class Olga1ReportFactory implements ReportFactory
         
         
         
-        
+       
         return report;
 
         

@@ -319,26 +319,28 @@ public class OlgaWeightedReport
                                                       wig_NPSReportList.get(i*group2samples.size()/group1samples.size()+k), 
                                                       thirdvarname, thirdvarname, 
                                                       confLevel, universe);
-                        
-                        String conc = darep.conclusion2s==null?"":darep.conclusion2s;
-                        if ((conc.equals("Different")))
+                        if (darep.isCounted())
                         {
-                            if (darep.nps1>darep.nps2)
+                            String conc = darep.conclusion2s==null?"":darep.conclusion2s;
+                            if ((conc.equals("Different")))
                             {
-                                toadd2s+=" >"+(k+1);
+                                if (darep.nps1>darep.nps2)
+                                {
+                                    toadd2s+=" >"+(k+1);
+                                }
                             }
-                        }
                         
-                        conc = darep.conclusion1s==null?"":darep.conclusion1s;
-                        if ((conc.equals("Different")))
-                        {
-                            if (darep.nps1>darep.nps2)
+                            conc = darep.conclusion1s==null?"":darep.conclusion1s;
+                            if ((conc.equals("Different")))
                             {
-                                toadd1s+=" >"+(k+1);
-                            }
-                            if (darep.nps2>darep.nps1)
-                            {
-                                toadd1s+=" <"+(k+1);
+                                if (darep.nps1>darep.nps2)
+                                {
+                                    toadd1s+=" >"+(k+1);
+                                }
+                                if (darep.nps2>darep.nps1)
+                                {
+                                    toadd1s+=" <"+(k+1);
+                                }
                             }
                         }
                         
