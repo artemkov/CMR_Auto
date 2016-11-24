@@ -77,7 +77,7 @@ public class ReportUtils
     }
     static Double getNPSConfInterval2s (double total, double conflevel, double univ, Double nps, double tops, double bottoms, double passives)
     {
-        if ((nps!=null)&&(total>0))
+        if ((nps!=null)&&(total>1))
         {
             TDistribution tdist = new TDistribution(null, total-1, 0.00);
             double student = computeNPSStudentInvCumProbab2s(tdist,1-conflevel);

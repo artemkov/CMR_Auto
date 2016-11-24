@@ -135,16 +135,19 @@ public class OlgaReport
             else
             {
                 AnswerGroup zogroup = npsRep.getGroupByName(ZOGROUPNAME);
-                String zoexcludeproperty = "";
-                int count=0;
-                for (String zoanswer: zogroup.getAnswerset())
+                if (zogroup!=null)
                 {
-                    if (count>0)
-                        zoexcludeproperty+=",";
-                    zoexcludeproperty += zoanswer ;
-                    count++;
+                    String zoexcludeproperty = "";
+                    int count=0;
+                    for (String zoanswer: zogroup.getAnswerset())
+                    {
+                        if (count>0)
+                            zoexcludeproperty+=",";
+                        zoexcludeproperty += zoanswer ;
+                        count++;
+                    }
+                    props.setProperty("ExcludeList", zoexcludeproperty);
                 }
-                props.setProperty("ExcludeList", zoexcludeproperty);
             }
             
             ArithmeticMeanReport mrep = new ArithmeticMeanReport(sample, content3, props, rootNode);

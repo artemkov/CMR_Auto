@@ -59,7 +59,7 @@ public class Olga1ReportFactory implements ReportFactory
         weightContentName = getWeghtcontentnameFromProperties(weightContentName,properties);
         boolean addall = ReportUtils.getBooleanFromProperties("AddAll", false, properties);
         List<InterviewGroup> agList = null;
-        
+        report.setSampleNames(sampleNames);
         for (int i=0; i<sampleList.size(); i++)
         {
             
@@ -110,6 +110,7 @@ public class Olga1ReportFactory implements ReportFactory
                 if (debugvals)
                 {
                     report.addRowHeader("VARIANCE "+owr.content3.getName());
+                    report.addRowType("VARIANCE "+owr.content3.getName(),"VALUE");
                 }
                     
                 report.addRowHeader("SEMEAN "+owr.content3.getName());
@@ -118,18 +119,23 @@ public class Olga1ReportFactory implements ReportFactory
                 if (debugvals)
                 {
                     report.addRowHeader("DIFFERENCE "+owr.content3.getName());
+                    report.addRowType("DIFFERENCE "+owr.content3.getName(),"VALUE");
                         
                     report.addRowHeader("STUDENT "+owr.content3.getName());
+                    report.addRowType("STUDENT "+owr.content3.getName(),"VALUE");
                             
                     report.addRowHeader("SD");
+                    report.addRowType("SD","VALUE");
                 }    
                     
                 report.addRowHeader("NPS "+owr.content3.getName());
-                report.addRowType("NPS "+owr.content3.getName(),"VALUE;DA;PERCENTAGES");
+                report.addRowType("NPS "+owr.content3.getName(),"VALUE;DA;PERCENTAGES;NOBOTTOMBORDER");
                         
                 report.addRowHeader("NPSDA 2s");
+                report.addRowType("NPSDA 2s","VALUE;NOCHANGEODD;DA");
                         
                 report.addRowHeader("ConfInt");
+                report.addRowType("ConfInt","VALUE");
                         
                         
                 //Группы NPS

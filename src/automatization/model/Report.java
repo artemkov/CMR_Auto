@@ -1913,11 +1913,13 @@ public class Report
                         }    
                     
                         rowHeaders.add("NPS "+olga.content3.getName());
-                        rowTypeMap.put("NPS "+olga.content3.getName(),"VALUE;DA;PERCENTAGES");
+                        rowTypeMap.put("NPS "+olga.content3.getName(),"VALUE;DA;PERCENTAGES;NOBOTTOMBORDER");
                         
                         rowHeaders.add("NPSDA 2s");
+                        rowTypeMap.put("NPSDA 2s","VALUE;DA;NOCHANGEODD");
                         
                         rowHeaders.add("ConfInt");
+                        rowTypeMap.put("ConfInt","VALUE;DA");
                         
                         
                         
@@ -2097,7 +2099,7 @@ public class Report
                     addToList(npscountlist, "NPS "+olga.content3.getName());
                     
                     
-                    rowTypeMap.put("NPSDA 2s","VALUE");
+                    
                     List<String> da2slist = new ArrayList<>();
                     for(int j=0;j<olga.dastringarray2s.length;j++)
                     {
@@ -2107,7 +2109,7 @@ public class Report
                     addStrToList(da2slist,"NPSDA 2s");
                     
                     
-                    rowTypeMap.put("ConfInt","VALUE");
+                    
                     List<Number> confIntlist = new ArrayList<>();
                     //List<Number> oldconfIntlist = new ArrayList<>();
                     for(int j=0;j<olga.newconfIntervalList.size();j++)
