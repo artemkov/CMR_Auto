@@ -715,7 +715,7 @@ public class ReportProcessor
         for (String rowheader: report.getRowHeaders())
         {
             String rowType = report.getRowTypeMap().get(rowheader);
-            if (rowType==null)
+            if (rowheader.equals("NPSDA 2s"))
                 System.out.print("");
             if ((isFirst)&&(report.isNoFirstString()))
             {
