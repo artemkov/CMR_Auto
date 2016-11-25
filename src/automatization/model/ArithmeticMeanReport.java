@@ -321,9 +321,12 @@ public class ArithmeticMeanReport
         return Math.sqrt(sum/(interviewsweight));
     }
     
+    
+    
+    
     private double getSEMean (double variance, double interviewsweight)
     {
-        if (interviewsweight>0)
+        if (interviewsweight>1)
             return DEFAULTCONFINTCOEFF*(variance/Math.sqrt(interviewsweight-1));
         return 0.0;
     }

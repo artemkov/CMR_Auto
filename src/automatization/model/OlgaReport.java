@@ -285,7 +285,7 @@ public class OlgaReport
                 Double cursize = meanrep.countSampleWeight(group2samples.get(k*sample1size+i));
                 Double curmean = meanrep.meanList.get(0);
                 Double cursemean = meanrep.semeanList.get(0);
-                
+                Double curvariance = meanrep.varianceList.get(0);
                 List<Double> valList = new ArrayList<>();
                 List<Double> studentList = new ArrayList<>();
                 
@@ -296,7 +296,13 @@ public class OlgaReport
                     Double compsize = compmeanrep.countSampleWeight(group2samples.get(k*sample1size+j));
                     Double compmean = compmeanrep.meanList.get(0);
                     Double compsemean = compmeanrep.semeanList.get(0);
-                    Double studentDAVAL = ReportUtils.getStudentDAVal(curmean, compmean, cursemean , compsemean, confLevel, cursize+compsize,sample1size);
+                    
+                    Double compvariance = compmeanrep.varianceList.get(0);
+                    //Double compsemean = Math.sqrt(ReportUtils.getOOD(cursize, compsize,Math.pow(curvariance, 2), Math.pow(compvariance, 2))/(compsize-1));
+                    //cursemean = Math.sqrt(ReportUtils.getOOD(cursize, compsize,Math.pow(curvariance, 2), Math.pow(compvariance, 2))/(cursize-1));
+                    //Double studentDAVAL = ReportUtils.getStudentDAVal(curmean, compmean, cursemean , compsemean, confLevel, cursize+compsize,sample1size);
+                    Double studentDAVAL = ReportUtils.getStudentDAVal2(curmean, compmean, 
+                                Math.pow(curvariance, 2), Math.pow(compvariance, 2), cursize, compsize, 1-confLevel, sample1size);
                     if (properties.getProperty("DebugVals", "false").equalsIgnoreCase("true"))
                     {
                         Double debugVals[] = ReportUtils.getStudentDAValDebug(curmean, compmean, cursemean , compsemean, confLevel, cursize+compsize, sample1size);

@@ -97,6 +97,26 @@ public class ReportUtils
             return cval1;
         return null;
     }
+    public static final double getOOD(double weight1, double weight2, double dispers1, double dispers2)
+    {
+        if (!(weight1==0||weight2==0||(weight1+weight2<=2.0)))
+            return ((weight1-1)*dispers1+(weight2-1)*dispers2)/(weight1+weight2-2);
+        return Double.NaN;
+    }
+    
+    public static final Double getStudentDAVal2 (double mean1, double mean2, double dispers1, double dispers2, double weight1, double weight2,
+            double error_level, int numberofcomparissons)
+    {
+        if (weight1==0||weight2==0||(weight1+weight2<=2.0))
+            return null;
+        double ood = getOOD(weight1, weight2, dispers1, dispers2);
+        double t = (mean1-mean2)/Math.sqrt(ood/weight1+ood/weight2);
+        double student = inverseCumulativeProbability2s(weight1+weight2-2,error_level/(numberofcomparissons-1));
+        if (Math.abs(t)>student)
+            return t;
+        return null;
+    }
+    
     private static double computeStudentInvCumProbab2s(TDistribution tdist,double arg)
     {
         double convarg = 1-(1-arg)/2;
@@ -107,6 +127,12 @@ public class ReportUtils
     {
         double convarg = 1-arg/2;
         return tdist.inverseCumulativeProbability(convarg);
+    }
+    
+    static double inverseCumulativeProbability2s(double freedom_degrees, double alpha)
+    {
+        double arg =1-alpha/2;
+        return (new TDistribution(null, freedom_degrees , 0.0)).inverseCumulativeProbability(arg);
     }
     
     public Report findReportByTagFromReportCol(Collection<Report> repcol, String tag)
