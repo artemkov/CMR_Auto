@@ -111,7 +111,7 @@ public class ReportUtils
             return null;
         double ood = getOOD(weight1, weight2, dispers1, dispers2);
         double t = (mean1-mean2)/Math.sqrt(ood/weight1+ood/weight2);
-        double student = inverseCumulativeProbability2s(weight1+weight2-2,error_level/(numberofcomparissons-1));
+        double student = inverseCumulativeProbability2s(weight1+weight2-2,error_level/(numberofcomparissons*(numberofcomparissons-1)/2));
         if (Math.abs(t)>student)
             return t;
         return null;
