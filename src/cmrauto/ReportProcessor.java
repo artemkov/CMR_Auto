@@ -716,7 +716,7 @@ public class ReportProcessor
         {
             String rowType = report.getRowTypeMap().get(rowheader);
             if (rowType==null)
-                System.out.print("");
+                System.err.println("rowType not defined!!!");
             if ((isFirst)&&(report.isNoFirstString()))
             {
                 isFirst=false;
