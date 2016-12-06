@@ -1905,6 +1905,8 @@ public class Report
                     
                         rowHeaders.add("SEMEAN "+olga.content3.getName());
                         
+                        rowHeaders.add("SEMEAN Conf. Interval "+olga.content3.getName());
+                        
                         if (getProperty("DebugVals")!=null&&getProperty("DebugVals").equalsIgnoreCase("true"))
                         {
                              
@@ -2274,12 +2276,15 @@ public class Report
                     
                     rowTypeMap.put("SEMEAN "+olga.content3.getName(),"VALUE");
                     List<Number> olgasemeanlist = new ArrayList<>();
-                    
+                    rowTypeMap.put("SEMEAN Conf. Interval "+olga.content3.getName(),"VALUE");
+                    List<Number> olgaconfintsemeanlist = new ArrayList<>();
                     for(int j=0;j<olga.meanReportList.size();j++)
                     {
                         olgasemeanlist.add(ReportUtils.round((olga.meanReportList.get(j).semeanList.get(0)), 3));
+                        olgaconfintsemeanlist.add(ReportUtils.round((olga.meanReportList.get(j).semeanList.get(0)*1.96), 3));
                     }
                     addToList(olgasemeanlist, "SEMEAN "+olga.content3.getName());
+                    addToList(olgaconfintsemeanlist, "SEMEAN Conf. Interval "+olga.content3.getName());
                     
                     if (getProperty("DebugVals")!=null&&getProperty("DebugVals").equalsIgnoreCase("true"))
                     {
