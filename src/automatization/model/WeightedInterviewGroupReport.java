@@ -82,7 +82,7 @@ public class WeightedInterviewGroupReport
             if (countthis) 
                 totalGroupedWeight+=interviewweight;
         }
-        System.out.println(weightedCountmap);
+        //System.out.println(weightedCountmap);
     }
     
     public InterviewGroup findGroupByName(String gname)

@@ -107,7 +107,7 @@ public class ContentUtils
     }
     public static Content getContentByNameFromInterviewList(UniqueList<Map<Content,String>> interviewList, String varname)
     {
-      if (varname==null)
+      if (varname==null||interviewList==null)
           return null;
       for (Map<Content,String> iview: interviewList)
       {

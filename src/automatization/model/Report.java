@@ -2447,6 +2447,7 @@ public class Report
     List<UniqueList<Map<Content, String>>> splitSamplesBy(String splitVarName, List<UniqueList<Map<Content, String>>> sampleList, List<String> sampleNames, List<String> newNames) throws VariableNotFoundException 
     {
         Content splitContent = ContentUtils.getContentByNameFromInterviewList(sampleList.get(0), splitVarName);
+        
         if (splitContent==null)
             throw new VariableNotFoundException(splitVarName);
         List<AnswerGroup> agroups = GroupsReport.constructAnswerGroupsFormContent(splitContent);

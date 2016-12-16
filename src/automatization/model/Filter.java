@@ -59,7 +59,10 @@ public class Filter
                     filteredList.add(interviewList.get(i));
                 }
             }
-            filteredSampleList.add(filteredList);
+            if (filteredList.size()>0)
+                filteredSampleList.add(filteredList);
+            else
+                filteredSampleList.add(null);
         }
         return filteredSampleList;
         
