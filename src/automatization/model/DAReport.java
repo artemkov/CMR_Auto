@@ -93,7 +93,7 @@ public class DAReport
             double ppas2 = npsrep2.getPassives()*100.0/gtotal2;
             
             computeFormulas(top1,top2,bottom1,bottom2,passive1,passive2,this.confLevel,this.universe);
-            testFormulasShort(top1,top2,bottom1,bottom2,passive1,passive2,this.confLevel,this.universe);
+            //testFormulasShort(top1,top2,bottom1,bottom2,passive1,passive2,this.confLevel,this.universe);
             
             
             conclusion2s = Math.abs(nps1-nps2)<=minimumSigDif2s?"No difference":"Different";
@@ -109,68 +109,7 @@ public class DAReport
     
     
     
-    /*DAReport (UniqueList<Map<Content,String>> interviews1, UniqueList<Map<Content,String>> interviews2, String var1, String var2, Path groupfilepath1,Path groupfilepath2,Double confLevel, Double universe) throws VariableNotFoundException, GroupsFileNotFoundException
-    {
-        this.varname1=var1;
-        this.varname2=var2;
-        if (confLevel!=null)
-            this.confLevel=confLevel;
-        if (universe!=null)
-            this.universe=universe;
-        Set<Content> cset = interviews1.getFirst().keySet();
-        if (!cset.contains(new Content(varname1)))
-            throw new VariableNotFoundException(varname1);
-        cset = interviews2.getFirst().keySet();
-        if (!cset.contains(new Content(varname2)))
-            throw new VariableNotFoundException(varname2);
-        
-        try 
-        {
-            List<InterviewGroup> var1LinearGroupslist = GroupsReport.getInterviewGroupsFromExcel(groupfilepath1,ContentUtils.getContentByNameFromInterviewList(interviews1, varname1));
-            List<InterviewGroup> var2LinearGroupslist = GroupsReport.getInterviewGroupsFromExcel(groupfilepath2,ContentUtils.getContentByNameFromInterviewList(interviews2, varname2));
-            npsrep1 = new WeightedInterviewGroupReport(var1LinearGroupslist, weightcontent,content3);
-            npsrep2 = NPSReport.getAnswerGroupsWithNPSFromExcel(groupfilepath2);
-            
-            nps1 = npsrep1.computeNPS(interviews1, varname1);
-            nps2 = npsrep2.computeNPS(interviews2, varname2);
-            
-            double gtotal1 = npsrep1.getGroupedTotal();
-            double gtotal2 = npsrep2.getGroupedTotal();
-            double tot = gtotal1+gtotal2;
-            double top1 = npsrep1.getTops();
-            double top2 = npsrep2.getTops();
-            double bottom1 = npsrep1.getBottoms();
-            double bottom2 = npsrep2.getBottoms();
-            double passive1 = npsrep1.getPassives();
-            double passive2 = npsrep2.getPassives();
-            
-            double ptop1 = npsrep1.getTops()*100.0/gtotal1;
-            double ptop2 = npsrep2.getTops()*100.0/gtotal2;
-            double pbot1 = npsrep1.getBottoms()*100.0/gtotal1;
-            double pbot2 = npsrep2.getBottoms()*100.0/gtotal2;
-            double ppas1 = npsrep1.getPassives()*100.0/gtotal1;
-            double ppas2 = npsrep2.getPassives()*100.0/gtotal2;
-            
-            
-            
-            computeFormulas(top1,top2,bottom1,bottom2,passive1,passive2,this.confLevel,this.universe);
-            //testFormulas(top1,top2,bottom1,bottom2,passive1,passive2,this.confLevel,this.universe);
-            //testFormulas(162,162,55,81,107,81,this.confLevel,this.universe);
-            
-            
-            
-            conclusion2s = Math.abs(nps1-nps2)<=minimumSigDif2s?"No difference":"Different";
-            conclusion1s  = (nps1-nps2)>minimumSigDif1s?"No difference":"Different";
-            
-            counted=true;
-        } 
-        catch (IOException ex) 
-        {
-            throw new GroupsFileNotFoundException(groupfilepath1.toAbsolutePath().toString()+" "+groupfilepath2.toAbsolutePath().toString());
-        }
-        
-        
-    }*/
+    
 
     public boolean isCounted() 
     {
@@ -423,17 +362,7 @@ public class DAReport
         return tdist.inverseCumulativeProbability(arg);
     }
     
-    private double computeFormulae(double tval, int totalSize1, int totalSize2, double sd1, double sd2) 
-    {
-        double mult1 = tval;
-        double mult2 = (1.0-totalSize1/universe)*Math.sqrt((totalSize1*Math.pow(sd1, 2)+totalSize2*Math.pow(sd2, 2)));
-        double mult3 = Math.sqrt((1.0/totalSize1+1.0/totalSize2)/(totalSize1+totalSize2-2));
-        
-        double koeff=mult2*mult3;
-        
-        
-        return tval*(1.0-totalSize1/universe)*Math.sqrt((totalSize1*Math.pow(sd1, 2)+totalSize2*Math.pow(sd2, 2))*(1.0/totalSize1+1.0/totalSize2)/(totalSize1+totalSize2-2));
-    }
+    
     
     public double computeSDhalf(double probab, int lfreedm, double sd)
     {

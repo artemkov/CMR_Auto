@@ -25,6 +25,9 @@ public class Filter
     {
         UniqueList<Map<Content, String>> filteredList = new UniqueList<>();
         
+        if (interviewList==null||interviewList.isEmpty())
+            return filteredList;
+        
         if (filterString.equalsIgnoreCase("ALL")||filterString.isEmpty())
             return interviewList;
             
@@ -59,7 +62,10 @@ public class Filter
                     filteredList.add(interviewList.get(i));
                 }
             }
-            filteredSampleList.add(filteredList);
+            if (filteredList.size()>0)
+                filteredSampleList.add(filteredList);
+            else
+                filteredSampleList.add(null);
         }
         return filteredSampleList;
         

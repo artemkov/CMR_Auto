@@ -246,13 +246,13 @@ public class OlgaWeightedReport
                 
                 String dastr ="";
                 ArithmeticMeanReport meanrep = meanReportList.get(k*sample1size+i);
-                Double cursize = meanrep.countSampleWeight(group2samples.get(k*sample1size+i));
+                Double cursize = meanrep.sizeList.get(0);
                 Double curmean = meanrep.meanList.get(0);
                 Double cursemean = meanrep.semeanList.get(0);
                 for (int j=i+1; j<sample1size;j++)
                 {
                     ArithmeticMeanReport compmeanrep = meanReportList.get(k*sample1size+j);
-                    Double compsize = compmeanrep.countSampleWeight(group2samples.get(k*sample1size+j));
+                    Double compsize = compmeanrep.sizeList.get(0);
                     Double compmean = compmeanrep.meanList.get(0);
                     Double compsemean = compmeanrep.semeanList.get(0);
                     Double studentDAVAL = null;

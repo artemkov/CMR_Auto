@@ -1836,6 +1836,8 @@ public class Report
                 OlgaReport previosolga = null;
                 OlgaReport olga = null;
                 List<Color> cList = new ArrayList<>();
+                List<Color> meanReportColorList = new ArrayList<>();
+                    
                 totalrowheader="";
                 List<AnswerGroup> agList=null;
                 Set<String> uniquevallist = null;
@@ -1846,6 +1848,7 @@ public class Report
                     if (olga!=null)
                         previosolga=olga;
                     olga = new OlgaReport(samples.get(i),content,reportProperties,level3node.findRootNode());
+                    
                     
                     
                     
@@ -1902,6 +1905,8 @@ public class Report
                     
                         rowHeaders.add("SEMEAN "+olga.content3.getName());
                         
+                        rowHeaders.add("SEMEAN Conf. Interval "+olga.content3.getName());
+                        
                         if (getProperty("DebugVals")!=null&&getProperty("DebugVals").equalsIgnoreCase("true"))
                         {
                              
@@ -1931,6 +1936,10 @@ public class Report
                             rowHeaders.add("Значимости "+ag.getName());
                             rowTypeMap.put("Значимости "+ag.getName(),"VALUE;NOCHANGEODD;DA");
                         }
+                        
+                        //Инициализируем карты цветов для величин с измерением значимости
+                        colorMap.put("MEAN DA "+olga.content3.getName(),Collections.nCopies(samples.size()*olga.group2samples.size(), Color.GREEN));
+                        //colorMap.put("MEAN "+olga.content3.getName(),Collections.nCopies(samples.size()*olga.group2samples.size(), Color.BLACK));
                     }
                     
                     List<String>volumenameslist=new ArrayList<>();
@@ -2215,7 +2224,6 @@ public class Report
                     
                    
                     //Отчет по средним   
-                    
                     rowTypeMap.put("MEAN "+olga.content3.getName(),"VALUE;DA;NOBOTTOMBORDER");
                     List<Number> olgameanlist = new ArrayList<>();
                     for(int j=0;j<olga.meanReportList.size();j++)
@@ -2227,6 +2235,33 @@ public class Report
                     rowTypeMap.put("MEAN DA "+olga.content3.getName(),"VALUE;DA;NOCHANGEODD");
                     addStrToList(olga.meandastringList, "MEAN DA "+olga.content3.getName());
                     colorMap.put("MEAN DA "+olga.content3.getName(),Collections.nCopies(samples.size()*olga.group2samples.size(), Color.GREEN));
+                    
+                    //Динамические изменения средних (значимости)
+                    if (previosolga!=null)
+                        for(int j=0;j<olga.meanReportList.size();j++)
+                        {
+                            ArithmeticMeanReport curmeanrep = olga.meanReportList.get(j);
+                            ArithmeticMeanReport prevmeanrep = previosolga.meanReportList.get(j);
+                        
+                        
+                            Double curval = curmeanrep.meanList.get(0);
+                            Double prevval = prevmeanrep.meanList.get(0);
+                            Double curweight = curmeanrep.sizeList.get(0);
+                            Double prevweight = prevmeanrep.sizeList.get(0);
+                            Double curdisperse = Math.pow(curmeanrep.varianceList.get(0), 2);
+                            Double prevdisperse = Math.pow(prevmeanrep.varianceList.get(0),2);
+                        
+                            Double davalue  = ReportUtils.getStudentDAVal2(prevval,curval,prevdisperse,curdisperse,prevweight,curweight,1-confLevel);
+                            Color color = ReportUtils.getColorFromDiff(davalue);
+                            meanReportColorList.add(color);
+                            
+                        }
+                    else
+                        for(int j=0;j<olga.meanReportList.size();j++)
+                        {
+                            meanReportColorList.add(Color.BLACK);
+                        }
+                    
                     
                     if (getProperty("DebugVals")!=null&&getProperty("DebugVals").equalsIgnoreCase("true"))
                     {
@@ -2241,12 +2276,15 @@ public class Report
                     
                     rowTypeMap.put("SEMEAN "+olga.content3.getName(),"VALUE");
                     List<Number> olgasemeanlist = new ArrayList<>();
-                    
+                    rowTypeMap.put("SEMEAN Conf. Interval "+olga.content3.getName(),"VALUE");
+                    List<Number> olgaconfintsemeanlist = new ArrayList<>();
                     for(int j=0;j<olga.meanReportList.size();j++)
                     {
                         olgasemeanlist.add(ReportUtils.round((olga.meanReportList.get(j).semeanList.get(0)), 3));
+                        olgaconfintsemeanlist.add(ReportUtils.round((olga.meanReportList.get(j).semeanList.get(0)*1.96), 3));
                     }
                     addToList(olgasemeanlist, "SEMEAN "+olga.content3.getName());
+                    addToList(olgaconfintsemeanlist, "SEMEAN Conf. Interval "+olga.content3.getName());
                     
                     if (getProperty("DebugVals")!=null&&getProperty("DebugVals").equalsIgnoreCase("true"))
                     {
@@ -2260,6 +2298,7 @@ public class Report
                     
                     
                 }
+                colorMap.put("MEAN "+olga.content3.getName(), meanReportColorList);
                 colorMap.put("NPS "+olga.content3.getName(), cList);
                 break;
         }
@@ -2408,6 +2447,7 @@ public class Report
     List<UniqueList<Map<Content, String>>> splitSamplesBy(String splitVarName, List<UniqueList<Map<Content, String>>> sampleList, List<String> sampleNames, List<String> newNames) throws VariableNotFoundException 
     {
         Content splitContent = ContentUtils.getContentByNameFromInterviewList(sampleList.get(0), splitVarName);
+        
         if (splitContent==null)
             throw new VariableNotFoundException(splitVarName);
         List<AnswerGroup> agroups = GroupsReport.constructAnswerGroupsFormContent(splitContent);

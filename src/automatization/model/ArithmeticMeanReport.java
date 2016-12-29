@@ -24,6 +24,7 @@ public class ArithmeticMeanReport
     Content maincontent;
     List<String>rownamesList = new ArrayList<>();
     List<Double>meanList = new ArrayList<>();
+    List<Double>sizeList = new ArrayList<>();
     List<Double>meanErrorList = new ArrayList<>();
     List<Double>varianceList = new ArrayList<>();
     List<Double>semeanList = new ArrayList<>();
@@ -64,11 +65,11 @@ public class ArithmeticMeanReport
             if (cstring==null)
                 continue;
             String ptrn = "^\\s*([_a-zA-Zа-яА-Я]\\w*\\s*([\\+\\-]\\s*([_a-zA-Zа-яА-Я]\\w*|\\d+(.\\d+)*)\\s*)+)$";
+            List<Content>contList = new ArrayList<>();
             if (cstring.matches(ptrn))
             {
                 varList = Arrays.asList(cstring.split("[\\+\\-]"));
                 String[] operArray = cstring.split("\\w+");
-                List<Content>contList = new ArrayList<>();
                 List<String>opList = new ArrayList<>();
                 /*for(String operstr: operArray)
                 {
@@ -110,7 +111,6 @@ public class ArithmeticMeanReport
             else if (cstring.matches("^\\s*([_a-zA-Zа-яА-Я]\\w*)\\s*$"))
             {
                 Content c = ContentUtils.getContentByNameFromInterviewList(interviews, cstring);
-                List<Content>contList = new ArrayList<>();
                 if (c==null)
                     value = 0.0;
                 else
@@ -126,6 +126,9 @@ public class ArithmeticMeanReport
                 }
             }
             
+            double size = getInterviewsWeight(interviews, contList);
+            sizeList.add(size);
+            
             rownamesList.add(rownamesmap.get(index));
             meanList.add(value);
             varianceList.add(variance);
@@ -133,7 +136,7 @@ public class ArithmeticMeanReport
         }
         
     }
-    public double countSampleWeight(UniqueList<Map<Content,String>> interviews)
+    double countSampleWeight(UniqueList<Map<Content,String>> interviews)
     {
         double interviewsweight=0.0;
     
