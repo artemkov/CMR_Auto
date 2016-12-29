@@ -715,8 +715,8 @@ public class ReportProcessor
         for (String rowheader: report.getRowHeaders())
         {
             String rowType = report.getRowTypeMap().get(rowheader);
-            if (rowheader.equals("NPSDA 2s"))
-                System.out.print("");
+            if (rowType==null)
+                System.err.println("rowType not defined!!!");
             if ((isFirst)&&(report.isNoFirstString()))
             {
                 isFirst=false;
