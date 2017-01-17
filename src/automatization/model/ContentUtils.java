@@ -54,6 +54,8 @@ public class ContentUtils
         double weight = 1.0;
         double sum=0.0;
         Content wc = null;
+        if (interviewList==null)
+            return 0.0;
         try
         {
             wc = ContentUtils.getContentByNameFromInterviewList(interviewList, weightContent);

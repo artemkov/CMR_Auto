@@ -1405,7 +1405,7 @@ public class Report
                         }
                     }
                     List<Number> baselist = new ArrayList<>();
-                    double basesize = ContentUtils.countWeights(mfreport.getWeightContentName(), mfsamples.get(i));
+                    double basesize = ContentUtils.countWeights(mfreport.getWeightContentName(), interviews);
                     baselist.add(round(basesize));
                     addToList(baselist, totalrowheader);
                     

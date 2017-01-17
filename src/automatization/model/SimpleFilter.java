@@ -62,7 +62,10 @@ public class SimpleFilter
                     return false;
             }
             else
+            {
+                //System.err.println("Variable "+varName+" was not found in interview");
                 return false;
+            }
             
         
     }
