@@ -31,6 +31,7 @@ public class Filter
         if (filterString.equalsIgnoreCase("ALL")||filterString.isEmpty())
             return interviewList;
             
+       
         
         FilterBase fb2 = new FilterBase(filterString);
         for (int i =0; i<interviewList.size();i++)
@@ -50,6 +51,8 @@ public class Filter
         if (filterString.equalsIgnoreCase("ALL")||filterString.isEmpty())
             return sampleList;
             
+        
+        
         FilterBase fb2 = new FilterBase(filterString);
         for (UniqueList<Map<Content, String>> interviewList: sampleList)
         {

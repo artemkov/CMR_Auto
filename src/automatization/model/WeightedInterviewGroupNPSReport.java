@@ -137,7 +137,8 @@ public class WeightedInterviewGroupNPSReport extends WeightedInterviewGroupRepor
                 {
                     r = sheet.getRow(rowcount);
                     XSSFCell cell = r.getCell(0);
-                    if (cell.getCellType()==Cell.CELL_TYPE_STRING)
+                    
+                    if (cell!=null&&cell.getCellType()==Cell.CELL_TYPE_STRING)
                     {
                         InterviewGroup val = findGroupByName(cell.getStringCellValue());
                         if (val!=null)
@@ -146,7 +147,7 @@ public class WeightedInterviewGroupNPSReport extends WeightedInterviewGroupRepor
                         }
                     }
                     cell = r.getCell(1);
-                    if (cell.getCellType()==Cell.CELL_TYPE_STRING)
+                    if (cell!=null&&cell.getCellType()==Cell.CELL_TYPE_STRING)
                     {
                         InterviewGroup val = findGroupByName(cell.getStringCellValue());
                         if (val!=null)
@@ -155,7 +156,7 @@ public class WeightedInterviewGroupNPSReport extends WeightedInterviewGroupRepor
                         }
                     }
                     cell = r.getCell(2);
-                    if (cell.getCellType()==Cell.CELL_TYPE_STRING)
+                    if (cell!=null&&cell.getCellType()==Cell.CELL_TYPE_STRING)
                     {
                         InterviewGroup val = findGroupByName(cell.getStringCellValue());
                         if (val!=null)

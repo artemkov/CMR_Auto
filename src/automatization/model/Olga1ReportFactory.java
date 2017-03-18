@@ -68,6 +68,7 @@ public class Olga1ReportFactory implements ReportFactory
             olrlist.add(owr);
             if (i==0)
             {
+                
                 //Заголовок базы
                 boolean mustdrawtotal = getBooleanFromProperties("drawtotal",true,properties);
                 report.setNoFirstString(mustdrawtotal);
@@ -100,6 +101,10 @@ public class Olga1ReportFactory implements ReportFactory
                 report.addRowType("В группах","VALUE");
                         
                         
+                boolean dontshowmean = getBooleanFromProperties("noMean",false,properties);
+                boolean dontshownps = getBooleanFromProperties("noNPS",false,properties);
+                boolean dontshowlinear = getBooleanFromProperties("noLinear",false,properties);
+                
                 report.addRowHeader("MEAN "+owr.content3.getName());
                 report.addRowType("MEAN "+owr.content3.getName(),"VALUE");
                 
@@ -113,9 +118,9 @@ public class Olga1ReportFactory implements ReportFactory
                     report.addRowType("VARIANCE "+owr.content3.getName(),"VALUE");
                 }
                     
+                
                 report.addRowHeader("SEMEAN "+owr.content3.getName());
                 report.addRowType("SEMEAN "+owr.content3.getName(),"VALUE");
-                        
                 if (debugvals)
                 {
                     report.addRowHeader("DIFFERENCE "+owr.content3.getName());
@@ -305,6 +310,52 @@ public class Olga1ReportFactory implements ReportFactory
     
     }
     
+    private void addNPSPartToReport (Report report, TemplateNode<String> level3node, Content content,List<UniqueList<Map<Content, String>>> sampleList, List<String> sampleNames) throws InvalidTemplateFileFormatException, ReportParamsNotDefinedException, VariableNotFoundException, InvalidFilterException, IOException, GroupsFileNotFoundException, ReportFileNotFoundException, InvalidGroupsFileFormatException, NoSampleDataException
+    {
+        Properties properties = report.getReportProperties();
+        List<InterviewGroup> agList = null;
+        List<OlgaWeightedReport> olrlist = new ArrayList<>();
+        
+        double universe=1000000.0;
+        double confLevel=0.95;
+        String weightContentName=null;
+        
+        
+        universe = getUniverseFromProperties(universe,properties);
+        confLevel = getConflevelFromProperties(confLevel, properties);
+        weightContentName = getWeghtcontentnameFromProperties(weightContentName,properties);
+        
+        for (int i=0; i<sampleList.size(); i++)
+        {
+            OlgaWeightedReport owr = new OlgaWeightedReport(sampleList.get(i), content, properties, level3node.findRootNode());
+            OlgaWeightedReport previosowr = i>0?olrlist.get(i-1):null;
+            olrlist.add(owr);
+            
+            if (i==0)
+            {
+                report.addRowHeader("NPS "+owr.content3.getName());
+                report.addRowType("NPS "+owr.content3.getName(),"VALUE;DA;PERCENTAGES;NOBOTTOMBORDER");
+                        
+                report.addRowHeader("NPSDA 2s");
+                report.addRowType("NPSDA 2s","VALUE;NOCHANGEODD;DA");
+                        
+                report.addRowHeader("ConfInt");
+                report.addRowType("ConfInt","VALUE");
+                
+                //Группы NPS
+                agList = owr.wig_NPSReportList.get(0).groupslist;   
+                for (InterviewGroup ag: agList)
+                {
+                    report.addRowHeader(ag.getName());
+                    report.addRowType(ag.getName(),"VALUE;DA;PERCENTAGES;NOBOTTOMBORDER");
+                            
+                    report.addRowHeader("Значимости "+ag.getName());
+                    report.addRowType("Значимости "+ag.getName(),"VALUE;NOCHANGEODD;DA");
+                }
+            }
+        }
+        
+    }
     
     
     

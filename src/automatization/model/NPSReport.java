@@ -202,7 +202,7 @@ public class NPSReport extends GroupsReport implements NPSgetter
                 {
                     r = sheet.getRow(rowcount);
                     XSSFCell cell = r.getCell(0);
-                    if (cell.getCellType()==Cell.CELL_TYPE_STRING)
+                    if (cell!=null&&cell.getCellType()==Cell.CELL_TYPE_STRING)
                     {
                         String val = cell.getStringCellValue();
                         if (groups.contains(val))
@@ -212,7 +212,7 @@ public class NPSReport extends GroupsReport implements NPSgetter
                         }
                     }
                     cell = r.getCell(1);
-                    if (cell.getCellType()==Cell.CELL_TYPE_STRING)
+                    if (cell!=null&&cell.getCellType()==Cell.CELL_TYPE_STRING)
                     {
                         String val = cell.getStringCellValue();
                         if (groups.contains(val))

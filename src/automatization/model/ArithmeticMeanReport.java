@@ -139,7 +139,8 @@ public class ArithmeticMeanReport
     double countSampleWeight(UniqueList<Map<Content,String>> interviews)
     {
         double interviewsweight=0.0;
-    
+        if (interviews==null)
+            return 0.0;
         for (Map<Content,String> interview: interviews)
         {
             double weight=1.0;
@@ -162,6 +163,8 @@ public class ArithmeticMeanReport
     private double getInterviewsWeight(UniqueList<Map<Content,String>> interviews, List<Content> contentList)
     {
         double interviewsweight=0.0;
+        if (interviews==null)
+            return 0.0;
         for (Map<Content,String> interview: interviews)
         {
             double weight = 1.0;
