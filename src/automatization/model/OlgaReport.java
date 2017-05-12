@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.TreeSet;
 
 /**
  *
@@ -69,7 +70,7 @@ public class OlgaReport
         List<InterviewGroup> igroup2=gcr.getAgroup2();
         group1samples=new ArrayList<>();
         group2samples=new ArrayList<>();
-        String weightContentName = this.getWeightContent(properties);
+        
         
         String thirdvarname=null;
         if (properties.containsKey("AddAll"))
@@ -127,7 +128,10 @@ public class OlgaReport
             
             
             Properties props = new Properties();
-            props.setProperty("content1", thirdvarname+"-1");
+            if (properties.getProperty("ComputeRealMean", "false").equalsIgnoreCase("true"))
+                props.setProperty("content1", thirdvarname);
+            else
+                props.setProperty("content1", thirdvarname+"-1");
             props.setProperty("rowname1", "Среднее для "+thirdvarname);
             
             if (properties.containsKey("ExcludeList"))
@@ -206,45 +210,58 @@ public class OlgaReport
         
         
         //для линейного отчета
-        
-        for (String code: content3.getCodesListFromCodeMap())
+        if (properties.getProperty("NoLinear", "false").equalsIgnoreCase("false"))
         {
-            List<String> dastringList =new ArrayList<>();
-            for (int i=0;i<group2samples.size();i++)
-                 dastringList.add("");
-            for (int k=0;k<group1samples.size();k++)
+            List<String> codeList = null;
+            if (content3.getAnswerCodeMap()==null||content3.getAnswerCodeMap().isEmpty())
             {
-                
-                for (int i=0; i<sample1size;i++)
+                TreeSet<String> valset = ContentUtils.getContentUniqueValuesFromInterviewList(interviews, content3);
+                codeList=new ArrayList(valset);
+            }
+            else
+            {
+                codeList=content3.getCodesListFromCodeMap();
+            }
+            
+            for (String code: codeList)
+            {
+                List<String> dastringList =new ArrayList<>();
+                for (int i=0;i<group2samples.size();i++)
+                    dastringList.add("");
+                for (int k=0;k<group1samples.size();k++)
                 {
                 
-                    String dastr ="";
-                    LinearReport lrep = linearReportList.get(k*sample1size+i); 
+                    for (int i=0; i<sample1size;i++)
+                    {   
+                
+                        String dastr ="";
+                        LinearReport lrep = linearReportList.get(k*sample1size+i); 
                     
-                    Double cursize = group2samples.get(k*sample1size+i).size()+0.0;
-                    Double curval = cursize!=0?lrep.getStatmap().getOrDefault(code, 0.0)/cursize*100:0;
-                    for (int j=i+1; j<sample1size;j++)
-                    {
-                        Double compsize = group2samples.get(k*sample1size+j).size()+0.0;
-                        Double compval = compsize!=0?linearReportList.get(k*sample1size+j).getStatmap().getOrDefault(code, 0.0)/compsize*100:0;
-                        Double normDAVal = ReportUtils.getNormDAVal(curval, compval, cursize, compsize);
-                        if ((normDAVal!=null)&&(normDAVal>0))
+                        Double cursize = group2samples.get(k*sample1size+i).size()+0.0;
+                        Double curval = cursize!=0?lrep.getStatmap().getOrDefault(code, 0.0)/cursize*100:0;
+                        for (int j=i+1; j<sample1size;j++)
                         {
+                            Double compsize = group2samples.get(k*sample1size+j).size()+0.0;
+                            Double compval = compsize!=0?linearReportList.get(k*sample1size+j).getStatmap().getOrDefault(code, 0.0)/compsize*100:0;
+                            Double normDAVal = ReportUtils.getNormDAVal(curval, compval, cursize, compsize);
+                            if ((normDAVal!=null)&&(normDAVal>0))
+                            {
                             
-                            String val = dastringList.get(k*sample1size+i);
-                            val+=" >"+(j+1);
-                            dastringList.set(k*sample1size+i,val);
-                        }
-                        if ((normDAVal!=null)&&(normDAVal<0))
-                        {
-                            String val = dastringList.get(k*sample1size+j);
-                            val+=" >"+(i+1);
-                            dastringList.set(k*sample1size+j,val);
+                                String val = dastringList.get(k*sample1size+i);
+                                val+=" >"+(j+1);
+                                dastringList.set(k*sample1size+i,val);
+                            }
+                            if ((normDAVal!=null)&&(normDAVal<0))
+                            {
+                                String val = dastringList.get(k*sample1size+j);
+                                val+=" >"+(i+1);
+                                dastringList.set(k*sample1size+j,val);
+                            }
                         }
                     }
                 }
+                normDAMap.put(code, dastringList);
             }
-            normDAMap.put(code, dastringList);
         }
         
         

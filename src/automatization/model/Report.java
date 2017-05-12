@@ -104,6 +104,7 @@ public class Report
         return sampleWidth;
     }
 
+    
     public void setVolumeWidth(int volumeWidth) {
         this.volumeWidth = volumeWidth;
     }
@@ -1238,7 +1239,6 @@ public class Report
                             int header2index = crossgroups2.get(i).indexOf(header2);
                             if ((header1index!=-1)&&(header2index!=-1))
                             {
-                                
                                 data[indag1][indag2]=round(gcr.getData()[header1index][header2index]);
                             }
                             else
@@ -1403,6 +1403,8 @@ public class Report
                             rowTypeMap.put(name1,"VALUE, DA");
                             colorMap.put(name1, new ArrayList<Color>());
                         }
+                        
+                        
                     }
                     List<Number> baselist = new ArrayList<>();
                     double basesize = ContentUtils.countWeights(mfreport.getWeightContentName(), interviews);
@@ -2446,6 +2448,8 @@ public class Report
     
     List<UniqueList<Map<Content, String>>> splitSamplesBy(String splitVarName, List<UniqueList<Map<Content, String>>> sampleList, List<String> sampleNames, List<String> newNames) throws VariableNotFoundException 
     {
+        
+        
         Content splitContent = ContentUtils.getContentByNameFromInterviewList(sampleList.get(0), splitVarName);
         
         if (splitContent==null)

@@ -68,6 +68,7 @@ public class Olga1ReportFactory implements ReportFactory
             olrlist.add(owr);
             if (i==0)
             {
+                
                 //Заголовок базы
                 boolean mustdrawtotal = getBooleanFromProperties("drawtotal",true,properties);
                 report.setNoFirstString(mustdrawtotal);
@@ -100,6 +101,10 @@ public class Olga1ReportFactory implements ReportFactory
                 report.addRowType("В группах","VALUE");
                         
                         
+                boolean dontshowmean = getBooleanFromProperties("noMean",false,properties);
+                boolean dontshownps = getBooleanFromProperties("noNPS",false,properties);
+                boolean dontshowlinear = getBooleanFromProperties("noLinear",false,properties);
+                
                 report.addRowHeader("MEAN "+owr.content3.getName());
                 report.addRowType("MEAN "+owr.content3.getName(),"VALUE");
                 
@@ -113,9 +118,9 @@ public class Olga1ReportFactory implements ReportFactory
                     report.addRowType("VARIANCE "+owr.content3.getName(),"VALUE");
                 }
                     
+                
                 report.addRowHeader("SEMEAN "+owr.content3.getName());
                 report.addRowType("SEMEAN "+owr.content3.getName(),"VALUE");
-                        
                 if (debugvals)
                 {
                     report.addRowHeader("DIFFERENCE "+owr.content3.getName());
@@ -176,7 +181,7 @@ public class Olga1ReportFactory implements ReportFactory
             }
             report.addStrToList(volumenameslist, volumeheader);
             
-            //Значимости NPS
+            //Кросс-сэмпл Значимости NPS (голубой - больше предыдущего, красный - меньше предыдущего)
             List<Color> cList = new ArrayList<>();
             for(int j=0;j<owr.group2samples.size();j++)
             {
@@ -215,14 +220,14 @@ public class Olga1ReportFactory implements ReportFactory
             
             for (InterviewGroup ag1: owr.gcr.getAgroup1())
             {
-                String name1="";
+                /*String name1="";
                 if (owr.gcr.isAgrop1fictive())
                     if (owr.content1.getAnswerCodeMap()!=null)
                     {
                         name1 = owr.content1.getAnswerCodeMap().get(ag1.getName());
                     }
                 if ((name1==null)||(name1.isEmpty()))
-                    name1 = ag1.getName();
+                    name1 = ag1.getName();*/
                 List<String> namelist = new ArrayList<>();
                 for (InterviewGroup ag2: owr.gcr.getAgroup2())
                 {
@@ -239,12 +244,14 @@ public class Olga1ReportFactory implements ReportFactory
                 report.addStrToList(namelist, totalrowheader);
             }
             
+            //1 ряд. Размер выборки
             List<Number> samplecountlist = new ArrayList<>();
             for(int j=0;j<owr.group2samples.size();j++)
                 samplecountlist.add(owr.group2samples.get(j).size());
             report.addToList(samplecountlist, "Размер выборки");
                     
                     
+            //2 ряд. В группах
             List<Number> groupedtotalcountlist = new ArrayList<>();
             for(int j=0;j<owr.wig_NPSReportList.size();j++)
             {
@@ -252,6 +259,8 @@ public class Olga1ReportFactory implements ReportFactory
             }
             report.addToList(groupedtotalcountlist, "В группах");
             
+            //3-xx. Ряды групп            
+            //Значимости для групп
             List<String> ganormDAlist = null;
             Map<String,List<Number>> grValList = new HashMap<>();
             for (InterviewGroup ag: agList)
@@ -293,6 +302,7 @@ public class Olga1ReportFactory implements ReportFactory
                 }
             }
             
+            //Ряд xx+1. NPS
             List<Number> npscountlist = new ArrayList<>();
             for(int j=0;j<owr.wig_NPSReportList.size();j++)
             {
@@ -300,14 +310,13 @@ public class Olga1ReportFactory implements ReportFactory
                 npscountlist.add(report.round_p(nps));
             }
             report.addToList(npscountlist, "NPS "+owr.content3.getName());
+            
+            
+            
         }
         return report;
     
     }
-    
-    
-    
-    
     
     private double getUniverseFromProperties(final double default_universe, Properties properties) 
     {

@@ -481,7 +481,8 @@ public class GroupsReport
             String a1 = answer;
             if (useAnswerText)
             {
-                String text = codeMap.get(answer);
+                
+                String text = codeMap!=null?codeMap.get(answer):null;
                 if (text!=null&&!text.isEmpty())
                 {
                     a1+=" \""+content.getAnswerText(answer)+"\"";
