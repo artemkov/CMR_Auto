@@ -421,12 +421,12 @@ public class ReportProcessor
                     String filterString = level2Node.getData();
                     
                     List<UniqueList<Map<Content,String>>> filteredSampleList = Filter.filter(sampleList, filterString);
-                    
-                    if (filteredSampleList.get(0)==null&&filteredSampleList.size()==1)
+                    if (filteredSampleList==null||(filteredSampleList.get(0)==null&filteredSampleList.size()==1))
                     {
-                        log.info("filter '"+filterString+"' returned emptyset. No reports will be drawn for this filter!!");
+                        log.info("Filter '"+filterString+"' returned empty dataset. No reports will be drawn!!!");
                         continue;
                     }
+                    
                     if (!((level2Node.getZerolevelParams()!=null)&&(level2Node.getZerolevelParams().contains("HIDDEN"))))
                     {
                         curRowNumb = drawBaseHeader(sheet,curRowNumb,level2Node);
@@ -458,9 +458,6 @@ public class ReportProcessor
                              
                         
                     }
-                    
-                    
-                        
                 }
             }
             wb.write(outputStream);
@@ -1023,9 +1020,6 @@ public class ReportProcessor
                     style = borderStyleOdd;
                 if ((column)%report.getSampleWidth()==0)
                     style = borderStyleOddEnd1;
-                
-                
-                   
             }
             else
             {

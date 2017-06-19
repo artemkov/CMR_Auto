@@ -70,7 +70,7 @@ public class OlgaReport
         List<InterviewGroup> igroup2=gcr.getAgroup2();
         group1samples=new ArrayList<>();
         group2samples=new ArrayList<>();
-        
+        String weightContentName = this.getWeightContent(properties);
         
         String thirdvarname=null;
         if (properties.containsKey("AddAll"))

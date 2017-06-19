@@ -1,0 +1,469 @@
+18:54:46,373  INFO JavaFX Application Thread CMRAuto:start:113 - Properties loaded from properties.properties
+18:54:47,522  INFO JavaFX Application Thread CMRAuto:start:138 - SPSS location D:\SPSS22
+18:54:47,556  INFO JavaFX Application Thread CMRAuto:start:146 - JavaFXML document loaded
+18:54:51,137  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2c\template_b2c_olga1.xlsx
+18:54:51,207  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+18:54:59,516  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2c\nps16svd_merge(2015-2016)_рабочая.sav
+18:55:03,904  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+18:55:03,904  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2c
+18:55:04,066  INFO JavaFX Application Thread ReportProcessor:findValidFilename:318 - File 'b2c_rep_olga1.xlsx'was detected and deleted
+18:55:04,067  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2c_rep_olga1.xlsx
+18:55:04,552  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:412 - Variable header for SV_5 was drawn
+18:55:04,565  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+18:55:04,836  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga1` ReportRow = 3  Samples:2 Size:0*1 per sample>...
+18:55:04,850  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga1` ReportRow = 3  Samples:2 Size:0*1 per sample> was drawn
+18:55:04,908  INFO JavaFX Application Thread CMRAuto:process:183 - Report created. See "b2c_rep_olga1.xlsx"
+18:55:07,909  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2c\template_b2c_olga1.xlsx
+18:55:07,911  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+18:55:08,917  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2c\nps16svd_merge(2015-2016)_рабочая.sav
+18:55:12,797  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+18:55:12,797  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2c
+18:55:12,798  INFO JavaFX Application Thread ReportProcessor:findValidFilename:318 - File 'b2c_rep_olga1.xlsx'was detected and deleted
+18:55:12,798  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2c_rep_olga1.xlsx
+18:55:12,858  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:412 - Variable header for SV_5 was drawn
+18:55:12,859  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+18:55:13,006  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga1` ReportRow = 3  Samples:2 Size:0*1 per sample>...
+18:55:13,007  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga1` ReportRow = 3  Samples:2 Size:0*1 per sample> was drawn
+18:55:13,024  INFO JavaFX Application Thread CMRAuto:process:183 - Report created. See "b2c_rep_olga1.xlsx"
+18:55:47,033  INFO JavaFX Application Thread CMRAuto:start:113 - Properties loaded from properties.properties
+18:55:48,167  INFO JavaFX Application Thread CMRAuto:start:138 - SPSS location D:\SPSS22
+18:55:48,182  INFO JavaFX Application Thread CMRAuto:start:146 - JavaFXML document loaded
+18:55:50,921  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2c\template_b2c_olga1.xlsx
+18:55:50,936  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+18:55:52,124  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2c\nps16svd_merge(2015-2016)_рабочая.sav
+18:55:56,029  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+18:55:56,030  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2c
+18:55:56,036  INFO JavaFX Application Thread ReportProcessor:findValidFilename:318 - File 'b2c_rep_olga1.xlsx'was detected and deleted
+18:55:56,037  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2c_rep_olga1.xlsx
+18:55:56,357  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:412 - Variable header for SV_5 was drawn
+18:55:56,359  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+18:56:33,047  INFO JavaFX Application Thread CMRAuto:start:113 - Properties loaded from properties.properties
+18:56:34,110  INFO JavaFX Application Thread CMRAuto:start:138 - SPSS location D:\SPSS22
+18:56:34,126  INFO JavaFX Application Thread CMRAuto:start:146 - JavaFXML document loaded
+18:56:36,719  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2c\template_b2c_olga1.xlsx
+18:56:36,733  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+18:56:37,910  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2c\nps16svd_merge(2015-2016)_рабочая.sav
+18:56:41,742  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+18:56:41,743  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2c
+18:56:41,748  INFO JavaFX Application Thread ReportProcessor:findValidFilename:318 - File 'b2c_rep_olga1.xlsx'was detected and deleted
+18:56:41,749  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2c_rep_olga1.xlsx
+18:56:42,064  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:412 - Variable header for SV_5 was drawn
+18:56:42,066  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+17:00:47,787  INFO JavaFX Application Thread CMRAuto:start:113 - Properties loaded from properties.properties
+17:00:49,022  INFO JavaFX Application Thread CMRAuto:start:138 - SPSS location D:\SPSS22
+17:00:49,044  INFO JavaFX Application Thread CMRAuto:start:146 - JavaFXML document loaded
+17:01:07,331  INFO JavaFX Application Thread CMRAuto:start:113 - Properties loaded from properties.properties
+17:01:08,542  INFO JavaFX Application Thread CMRAuto:start:138 - SPSS location D:\SPSS22
+17:01:08,557  INFO JavaFX Application Thread CMRAuto:start:146 - JavaFXML document loaded
+17:01:11,672  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2b\template_b2b_base.xlsx
+17:01:11,697  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+17:01:16,008  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2b\MGTS_NPS_B2B_merged_2-3Q16.sav
+17:01:19,346  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2b\NPS_B2B_merged_2Q-3Q_16.sav
+17:01:22,391  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+17:01:22,393  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2b
+17:01:22,400  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2b_rep.xlsx
+17:01:22,855  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:416 - Variable header for QMAIN was hidden
+17:01:22,857  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:430 - BaseHeader All was hidden
+17:01:24,607  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 3  Samples:4 Size:42*4 per sample>...
+17:01:25,821  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 3  Samples:4 Size:42*4 per sample> was drawn
+17:01:25,889  INFO JavaFX Application Thread CMRAuto:process:183 - Report created. See "b2b_rep.xlsx"
+17:09:46,827  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2b\template_b2b_base.xlsx
+17:09:46,831  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+17:09:47,838  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2b\MGTS_NPS_B2B_merged_2-3Q16.sav
+17:09:50,343  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2b\NPS_B2B_merged_2Q-3Q_16.sav
+17:09:53,198  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+17:09:53,198  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2b
+17:09:53,199  INFO JavaFX Application Thread ReportProcessor:findValidFilename:318 - File 'b2b_rep.xlsx'was detected and deleted
+17:09:53,199  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2b_rep.xlsx
+17:09:53,236  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:416 - Variable header for QMAIN was hidden
+17:09:53,236  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:430 - BaseHeader All was hidden
+17:09:55,893  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 3  Samples:4 Size:12*4 per sample>...
+17:09:56,487  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 3  Samples:4 Size:12*4 per sample> was drawn
+17:09:57,558  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 15  Samples:4 Size:42*4 per sample>...
+17:09:58,108  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 15  Samples:4 Size:42*4 per sample> was drawn
+17:09:58,139  INFO JavaFX Application Thread CMRAuto:process:183 - Report created. See "b2b_rep.xlsx"
+17:11:35,359  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2b\template_b2b_base.xlsx
+17:11:35,359  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+17:11:36,366  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2b\MGTS_NPS_B2B_merged_2-3Q16.sav
+17:11:41,299  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2b\NPS_B2B_merged_2Q-3Q_16.sav
+17:11:45,031  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+17:11:45,032  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2b
+17:11:45,033  INFO JavaFX Application Thread ReportProcessor:findValidFilename:318 - File 'b2b_rep.xlsx'was detected and deleted
+17:11:45,034  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2b_rep.xlsx
+17:11:45,066  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:416 - Variable header for QMAIN was hidden
+17:11:45,068  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:430 - BaseHeader All was hidden
+17:11:47,029  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 3  Samples:4 Size:22*4 per sample>...
+17:11:47,845  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 3  Samples:4 Size:22*4 per sample> was drawn
+17:11:47,846  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+17:11:48,888  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 15  Samples:4 Size:42*4 per sample>...
+17:11:49,549  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 15  Samples:4 Size:42*4 per sample> was drawn
+17:11:49,580  INFO JavaFX Application Thread CMRAuto:process:183 - Report created. See "b2b_rep.xlsx"
+17:13:43,352  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2b\template_b2b_base.xlsx
+17:13:43,353  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+17:13:45,431  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2b\MGTS_NPS_B2B_merged_2-3Q16.sav
+17:13:47,947  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2b\NPS_B2B_merged_2Q-3Q_16.sav
+17:13:50,786  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+17:13:50,786  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2b
+17:13:50,787  INFO JavaFX Application Thread ReportProcessor:findValidFilename:318 - File 'b2b_rep.xlsx'was detected and deleted
+17:13:50,787  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2b_rep.xlsx
+17:13:50,821  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:416 - Variable header for QMAIN was hidden
+17:13:50,821  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:430 - BaseHeader All was hidden
+17:13:52,783  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 3  Samples:4 Size:22*4 per sample>...
+17:13:53,593  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 3  Samples:4 Size:22*4 per sample> was drawn
+17:13:54,740  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 5  Samples:4 Size:12*4 per sample>...
+17:13:54,860  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 5  Samples:4 Size:12*4 per sample> was drawn
+17:13:56,462  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 7  Samples:4 Size:22*4 per sample>...
+17:13:56,723  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 7  Samples:4 Size:22*4 per sample> was drawn
+17:13:56,724  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+17:13:57,738  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 15  Samples:4 Size:42*4 per sample>...
+17:13:58,276  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 15  Samples:4 Size:42*4 per sample> was drawn
+17:13:58,311  INFO JavaFX Application Thread CMRAuto:process:183 - Report created. See "b2b_rep.xlsx"
+17:16:15,449  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2b\template_b2b_base.xlsx
+17:16:15,449  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+17:16:16,972  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2b\MGTS_NPS_B2B_merged_2-3Q16.sav
+17:16:20,471  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+17:16:20,471  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2b
+17:16:20,472  INFO JavaFX Application Thread ReportProcessor:findValidFilename:318 - File 'b2b_rep.xlsx'was detected and deleted
+17:16:20,473  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2b_rep.xlsx
+17:16:20,507  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:416 - Variable header for QMAIN was hidden
+17:16:20,507  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:430 - BaseHeader All was hidden
+17:16:21,284  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample>...
+17:16:21,924  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample> was drawn
+17:16:22,493  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample>...
+17:16:22,553  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample> was drawn
+17:16:23,343  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample>...
+17:16:23,475  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample> was drawn
+17:16:23,475  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+17:16:23,983  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 15  Samples:2 Size:42*4 per sample>...
+17:16:24,272  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 15  Samples:2 Size:42*4 per sample> was drawn
+17:16:24,298  INFO JavaFX Application Thread CMRAuto:process:183 - Report created. See "b2b_rep.xlsx"
+17:18:14,128  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2b\template_b2b_base.xlsx
+17:18:14,129  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+17:18:15,138  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2b\MGTS_NPS_B2B_merged_2-3Q16.sav
+17:18:17,736  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+17:18:17,737  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2b
+17:18:17,744  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2b_rep(1).xlsx
+17:18:17,775  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:416 - Variable header for QMAIN was hidden
+17:18:17,776  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:430 - BaseHeader All was hidden
+17:18:18,636  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample>...
+17:18:19,310  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample> was drawn
+17:18:19,870  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample>...
+17:18:19,930  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample> was drawn
+17:18:20,708  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample>...
+17:18:20,839  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample> was drawn
+17:18:20,839  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+17:18:21,341  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 15  Samples:2 Size:42*4 per sample>...
+17:18:21,617  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 15  Samples:2 Size:42*4 per sample> was drawn
+17:18:22,114  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 18  Samples:2 Size:42*4 per sample>...
+17:18:22,365  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 18  Samples:2 Size:42*4 per sample> was drawn
+17:18:22,863  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 21  Samples:2 Size:44*4 per sample>...
+17:18:23,126  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 21  Samples:2 Size:44*4 per sample> was drawn
+17:18:23,628  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 24  Samples:2 Size:44*4 per sample>...
+17:18:23,893  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 24  Samples:2 Size:44*4 per sample> was drawn
+17:18:24,407  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 27  Samples:2 Size:44*4 per sample>...
+17:18:24,669  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 27  Samples:2 Size:44*4 per sample> was drawn
+17:18:24,709  INFO JavaFX Application Thread CMRAuto:process:183 - Report created. See "b2b_rep(1).xlsx"
+17:22:32,567  INFO JavaFX Application Thread CMRAuto:start:113 - Properties loaded from properties.properties
+17:22:34,035  INFO JavaFX Application Thread CMRAuto:start:138 - SPSS location D:\SPSS22
+17:22:34,056  INFO JavaFX Application Thread CMRAuto:start:146 - JavaFXML document loaded
+17:22:37,041  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2b\template_b2b_base.xlsx
+17:22:37,087  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+17:22:38,319  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2b\MGTS_NPS_B2B_merged_2-3Q16.sav
+17:22:41,545  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+17:22:41,545  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2b
+17:22:41,597  INFO JavaFX Application Thread ReportProcessor:findValidFilename:318 - File 'b2b_rep.xlsx'was detected and deleted
+17:22:41,597  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2b_rep.xlsx
+17:22:41,937  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:416 - Variable header for QMAIN was hidden
+17:22:41,944  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:430 - BaseHeader All was hidden
+17:22:43,125  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample>...
+17:22:43,920  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample> was drawn
+17:22:44,530  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample>...
+17:22:44,598  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample> was drawn
+17:22:45,419  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample>...
+17:22:45,558  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample> was drawn
+17:22:45,559  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+17:22:46,347  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 15  Samples:2 Size:43*4 per sample>...
+17:23:27,450  INFO JavaFX Application Thread CMRAuto:start:113 - Properties loaded from properties.properties
+17:23:28,752  INFO JavaFX Application Thread CMRAuto:start:138 - SPSS location D:\SPSS22
+17:23:28,768  INFO JavaFX Application Thread CMRAuto:start:146 - JavaFXML document loaded
+17:23:30,996  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2b\template_b2b_base.xlsx
+17:23:31,003  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+17:23:32,175  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2b\MGTS_NPS_B2B_merged_2-3Q16.sav
+17:23:35,327  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+17:23:35,328  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2b
+17:23:35,334  INFO JavaFX Application Thread ReportProcessor:findValidFilename:318 - File 'b2b_rep.xlsx'was detected and deleted
+17:23:35,334  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2b_rep.xlsx
+17:23:35,612  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:416 - Variable header for QMAIN was hidden
+17:23:35,613  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:430 - BaseHeader All was hidden
+17:23:36,590  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample>...
+17:23:37,367  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample> was drawn
+17:23:37,975  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample>...
+17:23:38,043  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample> was drawn
+17:23:38,865  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample>...
+17:23:39,009  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample> was drawn
+17:23:39,009  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+17:23:39,671  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 15  Samples:2 Size:42*4 per sample>...
+17:23:39,938  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 15  Samples:2 Size:42*4 per sample> was drawn
+17:23:40,472  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 18  Samples:2 Size:42*4 per sample>...
+17:23:40,733  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 18  Samples:2 Size:42*4 per sample> was drawn
+17:23:41,282  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 21  Samples:2 Size:44*4 per sample>...
+17:23:41,560  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 21  Samples:2 Size:44*4 per sample> was drawn
+17:23:42,100  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 24  Samples:2 Size:44*4 per sample>...
+17:23:42,368  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 24  Samples:2 Size:44*4 per sample> was drawn
+17:23:42,881  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 27  Samples:2 Size:44*4 per sample>...
+17:23:43,173  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 27  Samples:2 Size:44*4 per sample> was drawn
+17:23:43,332  INFO JavaFX Application Thread CMRAuto:process:183 - Report created. See "b2b_rep.xlsx"
+17:25:10,260  INFO JavaFX Application Thread CMRAuto:start:113 - Properties loaded from properties.properties
+17:25:11,522  INFO JavaFX Application Thread CMRAuto:start:138 - SPSS location D:\SPSS22
+17:25:11,537  INFO JavaFX Application Thread CMRAuto:start:146 - JavaFXML document loaded
+17:25:15,396  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2b\template_b2b_base.xlsx
+17:25:15,402  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+17:25:16,575  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2b\MGTS_NPS_B2B_merged_2-3Q16.sav
+17:25:19,689  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+17:25:19,690  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2b
+17:25:19,695  INFO JavaFX Application Thread ReportProcessor:findValidFilename:318 - File 'b2b_rep.xlsx'was detected and deleted
+17:25:19,696  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2b_rep.xlsx
+17:25:19,968  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:416 - Variable header for QMAIN was hidden
+17:25:19,970  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:430 - BaseHeader All was hidden
+17:25:20,936  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample>...
+17:25:21,721  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample> was drawn
+17:25:22,330  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample>...
+17:25:22,400  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample> was drawn
+17:25:23,222  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample>...
+17:25:23,365  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample> was drawn
+17:25:23,366  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+17:25:24,028  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 15  Samples:2 Size:42*4 per sample>...
+17:25:24,297  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 15  Samples:2 Size:42*4 per sample> was drawn
+17:25:24,829  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 18  Samples:2 Size:42*4 per sample>...
+17:25:25,092  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 18  Samples:2 Size:42*4 per sample> was drawn
+17:25:25,639  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 21  Samples:2 Size:44*4 per sample>...
+17:25:25,914  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 21  Samples:2 Size:44*4 per sample> was drawn
+17:25:26,458  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 24  Samples:2 Size:44*4 per sample>...
+17:25:26,725  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 24  Samples:2 Size:44*4 per sample> was drawn
+17:25:27,237  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 27  Samples:2 Size:44*4 per sample>...
+17:25:27,531  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 27  Samples:2 Size:44*4 per sample> was drawn
+17:25:27,603  INFO JavaFX Application Thread CMRAuto:process:183 - Report created. See "b2b_rep.xlsx"
+17:27:30,106  INFO JavaFX Application Thread CMRAuto:start:113 - Properties loaded from properties.properties
+17:27:31,415  INFO JavaFX Application Thread CMRAuto:start:138 - SPSS location D:\SPSS22
+17:27:31,430  INFO JavaFX Application Thread CMRAuto:start:146 - JavaFXML document loaded
+17:27:40,558  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2b\template_b2b_base.xlsx
+17:27:40,565  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+17:27:41,742  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2b\MGTS_NPS_B2B_merged_2-3Q16.sav
+17:27:44,920  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+17:27:44,921  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2b
+17:27:44,972  INFO JavaFX Application Thread ReportProcessor:findValidFilename:318 - File 'b2b_rep.xlsx'was detected and deleted
+17:27:44,972  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2b_rep.xlsx
+17:27:45,289  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:416 - Variable header for QMAIN was hidden
+17:27:45,290  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:430 - BaseHeader All was hidden
+17:27:46,315  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample>...
+17:27:47,140  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample> was drawn
+17:27:47,780  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample>...
+17:27:47,852  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample> was drawn
+17:27:48,724  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample>...
+17:27:48,875  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample> was drawn
+17:27:48,875  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+17:27:49,590  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 15  Samples:2 Size:42*4 per sample>...
+17:29:02,238  INFO JavaFX Application Thread CMRAuto:start:113 - Properties loaded from properties.properties
+17:29:03,531  INFO JavaFX Application Thread CMRAuto:start:138 - SPSS location D:\SPSS22
+17:29:03,547  INFO JavaFX Application Thread CMRAuto:start:146 - JavaFXML document loaded
+17:29:05,859  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2b\template_b2b_base.xlsx
+17:29:05,866  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+17:29:07,041  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2b\MGTS_NPS_B2B_merged_2-3Q16.sav
+17:29:10,081  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+17:29:10,082  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2b
+17:29:10,087  INFO JavaFX Application Thread ReportProcessor:findValidFilename:318 - File 'b2b_rep.xlsx'was detected and deleted
+17:29:10,088  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2b_rep.xlsx
+17:29:10,362  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:416 - Variable header for QMAIN was hidden
+17:29:10,363  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:430 - BaseHeader All was hidden
+17:29:11,335  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample>...
+17:29:12,115  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample> was drawn
+17:29:12,720  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample>...
+17:29:12,788  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample> was drawn
+17:29:13,607  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample>...
+17:29:13,755  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample> was drawn
+17:29:13,756  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+17:29:14,427  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 15  Samples:2 Size:42*4 per sample>...
+17:29:14,716  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 15  Samples:2 Size:42*4 per sample> was drawn
+17:29:15,247  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 18  Samples:2 Size:42*4 per sample>...
+17:29:15,509  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 18  Samples:2 Size:42*4 per sample> was drawn
+17:29:16,054  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 21  Samples:2 Size:44*4 per sample>...
+17:29:16,324  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 21  Samples:2 Size:44*4 per sample> was drawn
+17:29:16,867  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 24  Samples:2 Size:44*4 per sample>...
+17:29:17,133  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 24  Samples:2 Size:44*4 per sample> was drawn
+17:29:17,643  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 27  Samples:2 Size:44*4 per sample>...
+17:29:17,933  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 27  Samples:2 Size:44*4 per sample> was drawn
+17:29:18,006  INFO JavaFX Application Thread CMRAuto:process:183 - Report created. See "b2b_rep.xlsx"
+17:53:23,794  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2b\template_b2b_base.xlsx
+17:53:23,795  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+17:53:24,810  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2b\MGTS_NPS_B2B_merged_2-3Q16.sav
+17:53:27,505  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+17:53:27,506  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2b
+17:53:27,506  INFO JavaFX Application Thread ReportProcessor:findValidFilename:318 - File 'b2b_rep.xlsx'was detected and deleted
+17:53:27,507  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2b_rep.xlsx
+17:53:27,540  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:416 - Variable header for QMAIN was hidden
+17:53:27,541  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:430 - BaseHeader All was hidden
+17:53:28,380  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample>...
+17:53:29,062  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample> was drawn
+17:53:29,653  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample>...
+17:53:29,714  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample> was drawn
+17:53:30,527  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample>...
+17:53:30,659  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample> was drawn
+17:53:30,659  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+17:53:31,201  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 15  Samples:2 Size:42*4 per sample>...
+17:53:31,467  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 15  Samples:2 Size:42*4 per sample> was drawn
+17:53:31,966  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 18  Samples:2 Size:42*4 per sample>...
+17:53:32,215  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 18  Samples:2 Size:42*4 per sample> was drawn
+17:53:32,717  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 21  Samples:2 Size:44*4 per sample>...
+17:53:32,976  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 21  Samples:2 Size:44*4 per sample> was drawn
+17:53:33,480  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 24  Samples:2 Size:44*4 per sample>...
+17:53:33,738  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 24  Samples:2 Size:44*4 per sample> was drawn
+17:53:34,229  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 27  Samples:2 Size:44*4 per sample>...
+17:53:34,497  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 27  Samples:2 Size:44*4 per sample> was drawn
+17:53:34,498  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+17:53:35,475  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 31  Samples:2 Size:22*4 per sample>...
+17:53:35,602  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 31  Samples:2 Size:22*4 per sample> was drawn
+17:53:35,647  INFO JavaFX Application Thread CMRAuto:process:183 - Report created. See "b2b_rep.xlsx"
+17:57:53,886  INFO JavaFX Application Thread CMRAuto:start:113 - Properties loaded from properties.properties
+17:57:55,226  INFO JavaFX Application Thread CMRAuto:start:138 - SPSS location D:\SPSS22
+17:57:55,244  INFO JavaFX Application Thread CMRAuto:start:146 - JavaFXML document loaded
+17:57:57,985  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2b\template_b2b_base.xlsx
+17:57:58,033  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+17:57:59,211  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2b\MGTS_NPS_B2B_merged_2-3Q16.sav
+17:58:02,609  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+17:58:02,610  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2b
+17:58:02,615  INFO JavaFX Application Thread ReportProcessor:findValidFilename:318 - File 'b2b_rep.xlsx'was detected and deleted
+17:58:02,616  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2b_rep.xlsx
+17:58:02,917  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:416 - Variable header for QMAIN was hidden
+17:58:02,919  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:430 - BaseHeader All was hidden
+17:58:03,938  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample>...
+17:58:04,744  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample> was drawn
+17:58:05,452  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample>...
+17:58:05,525  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample> was drawn
+17:58:06,395  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample>...
+17:58:06,553  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample> was drawn
+17:58:06,553  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+17:58:07,251  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 15  Samples:2 Size:42*4 per sample>...
+17:58:07,566  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 15  Samples:2 Size:42*4 per sample> was drawn
+17:58:08,130  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 18  Samples:2 Size:42*4 per sample>...
+17:58:08,416  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 18  Samples:2 Size:42*4 per sample> was drawn
+17:58:09,004  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 21  Samples:2 Size:44*4 per sample>...
+17:58:09,300  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 21  Samples:2 Size:44*4 per sample> was drawn
+17:58:09,873  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 24  Samples:2 Size:44*4 per sample>...
+17:58:10,164  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 24  Samples:2 Size:44*4 per sample> was drawn
+17:58:10,717  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 27  Samples:2 Size:44*4 per sample>...
+17:58:11,031  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 27  Samples:2 Size:44*4 per sample> was drawn
+17:58:11,032  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+17:58:12,084  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 31  Samples:2 Size:22*4 per sample>...
+17:58:12,229  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 31  Samples:2 Size:22*4 per sample> was drawn
+17:58:12,230  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+17:58:12,790  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 35  Samples:2 Size:42*4 per sample>...
+17:58:13,064  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 35  Samples:2 Size:42*4 per sample> was drawn
+17:58:13,065  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+17:58:13,605  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 39  Samples:2 Size:42*4 per sample>...
+17:58:13,904  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 39  Samples:2 Size:42*4 per sample> was drawn
+17:58:14,441  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 42  Samples:2 Size:42*4 per sample>...
+17:58:14,708  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 42  Samples:2 Size:42*4 per sample> was drawn
+17:58:15,269  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 45  Samples:2 Size:40*4 per sample>...
+17:58:15,517  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 45  Samples:2 Size:40*4 per sample> was drawn
+17:58:16,075  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 48  Samples:2 Size:42*4 per sample>...
+17:58:16,343  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 48  Samples:2 Size:42*4 per sample> was drawn
+17:58:16,868  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 51  Samples:2 Size:42*4 per sample>...
+17:58:17,133  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 51  Samples:2 Size:42*4 per sample> was drawn
+17:58:17,681  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 54  Samples:2 Size:42*4 per sample>...
+17:58:17,949  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 54  Samples:2 Size:42*4 per sample> was drawn
+17:58:18,051  INFO JavaFX Application Thread CMRAuto:process:183 - Report created. See "b2b_rep.xlsx"
+18:05:51,770  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2b\template_b2b_base.xlsx
+18:05:51,771  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+18:05:52,776  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2b\MGTS_NPS_B2B_merged_2-3Q16.sav
+18:05:55,415  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+18:05:55,416  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2b
+18:05:55,416  INFO JavaFX Application Thread ReportProcessor:findValidFilename:318 - File 'b2b_rep.xlsx'was detected and deleted
+18:05:55,416  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2b_rep.xlsx
+18:05:55,452  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:416 - Variable header for QMAIN was hidden
+18:05:55,452  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:430 - BaseHeader All was hidden
+18:05:56,495  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample>...
+18:05:57,241  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample> was drawn
+18:05:57,830  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample>...
+18:05:57,895  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample> was drawn
+18:05:58,708  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample>...
+18:05:58,855  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample> was drawn
+18:05:58,855  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+18:05:59,437  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 15  Samples:2 Size:42*4 per sample>...
+18:05:59,722  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 15  Samples:2 Size:42*4 per sample> was drawn
+18:06:00,245  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 18  Samples:2 Size:42*4 per sample>...
+18:06:00,516  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 18  Samples:2 Size:42*4 per sample> was drawn
+18:06:01,037  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 21  Samples:2 Size:44*4 per sample>...
+18:06:01,318  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 21  Samples:2 Size:44*4 per sample> was drawn
+18:06:01,832  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 24  Samples:2 Size:44*4 per sample>...
+18:06:02,113  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 24  Samples:2 Size:44*4 per sample> was drawn
+18:06:02,644  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 27  Samples:2 Size:44*4 per sample>...
+18:06:02,925  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 27  Samples:2 Size:44*4 per sample> was drawn
+18:06:02,926  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+18:06:03,958  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 31  Samples:2 Size:22*4 per sample>...
+18:06:04,098  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 31  Samples:2 Size:22*4 per sample> was drawn
+18:06:04,099  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+18:06:04,611  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 35  Samples:2 Size:42*4 per sample>...
+18:06:04,880  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 35  Samples:2 Size:42*4 per sample> was drawn
+18:06:04,881  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+18:06:05,414  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 39  Samples:2 Size:42*4 per sample>...
+18:06:05,681  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 39  Samples:2 Size:42*4 per sample> was drawn
+18:06:06,202  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 42  Samples:2 Size:42*4 per sample>...
+18:06:06,467  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 42  Samples:2 Size:42*4 per sample> was drawn
+18:06:06,992  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 45  Samples:2 Size:40*4 per sample>...
+18:06:07,244  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 45  Samples:2 Size:40*4 per sample> was drawn
+18:06:07,775  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 48  Samples:2 Size:42*4 per sample>...
+18:06:08,043  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 48  Samples:2 Size:42*4 per sample> was drawn
+18:06:08,562  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 51  Samples:2 Size:42*4 per sample>...
+18:06:08,831  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 51  Samples:2 Size:42*4 per sample> was drawn
+18:06:09,328  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 54  Samples:2 Size:42*4 per sample>...
+18:06:09,609  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 54  Samples:2 Size:42*4 per sample> was drawn
+18:06:09,610  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+18:06:42,010  INFO JavaFX Application Thread CMRAuto:process:171 - Template loaded from D:\GDrive\Java\CMRAuto\template\b2b\template_b2b_base.xlsx
+18:06:42,010  INFO JavaFX Application Thread DataProcessor:getSampleMap:610 - Запущен StatsUtil.start()
+18:06:43,015  INFO JavaFX Application Thread DataProcessor:getInterviewsFromSPSS2:124 - Считывание данных из файла data\b2b\MGTS_NPS_B2B_merged_2-3Q16.sav
+18:06:45,715  INFO JavaFX Application Thread DataProcessor:getSampleMap:614 - Остановлен StatsUtil
+18:06:45,716  INFO JavaFX Application Thread CMRAuto:process:179 - Data loaded from D:\GDrive\Java\CMRAuto\data\b2b
+18:06:45,716  INFO JavaFX Application Thread ReportProcessor:findValidFilename:318 - File 'b2b_rep.xlsx'was detected and deleted
+18:06:45,716  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:356 - ReportFile: b2b_rep.xlsx
+18:06:45,751  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:416 - Variable header for QMAIN was hidden
+18:06:45,751  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:430 - BaseHeader All was hidden
+18:06:46,705  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample>...
+18:06:47,391  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 3  Samples:2 Size:22*4 per sample> was drawn
+18:06:47,969  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample>...
+18:06:48,032  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 5  Samples:2 Size:12*4 per sample> was drawn
+18:06:48,856  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample>...
+18:06:48,997  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 7  Samples:2 Size:22*4 per sample> was drawn
+18:06:48,997  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+18:06:49,503  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 15  Samples:2 Size:42*4 per sample>...
+18:06:49,785  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 15  Samples:2 Size:42*4 per sample> was drawn
+18:06:50,289  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 18  Samples:2 Size:42*4 per sample>...
+18:06:50,552  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 18  Samples:2 Size:42*4 per sample> was drawn
+18:06:51,058  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 21  Samples:2 Size:44*4 per sample>...
+18:06:51,336  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 21  Samples:2 Size:44*4 per sample> was drawn
+18:06:51,841  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 24  Samples:2 Size:44*4 per sample>...
+18:06:52,119  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 24  Samples:2 Size:44*4 per sample> was drawn
+18:06:52,631  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 27  Samples:2 Size:44*4 per sample>...
+18:06:52,910  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 27  Samples:2 Size:44*4 per sample> was drawn
+18:06:52,910  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+18:06:53,923  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 31  Samples:2 Size:22*4 per sample>...
+18:06:54,065  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 31  Samples:2 Size:22*4 per sample> was drawn
+18:06:54,066  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+18:06:54,563  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 35  Samples:2 Size:42*4 per sample>...
+18:06:54,827  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 35  Samples:2 Size:42*4 per sample> was drawn
+18:06:54,828  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+18:06:55,326  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 39  Samples:2 Size:42*4 per sample>...
+18:06:55,597  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 39  Samples:2 Size:42*4 per sample> was drawn
+18:06:56,086  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 42  Samples:2 Size:42*4 per sample>...
+18:06:56,366  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 42  Samples:2 Size:42*4 per sample> was drawn
+18:06:56,861  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 45  Samples:2 Size:40*4 per sample>...
+18:06:57,118  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 45  Samples:2 Size:40*4 per sample> was drawn
+18:06:57,620  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 48  Samples:2 Size:42*4 per sample>...
+18:06:57,883  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 48  Samples:2 Size:42*4 per sample> was drawn
+18:06:58,384  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 51  Samples:2 Size:42*4 per sample>...
+18:06:58,652  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 51  Samples:2 Size:42*4 per sample> was drawn
+18:06:59,137  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:Olga ReportRow = 54  Samples:2 Size:42*4 per sample>...
+18:06:59,400  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:Olga ReportRow = 54  Samples:2 Size:42*4 per sample> was drawn
+18:06:59,401  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:427 - BaseHeader All was drawn
+18:07:00,273  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:444 - Drawing <Type:OlgaLinear ReportRow = 58  Samples:2 Size:16*4 per sample>...
+18:07:00,369  INFO JavaFX Application Thread ReportProcessor:createMultiSampleReport:446 - Report <Type:OlgaLinear ReportRow = 58  Samples:2 Size:16*4 per sample> was drawn
+18:07:00,443  INFO JavaFX Application Thread CMRAuto:process:183 - Report created. See "b2b_rep.xlsx"

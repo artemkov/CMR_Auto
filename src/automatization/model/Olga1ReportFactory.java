@@ -181,7 +181,7 @@ public class Olga1ReportFactory implements ReportFactory
             }
             report.addStrToList(volumenameslist, volumeheader);
             
-            //Кросс-сэмпл Значимости NPS (голубой - больше предыдущего, красный - меньше предыдущего)
+            //Значимости NPS
             List<Color> cList = new ArrayList<>();
             for(int j=0;j<owr.group2samples.size();j++)
             {
@@ -220,14 +220,14 @@ public class Olga1ReportFactory implements ReportFactory
             
             for (InterviewGroup ag1: owr.gcr.getAgroup1())
             {
-                /*String name1="";
+                String name1="";
                 if (owr.gcr.isAgrop1fictive())
                     if (owr.content1.getAnswerCodeMap()!=null)
                     {
                         name1 = owr.content1.getAnswerCodeMap().get(ag1.getName());
                     }
                 if ((name1==null)||(name1.isEmpty()))
-                    name1 = ag1.getName();*/
+                    name1 = ag1.getName();
                 List<String> namelist = new ArrayList<>();
                 for (InterviewGroup ag2: owr.gcr.getAgroup2())
                 {
@@ -244,14 +244,12 @@ public class Olga1ReportFactory implements ReportFactory
                 report.addStrToList(namelist, totalrowheader);
             }
             
-            //1 ряд. Размер выборки
             List<Number> samplecountlist = new ArrayList<>();
             for(int j=0;j<owr.group2samples.size();j++)
                 samplecountlist.add(owr.group2samples.get(j).size());
             report.addToList(samplecountlist, "Размер выборки");
                     
                     
-            //2 ряд. В группах
             List<Number> groupedtotalcountlist = new ArrayList<>();
             for(int j=0;j<owr.wig_NPSReportList.size();j++)
             {
@@ -259,8 +257,6 @@ public class Olga1ReportFactory implements ReportFactory
             }
             report.addToList(groupedtotalcountlist, "В группах");
             
-            //3-xx. Ряды групп            
-            //Значимости для групп
             List<String> ganormDAlist = null;
             Map<String,List<Number>> grValList = new HashMap<>();
             for (InterviewGroup ag: agList)
@@ -302,7 +298,6 @@ public class Olga1ReportFactory implements ReportFactory
                 }
             }
             
-            //Ряд xx+1. NPS
             List<Number> npscountlist = new ArrayList<>();
             for(int j=0;j<owr.wig_NPSReportList.size();j++)
             {
@@ -310,13 +305,60 @@ public class Olga1ReportFactory implements ReportFactory
                 npscountlist.add(report.round_p(nps));
             }
             report.addToList(npscountlist, "NPS "+owr.content3.getName());
-            
-            
-            
         }
         return report;
     
     }
+    
+    private void addNPSPartToReport (Report report, TemplateNode<String> level3node, Content content,List<UniqueList<Map<Content, String>>> sampleList, List<String> sampleNames) throws InvalidTemplateFileFormatException, ReportParamsNotDefinedException, VariableNotFoundException, InvalidFilterException, IOException, GroupsFileNotFoundException, ReportFileNotFoundException, InvalidGroupsFileFormatException, NoSampleDataException
+    {
+        Properties properties = report.getReportProperties();
+        List<InterviewGroup> agList = null;
+        List<OlgaWeightedReport> olrlist = new ArrayList<>();
+        
+        double universe=1000000.0;
+        double confLevel=0.95;
+        String weightContentName=null;
+        
+        
+        universe = getUniverseFromProperties(universe,properties);
+        confLevel = getConflevelFromProperties(confLevel, properties);
+        weightContentName = getWeghtcontentnameFromProperties(weightContentName,properties);
+        
+        for (int i=0; i<sampleList.size(); i++)
+        {
+            OlgaWeightedReport owr = new OlgaWeightedReport(sampleList.get(i), content, properties, level3node.findRootNode());
+            OlgaWeightedReport previosowr = i>0?olrlist.get(i-1):null;
+            olrlist.add(owr);
+            
+            if (i==0)
+            {
+                report.addRowHeader("NPS "+owr.content3.getName());
+                report.addRowType("NPS "+owr.content3.getName(),"VALUE;DA;PERCENTAGES;NOBOTTOMBORDER");
+                        
+                report.addRowHeader("NPSDA 2s");
+                report.addRowType("NPSDA 2s","VALUE;NOCHANGEODD;DA");
+                        
+                report.addRowHeader("ConfInt");
+                report.addRowType("ConfInt","VALUE");
+                
+                //Группы NPS
+                agList = owr.wig_NPSReportList.get(0).groupslist;   
+                for (InterviewGroup ag: agList)
+                {
+                    report.addRowHeader(ag.getName());
+                    report.addRowType(ag.getName(),"VALUE;DA;PERCENTAGES;NOBOTTOMBORDER");
+                            
+                    report.addRowHeader("Значимости "+ag.getName());
+                    report.addRowType("Значимости "+ag.getName(),"VALUE;NOCHANGEODD;DA");
+                }
+            }
+        }
+        
+    }
+    
+    
+    
     
     private double getUniverseFromProperties(final double default_universe, Properties properties) 
     {

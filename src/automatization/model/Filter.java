@@ -68,10 +68,7 @@ public class Filter
             if (filteredList.size()>0)
                 filteredSampleList.add(filteredList);
             else
-            {
-                
                 filteredSampleList.add(null);
-            }
         }
         return filteredSampleList;
         

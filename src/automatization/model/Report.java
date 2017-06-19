@@ -1932,11 +1932,11 @@ public class Report
                         
                         for (AnswerGroup ag: agList)
                         {
-                            rowHeaders.add(ag.getName());
-                            rowTypeMap.put(ag.getName(),"VALUE;DA;PERCENTAGES;NOBOTTOMBORDER");
-                            
-                            rowHeaders.add("Значимости "+ag.getName());
-                            rowTypeMap.put("Значимости "+ag.getName(),"VALUE;NOCHANGEODD;DA");
+                            String grname = ag.getName(); 
+                            rowHeaders.add(grname);
+                            rowHeaders.add("Значимости "+grname);
+                            rowTypeMap.put("Значимости "+grname,"VALUE;NOCHANGEODD;DA");
+                            rowTypeMap.put(grname,"VALUE;DA;NOBOTTOMBORDER;PERCENTAGES");
                         }
                         
                         //Инициализируем карты цветов для величин с измерением значимости
@@ -2198,7 +2198,9 @@ public class Report
                                 {
                                     double oldv = oldlr.getTotal()!=0?oldlr.getStatmap().getOrDefault(val, 0.0)*100.0/oldlr.getTotal():0.0;
                                     double oldlrpercent = round_p(oldv);
-                                    Double davalue = ReportUtils.getNormDAVal(oldlrpercent, lrpercent, oldlr.getTotal(), lr.getTotal());
+                                    Double davalue = ReportUtils.getNormDAVal(round(oldv), round(v), oldlr.getTotal(), lr.getTotal());
+                                    if (davalue!=null)
+                                            System.out.print("");
                                     Color color = ReportUtils.getColorFromDiff(davalue);
                                     addToColorMap(rowname,color);
                                 }
@@ -2448,8 +2450,6 @@ public class Report
     
     List<UniqueList<Map<Content, String>>> splitSamplesBy(String splitVarName, List<UniqueList<Map<Content, String>>> sampleList, List<String> sampleNames, List<String> newNames) throws VariableNotFoundException 
     {
-        
-        
         Content splitContent = ContentUtils.getContentByNameFromInterviewList(sampleList.get(0), splitVarName);
         
         if (splitContent==null)
