@@ -52,20 +52,24 @@ public class Olga1ReportFactory implements ReportFactory
         List<OlgaWeightedReport> olrlist = new ArrayList<>();
         TreeSet<String> uniquevallist;
         String volumeheader = null, totalrowheader = null;
-        //Главный заголовок
-                
+        List<Color> cList = new ArrayList<>();
+        List<Color> mcList = new ArrayList<>();
         universe = getUniverseFromProperties(universe,properties);
         confLevel = getConflevelFromProperties(confLevel, properties);
         weightContentName = getWeghtcontentnameFromProperties(weightContentName,properties);
+        String content3Name =ReportUtils.getStringFromProperties("thirdvar",null,properties); 
         boolean addall = ReportUtils.getBooleanFromProperties("AddAll", false, properties);
         List<InterviewGroup> agList = null;
         report.setSampleNames(sampleNames);
+        boolean debugvals = getBooleanFromProperties("DebugVals",false,properties);
         for (int i=0; i<sampleList.size(); i++)
         {
             
             OlgaWeightedReport owr = new OlgaWeightedReport(sampleList.get(i), content, properties, level3node.findRootNode());
             OlgaWeightedReport previosowr = i>0?olrlist.get(i-1):null;
             olrlist.add(owr);
+            
+            //Заголовки строк таблицы (по 0-му интервью)
             if (i==0)
             {
                 
@@ -94,6 +98,7 @@ public class Olga1ReportFactory implements ReportFactory
                 report.addRowType(totalrowheader,"HEADER");
                 
                 
+                //Общее
                 report.addRowHeader("Размер выборки");
                 report.addRowType("Размер выборки","VALUE");
                         
@@ -105,23 +110,26 @@ public class Olga1ReportFactory implements ReportFactory
                 boolean dontshownps = getBooleanFromProperties("noNPS",false,properties);
                 boolean dontshowlinear = getBooleanFromProperties("noLinear",false,properties);
                 
+                //Средние
                 report.addRowHeader("MEAN "+owr.content3.getName());
-                report.addRowType("MEAN "+owr.content3.getName(),"VALUE");
+                report.addRowType("MEAN "+owr.content3.getName(),"VALUE;DA;NOBOTTOMBORDER");
                 
                 report.addRowHeader("MEAN DA "+owr.content3.getName());
-                report.addRowType("MEAN DA "+owr.content3.getName(),"VALUE");
-                        
-                boolean debugvals = getBooleanFromProperties("DebugVals",false,properties);
+                report.addRowType("MEAN DA "+owr.content3.getName(),"VALUE;DA;NOCHANGEODD");
+                
+                
+                
+                
                 if (debugvals)
                 {
                     report.addRowHeader("VARIANCE "+owr.content3.getName());
                     report.addRowType("VARIANCE "+owr.content3.getName(),"VALUE");
                 }
-                    
                 
                 report.addRowHeader("SEMEAN "+owr.content3.getName());
                 report.addRowType("SEMEAN "+owr.content3.getName(),"VALUE");
-                if (debugvals)
+                
+                /*if (debugvals)
                 {
                     report.addRowHeader("DIFFERENCE "+owr.content3.getName());
                     report.addRowType("DIFFERENCE "+owr.content3.getName(),"VALUE");
@@ -131,7 +139,7 @@ public class Olga1ReportFactory implements ReportFactory
                             
                     report.addRowHeader("SD");
                     report.addRowType("SD","VALUE");
-                }    
+                }*/    
                     
                 report.addRowHeader("NPS "+owr.content3.getName());
                 report.addRowType("NPS "+owr.content3.getName(),"VALUE;DA;PERCENTAGES;NOBOTTOMBORDER");
@@ -153,6 +161,9 @@ public class Olga1ReportFactory implements ReportFactory
                     report.addRowHeader("Значимости "+ag.getName());
                     report.addRowType("Значимости "+ag.getName(),"VALUE;NOCHANGEODD;DA");
                 }
+                
+                //Заполнение карты цветов для MEAN DA
+                report.getColorMap().put("MEAN DA "+owr.content3.getName(),Collections.nCopies(sampleList.size()*owr.group2samples.size(), Color.GREEN));
             }
             
             //Заголовки разделов (переменная content1)
@@ -180,43 +191,6 @@ public class Olga1ReportFactory implements ReportFactory
                 report.addStrToList(namelist, totalrowheader);
             }
             report.addStrToList(volumenameslist, volumeheader);
-            
-            //Значимости NPS
-            List<Color> cList = new ArrayList<>();
-            for(int j=0;j<owr.group2samples.size();j++)
-            {
-                if (previosowr!=null)
-                {
-                    NPSgetter rep1 = previosowr.wig_NPSReportList.get(j);
-                    NPSgetter rep2 = owr.wig_NPSReportList.get(j);
-                                
-                        if (rep1!=null&&rep2!=null)
-                        {    
-                            DAReport crossdarep = new DAReport(rep1, rep2, owr.content2.getName(), owr.content2.getName(), confLevel, universe);
-                            Double nps1 = rep1.getNps();
-                            Double nps2 = rep2.getNps();
-                            String conclusion2s = crossdarep.conclusion2s;
-                            if ((conclusion2s!=null)&&(conclusion2s.equals("Different")))
-                                if (nps2>nps1)
-                                {
-                                    cList.add(Color.BLUE);
-                                }
-                                else
-                                {
-                                    cList.add(Color.RED);
-                                }
-                                else
-                                    cList.add(Color.BLACK);
-                        }
-                        else
-                           cList.add(Color.BLACK);
-                }
-                else
-                {
-                    cList.add(Color.BLACK);
-                }    
-            }
-            report.getColorMap().put("NPS "+owr.content3.getName(), cList);
             
             for (InterviewGroup ag1: owr.gcr.getAgroup1())
             {
@@ -256,6 +230,100 @@ public class Olga1ReportFactory implements ReportFactory
                 groupedtotalcountlist.add(owr.wig_NPSReportList.get(j).getGroupedTotal());
             }
             report.addToList(groupedtotalcountlist, "В группах");
+            
+            
+            //Средние
+            List<Number> semeanlist = new ArrayList<>();
+            List<Number> varmeanlist = new ArrayList<>();
+            List<Number> meanlist = new ArrayList<>();
+            
+            for(int j=0;j<owr.group2samples.size();j++)
+            {
+                ArithmeticMeanReport currentmeanreport=owr.meanReportList.get(j);
+                Double curval = currentmeanreport.meanList.get(0);
+                Double cursemean = currentmeanreport.semeanList.get(0);
+                Double curweight = currentmeanreport.sizeList.get(0);
+                Double curvar = currentmeanreport.varianceList.get(0);
+                Double curdisperse = Math.pow(currentmeanreport.varianceList.get(0), 2);
+                
+                meanlist.add(curval);
+                semeanlist.add(cursemean);
+                
+                if (previosowr!=null)
+                {
+                
+                    ArithmeticMeanReport previosmeanreport=previosowr.meanReportList.get(j);
+                    Double prevval = previosmeanreport.meanList.get(0);
+                    Double prevweight = previosmeanreport.sizeList.get(0);
+                    Double prevdisperse = Math.pow(previosmeanreport.varianceList.get(0),2);
+                    Double davalue  = ReportUtils.getStudentDAVal2(prevval,curval,prevdisperse,curdisperse,prevweight,curweight,1-confLevel);
+                    Color color = ReportUtils.getColorFromDiff(davalue);
+                    mcList.add(color);
+                }
+                else
+                {
+                    mcList.add(Color.BLACK);
+                }
+                
+            }
+            report.addStrToList(owr.meandastringList, "MEAN DA "+owr.content3.getName());
+            report.addToList(meanlist, "MEAN "+owr.content3.getName());
+            
+            
+            report.addToList(semeanlist, "SEMEAN "+owr.content3.getName());
+            if (debugvals)
+            {
+                report.addToList(varmeanlist, "VARIANCE "+owr.content3.getName());
+            }
+            
+           
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            //Значимости NPS
+            
+            for(int j=0;j<owr.group2samples.size();j++)
+            {
+                if (previosowr!=null)
+                {
+                    NPSgetter rep1 = previosowr.wig_NPSReportList.get(j);
+                    NPSgetter rep2 = owr.wig_NPSReportList.get(j);
+                                
+                        if (rep1!=null&&rep2!=null)
+                        {    
+                            DAReport crossdarep = new DAReport(rep1, rep2, owr.content2.getName(), owr.content2.getName(), confLevel, universe);
+                            Double nps1 = rep1.getNps();
+                            Double nps2 = rep2.getNps();
+                            String conclusion2s = crossdarep.conclusion2s;
+                            if ((conclusion2s!=null)&&(conclusion2s.equals("Different")))
+                                if (nps2>nps1)
+                                {
+                                    cList.add(Color.BLUE);
+                                }
+                                else
+                                {
+                                    cList.add(Color.RED);
+                                }
+                                else
+                                    cList.add(Color.BLACK);
+                        }
+                        else
+                           cList.add(Color.BLACK);
+                }
+                else
+                {
+                    cList.add(Color.BLACK);
+                }    
+            }
+            
+            
+            
             
             List<String> ganormDAlist = null;
             Map<String,List<Number>> grValList = new HashMap<>();
@@ -298,64 +366,31 @@ public class Olga1ReportFactory implements ReportFactory
                 }
             }
             
+            List<Number> confIntlist = new ArrayList<>();
             List<Number> npscountlist = new ArrayList<>();
+            List<String> da2slist = new ArrayList<>();
             for(int j=0;j<owr.wig_NPSReportList.size();j++)
             {
                 Double nps = owr.wig_NPSReportList.get(j).getNps()==null?0:owr.wig_NPSReportList.get(j).getNps();
                 npscountlist.add(report.round_p(nps));
+                
+                String da = owr.dastringarray2s[j];
+                da2slist.add(da);
+                
+                Double ci=owr.wig_NPSReportList.get(j).getConfInterval(confLevel, universe);
+                confIntlist.add(ci);
             }
             report.addToList(npscountlist, "NPS "+owr.content3.getName());
+            report.addStrToList(da2slist,"NPSDA 2s");
+            report.addToList(confIntlist, "ConfInt");
         }
+        report.getColorMap().put("NPS "+content3Name, cList);
+        report.getColorMap().put("MEAN "+content3Name, mcList);
         return report;
     
     }
     
-    private void addNPSPartToReport (Report report, TemplateNode<String> level3node, Content content,List<UniqueList<Map<Content, String>>> sampleList, List<String> sampleNames) throws InvalidTemplateFileFormatException, ReportParamsNotDefinedException, VariableNotFoundException, InvalidFilterException, IOException, GroupsFileNotFoundException, ReportFileNotFoundException, InvalidGroupsFileFormatException, NoSampleDataException
-    {
-        Properties properties = report.getReportProperties();
-        List<InterviewGroup> agList = null;
-        List<OlgaWeightedReport> olrlist = new ArrayList<>();
-        
-        double universe=1000000.0;
-        double confLevel=0.95;
-        String weightContentName=null;
-        
-        
-        universe = getUniverseFromProperties(universe,properties);
-        confLevel = getConflevelFromProperties(confLevel, properties);
-        weightContentName = getWeghtcontentnameFromProperties(weightContentName,properties);
-        
-        for (int i=0; i<sampleList.size(); i++)
-        {
-            OlgaWeightedReport owr = new OlgaWeightedReport(sampleList.get(i), content, properties, level3node.findRootNode());
-            OlgaWeightedReport previosowr = i>0?olrlist.get(i-1):null;
-            olrlist.add(owr);
-            
-            if (i==0)
-            {
-                report.addRowHeader("NPS "+owr.content3.getName());
-                report.addRowType("NPS "+owr.content3.getName(),"VALUE;DA;PERCENTAGES;NOBOTTOMBORDER");
-                        
-                report.addRowHeader("NPSDA 2s");
-                report.addRowType("NPSDA 2s","VALUE;NOCHANGEODD;DA");
-                        
-                report.addRowHeader("ConfInt");
-                report.addRowType("ConfInt","VALUE");
-                
-                //Группы NPS
-                agList = owr.wig_NPSReportList.get(0).groupslist;   
-                for (InterviewGroup ag: agList)
-                {
-                    report.addRowHeader(ag.getName());
-                    report.addRowType(ag.getName(),"VALUE;DA;PERCENTAGES;NOBOTTOMBORDER");
-                            
-                    report.addRowHeader("Значимости "+ag.getName());
-                    report.addRowType("Значимости "+ag.getName(),"VALUE;NOCHANGEODD;DA");
-                }
-            }
-        }
-        
-    }
+    
     
     
     
