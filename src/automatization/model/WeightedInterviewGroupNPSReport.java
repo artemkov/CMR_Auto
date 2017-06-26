@@ -192,9 +192,9 @@ public class WeightedInterviewGroupNPSReport extends WeightedInterviewGroupRepor
     @Override
     public Double getBottoms() {
         double bottom = 0.0;
-        for (InterviewGroup topig: bottomgList)
+        for (InterviewGroup bottomig: bottomgList)
         {
-            bottom+=this.weightedCountmap.getOrDefault(topig, 0.0);
+            bottom+=this.weightedCountmap.getOrDefault(bottomig, 0.0);
         }
         return bottom;
     }
@@ -202,9 +202,9 @@ public class WeightedInterviewGroupNPSReport extends WeightedInterviewGroupRepor
     @Override
     public Double getPassives() {
         double passive = 0.0;
-        for (InterviewGroup topig: bottomgList)
+        for (InterviewGroup passig: passivegList)
         {
-            passive+=this.weightedCountmap.getOrDefault(topig, 0.0);
+            passive+=this.weightedCountmap.getOrDefault(passig, 0.0);
         }
         return passive;
     }
