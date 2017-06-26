@@ -207,7 +207,12 @@ public class ArithmeticMeanReport
     private double getMean(UniqueList<Map<Content,String>> interviews, List<Content> contentList, List<String> opList)
     {
         double sum = 0.0;
+        
         double interviewsweight=getInterviewsWeight(interviews, contentList);
+        if (interviewsweight==0.0)
+        {
+            return 0.0;
+        }
         for (Map<Content,String> interview: interviews)
         {
             double weight = 1.0;
