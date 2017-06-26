@@ -421,6 +421,12 @@ public class ReportProcessor
                     String filterString = level2Node.getData();
                     
                     List<UniqueList<Map<Content,String>>> filteredSampleList = Filter.filter(sampleList, filterString);
+                    if (filteredSampleList==null||(filteredSampleList.get(0)==null&filteredSampleList.size()==1))
+                    {
+                        log.info("Filter '"+filterString+"' returned empty dataset. No reports will be drawn!!!");
+                        continue;
+                    }
+                    
                     if (!((level2Node.getZerolevelParams()!=null)&&(level2Node.getZerolevelParams().contains("HIDDEN"))))
                     {
                         curRowNumb = drawBaseHeader(sheet,curRowNumb,level2Node);
@@ -437,7 +443,7 @@ public class ReportProcessor
                     {
                         Report report = new Report();
                         level3Node.setParams(lastcombined);
-                        report.getMultiSampleReportFromNode(level3Node, content, filteredSampleList, sampleNames);
+                        report=report.getMultiSampleReportFromNode(level3Node, content, filteredSampleList, sampleNames);
                         reportList.add(report);
                         if (!((level3Node.getZerolevelParams()!=null)&&(level3Node.getZerolevelParams().contains("HIDDEN"))))
                         {
@@ -858,6 +864,9 @@ public class ReportProcessor
             if (noTopFlag)
                 CellUtil.setCellStyleProperty(cell, sheet.getWorkbook(), CellUtil.BORDER_TOP, CellStyle.BORDER_NONE);
             cell.setCellValue(rowheader);
+            
+            
+            
             if (report.getAnswerCodeMap()!=null)
                 if ((report.getAnswerCodeMap().get(rowheader)!=null)&&
                     (!report.getAnswerCodeMap().get(rowheader).isEmpty()))
@@ -1014,9 +1023,6 @@ public class ReportProcessor
                     style = borderStyleOdd;
                 if ((column)%report.getSampleWidth()==0)
                     style = borderStyleOddEnd1;
-                
-                
-                   
             }
             else
             {
