@@ -249,15 +249,20 @@ public class OlgaWeightedReport
                 Double cursize = meanrep.sizeList.get(0);
                 Double curmean = meanrep.meanList.get(0);
                 Double cursemean = meanrep.semeanList.get(0);
+                Double curvariance = meanrep.varianceList.get(0);
                 for (int j=i+1; j<sample1size;j++)
                 {
                     ArithmeticMeanReport compmeanrep = meanReportList.get(k*sample1size+j);
                     Double compsize = compmeanrep.sizeList.get(0);
                     Double compmean = compmeanrep.meanList.get(0);
                     Double compsemean = compmeanrep.semeanList.get(0);
+                    Double compvariance = compmeanrep.varianceList.get(0);
                     Double studentDAVAL = null;
                     if (cursize!=0&&compsize!=0)
-                        studentDAVAL = ReportUtils.getStudentDAVal(curmean, compmean, cursemean , compsemean, confLevel, cursize+compsize,sample1size);
+                    {
+                        studentDAVAL = ReportUtils.getStudentDAVal2(curmean, compmean, 
+                                Math.pow(curvariance, 2), Math.pow(compvariance, 2), cursize, compsize, 1-confLevel, sample1size);
+                    }
                     if (properties.getProperty("DebugVals", "false").equalsIgnoreCase("true"))
                     {
                         Double debugVals[] = ReportUtils.getStudentDAValDebug(curmean, compmean, cursemean , compsemean, confLevel, cursize+compsize, sample1size);
@@ -315,6 +320,8 @@ public class OlgaWeightedReport
                 {
                     if (j!=k)
                     {
+                        if (j==3&&k==4)
+                            System.out.print("");
                         DAReport darep = new DAReport(wig_NPSReportList.get(i*group2samples.size()/group1samples.size()+j), 
                                                       wig_NPSReportList.get(i*group2samples.size()/group1samples.size()+k), 
                                                       thirdvarname, thirdvarname, 
