@@ -50,7 +50,7 @@ public class Olga1ReportFactory implements ReportFactory
         double confLevel=0.95;
         String weightContentName=null;
         List<OlgaWeightedReport> olrlist = new ArrayList<>();
-        TreeSet<String> uniquevallist;
+        TreeSet<String> uniquevallist = null;
         String volumeheader = null, totalrowheader = null;
         List<Color> cList = new ArrayList<>();
         List<Color> mcList = new ArrayList<>();
@@ -72,7 +72,7 @@ public class Olga1ReportFactory implements ReportFactory
             //Заголовки строк таблицы (по 0-му интервью)
             if (i==0)
             {
-                
+               
                 //Заголовок базы
                 boolean mustdrawtotal = getBooleanFromProperties("drawtotal",true,properties);
                 report.setNoFirstString(mustdrawtotal);
@@ -383,6 +383,42 @@ public class Olga1ReportFactory implements ReportFactory
             report.addToList(npscountlist, "NPS "+owr.content3.getName());
             report.addStrToList(da2slist,"NPSDA 2s");
             report.addToList(confIntlist, "ConfInt");
+            
+            
+            //Линейный отчет
+            if ((owr.wig_LinearReportList!=null)&&(!owr.wig_LinearReportList.isEmpty()))
+            {
+                String rowname=null;
+                for (String val:uniquevallist)
+                {
+                    if (report.hasProperty("ShowAnswersText")&&report.getProperty("ShowAnswersText").equalsIgnoreCase("true")&&
+                                    (owr.content3.getAnswerCodeMap()!=null)&&(owr.content3.getAnswerCodeMap().isEmpty()==false))
+                    {    
+                        String answer = owr.content3.getAnswerCodeMap().get(val);
+                        if ((answer!=null)&&(!answer.isEmpty()))
+                            rowname=answer;
+                        else
+                            rowname = val;
+                    }
+                    else
+                    {
+                        rowname = val;
+                    }
+                            
+                    report.addRowHeader(rowname);
+                    if (owr.linormDAMap!=null&&owr.linormDAMap.containsKey(val))
+                    {
+                        report.addRowHeader("Значимость "+rowname);
+                        report.addRowType("Значимость "+rowname,"VALUE;NOCHANGEODD;DA");
+                        report.addRowType(rowname,"VALUE;DA;NOBOTTOMBORDER;PERCENTAGES");
+                    }
+                    else
+                    {
+                        report.addRowType(rowname,"VALUE;DA;PERCENTAGES");
+                    }
+                }
+            }
+                           
         }
         report.getColorMap().put("NPS "+content3Name, cList);
         report.getColorMap().put("MEAN "+content3Name, mcList);

@@ -381,7 +381,7 @@ public class OlgaReport
                 {
                     if (j!=k)
                     {
-                        /*if(i>0)
+                       /*if(i>0)
                             System.out.println(gcr.getAgroup1().get(i-1).getName()+" ");
                         else            
                             System.out.println("Все");
