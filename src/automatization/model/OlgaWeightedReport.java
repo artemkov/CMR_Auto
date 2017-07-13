@@ -14,6 +14,7 @@ import automatization.exceptions.NoSampleDataException;
 import automatization.exceptions.ReportFileNotFoundException;
 import automatization.exceptions.ReportParamsNotDefinedException;
 import automatization.exceptions.VariableNotFoundException;
+import static automatization.model.ReportUtils.getBooleanFromProperties;
 import static automatization.model.ReportUtils.getDoubleFromProperties;
 import static automatization.model.ReportUtils.getStringFromProperties;
 import java.io.IOException;
@@ -67,6 +68,11 @@ public class OlgaWeightedReport
     {
         this.content1=content1;
         
+        boolean dontshowmean = getBooleanFromProperties("noMean",false,properties);
+        boolean dontshownps = getBooleanFromProperties("noNPS",false,properties);
+        boolean dontshowlinear = getBooleanFromProperties("noLinear",false,properties);
+        boolean dontshowgroups = getBooleanFromProperties("noGroups",false,properties);
+
         //Cтроим кросс часть
         gcr = new GroupsCrossReport(interviews, content1, properties, rootNode);
         content2 = gcr.getContent2();
@@ -120,34 +126,56 @@ public class OlgaWeightedReport
         for(UniqueList<Map<Content,String>> sample: group2samples)
         {
             //NPS
-            WeightedInterviewGroupNPSReport wigr_npsr = new WeightedInterviewGroupNPSReport(groupfile3, weightcontent,content3);
-            wigr_npsr.populateGroups(sample);
-            wig_NPSReportList.add(wigr_npsr);
+            WeightedInterviewGroupNPSReport wigr_npsr = null;
+            if (!dontshownps)
+            {
+                wigr_npsr = new WeightedInterviewGroupNPSReport(groupfile3, weightcontent,content3);
+                wigr_npsr.populateGroups(sample);
+                wig_NPSReportList.add(wigr_npsr);
+            }
+            
+            if (dontshownps&&!dontshowgroups)
+            {
+                
+            }
             
             
             //Linear
-            List<InterviewGroup> var3LinearGroupslist = GroupsReport.constructInterviewGroupsFormContent(content3,sample,showAnswerText);
-            for (InterviewGroup ig: var3LinearGroupslist)
-                var3LinearGroupsNameslist.add(ig.getName());
-            WeightedInterviewGroupReport wigr_linear = new WeightedInterviewGroupReport(var3LinearGroupslist, weightcontent,content3);
-            wigr_linear.populateGroups(sample);
-            wig_LinearReportList.add(wigr_linear);
+            WeightedInterviewGroupReport wigr_linear = null;
+            if (!dontshowlinear)
+            {
+                List<InterviewGroup> var3LinearGroupslist = GroupsReport.constructInterviewGroupsFormContent(content3,sample,false);
+                for (InterviewGroup ig: var3LinearGroupslist)
+                    var3LinearGroupsNameslist.add(ig.getName());
+                wigr_linear = new WeightedInterviewGroupReport(var3LinearGroupslist, weightcontent,content3);
+                wigr_linear.populateGroups(sample);
+                wig_LinearReportList.add(wigr_linear);
+            }
             
             //Mean
-            Properties props = new Properties();
-            props.setProperty("content1", thirdvarname+"-1");
-            props.setProperty("rowname1", "Среднее для "+thirdvarname);
-            if (properties.containsKey("ExcludeList"))
-                props.setProperty("ExcludeList", properties.getProperty("ExcludeList"));
-            ArithmeticMeanReport mrep = new ArithmeticMeanReport(sample, content3, props, rootNode);
-            meanReportList.add(mrep);
+            ArithmeticMeanReport mrep = null;
+            if (!dontshowmean)
+            {
+                Properties props = new Properties();
+                String corrector = (String)properties.getOrDefault("MeanCorrector", "-1");
+                props.setProperty("content1", thirdvarname+corrector);
+                props.setProperty("rowname1", "Среднее для "+thirdvarname);
+                if (properties.containsKey("ExcludeList"))
+                    props.setProperty("ExcludeList", properties.getProperty("ExcludeList"));
+                mrep = new ArithmeticMeanReport(sample, content3, props, rootNode);
+                meanReportList.add(mrep);
+            }
         }
         
         Collections.sort(var3LinearGroupsNameslist, new StringIntComparator());
         //Получение обычных значимостей
         //для Tops Bottoms Passives и других груп
         int sample1size = group2samples.size()/group1samples.size();/*количество колонок второго уровня в одной колонке 1го уровня*/
-        List<InterviewGroup> iglist = wig_NPSReportList.get(0).groupslist;
+        List<InterviewGroup> iglist = new ArrayList<>();
+        if (wig_NPSReportList!=null&&!wig_NPSReportList.isEmpty())
+        {
+            iglist = wig_NPSReportList.get(0).groupslist;
+        }
         for (InterviewGroup curig: iglist)
         {
             List<String> grdastringList =new ArrayList<>();
@@ -192,6 +220,8 @@ public class OlgaWeightedReport
             }
             ganormDAMap.put(curgroupname, grdastringList);
         }
+        
+        //Линейный
         for (String gname: var3LinearGroupsNameslist)
         {
             List<String> dastringList =new ArrayList<>();
@@ -233,11 +263,14 @@ public class OlgaWeightedReport
             }
             linormDAMap.put(gname, dastringList);
         }
+        
+
         //Получение значимостей для средних
         for (int i=0;i<group2samples.size();i++)
             meandastringList.add("");
         valMatrix = new double[group1samples.size()][sample1size][sample1size];
         stMatrix = new double[group1samples.size()][sample1size][sample1size];
+        if (!dontshowmean)
         for (int k=0;k<group1samples.size();k++)
         {
                 
@@ -308,7 +341,7 @@ public class OlgaWeightedReport
         dastringarray2s = new String[group2samples.size()]; 
         dastringarray1s = new String[group2samples.size()]; 
         damatrix = new DAReport[group1samples.size()][group2samples.size()/group1samples.size()][group2samples.size()/group1samples.size()];
-        
+        if (!dontshownps)
         for(int i=0;i<group1samples.size();i++)
         {
             for (int j =0; j< group2samples.size()/group1samples.size();j++)
