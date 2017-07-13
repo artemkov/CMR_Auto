@@ -186,7 +186,7 @@ public class GroupsCrossReport
             igroup1 = GroupsReport.constructInterviewGroupsFormContent(content1);
             if (igroup1==null)
             {
-                igroup1 = GroupsReport.constructInterviewGroupsFormContent(content1,interviews,true);
+                igroup1 = GroupsReport.constructInterviewGroupsFormContent(content1,interviews,false);
             }
             agrop1fictive = true;
         }
@@ -235,7 +235,7 @@ public class GroupsCrossReport
                 igroup2 = GroupsReport.constructInterviewGroupsFormContent(content2);
                 if (igroup2==null)
                 {
-                    igroup2 = GroupsReport.constructInterviewGroupsFormContent(content2,interviews,true);
+                    igroup2 = GroupsReport.constructInterviewGroupsFormContent(content2,interviews,false);
                 }
                 agrop2fictive = true;
             }
@@ -270,7 +270,7 @@ public class GroupsCrossReport
                 igroup2 = GroupsReport.constructInterviewGroupsFormContent(content2);
                 if (igroup2==null)
                 {
-                    igroup2 = GroupsReport.constructInterviewGroupsFormContent(content2,interviews,true);
+                    igroup2 = GroupsReport.constructInterviewGroupsFormContent(content2,interviews,false);
                 }
                 agrop2fictive = true;
             }
