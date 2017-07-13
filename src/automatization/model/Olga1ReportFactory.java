@@ -60,8 +60,20 @@ public class Olga1ReportFactory implements ReportFactory
         String content3Name =ReportUtils.getStringFromProperties("thirdvar",null,properties); 
         boolean addall = ReportUtils.getBooleanFromProperties("AddAll", false, properties);
         List<InterviewGroup> agList = null;
+        
+        //Округление действительных (цифры после запятой)
+        int fpdigits = getFPDIGITSFromProperties(properties);
+        report.setFpDIGITS(fpdigits);
+        
+        
         report.setSampleNames(sampleNames);
         boolean debugvals = getBooleanFromProperties("DebugVals",false,properties);
+        
+        boolean dontshowmean = getBooleanFromProperties("noMean",false,properties);
+        boolean dontshowgroups = getBooleanFromProperties("noGroups",false,properties);
+        boolean dontshownps = getBooleanFromProperties("noNPS",false,properties);
+        boolean dontshowlinear = getBooleanFromProperties("noLinear",false,properties);
+        
         for (int i=0; i<sampleList.size(); i++)
         {
             
@@ -72,7 +84,7 @@ public class Olga1ReportFactory implements ReportFactory
             //Заголовки строк таблицы (по 0-му интервью)
             if (i==0)
             {
-               
+                
                 //Заголовок базы
                 boolean mustdrawtotal = getBooleanFromProperties("drawtotal",true,properties);
                 report.setNoFirstString(mustdrawtotal);
@@ -106,64 +118,74 @@ public class Olga1ReportFactory implements ReportFactory
                 report.addRowType("В группах","VALUE");
                         
                         
-                boolean dontshowmean = getBooleanFromProperties("noMean",false,properties);
-                boolean dontshownps = getBooleanFromProperties("noNPS",false,properties);
-                boolean dontshowlinear = getBooleanFromProperties("noLinear",false,properties);
+                
                 
                 //Средние
-                report.addRowHeader("MEAN "+owr.content3.getName());
-                report.addRowType("MEAN "+owr.content3.getName(),"VALUE;DA;NOBOTTOMBORDER");
                 
-                report.addRowHeader("MEAN DA "+owr.content3.getName());
-                report.addRowType("MEAN DA "+owr.content3.getName(),"VALUE;DA;NOCHANGEODD");
-                
-                
-                
-                
-                if (debugvals)
+                if (!dontshowmean)
                 {
-                    report.addRowHeader("VARIANCE "+owr.content3.getName());
-                    report.addRowType("VARIANCE "+owr.content3.getName(),"VALUE");
+                    report.addRowHeader("MEAN "+owr.content3.getName());
+                    report.addRowType("MEAN "+owr.content3.getName(),"VALUE;DA;NOBOTTOMBORDER");
+                
+                    report.addRowHeader("MEAN DA "+owr.content3.getName());
+                    report.addRowType("MEAN DA "+owr.content3.getName(),"VALUE;DA;NOCHANGEODD");
+                
+                    if (debugvals)
+                    {
+                        report.addRowHeader("VARIANCE "+owr.content3.getName());
+                        report.addRowType("VARIANCE "+owr.content3.getName(),"VALUE");
+                    }
+                
+                    report.addRowHeader("SEMEAN "+owr.content3.getName());
+                    report.addRowType("SEMEAN "+owr.content3.getName(),"VALUE");
+                
+                    /*if (debugvals)
+                    {
+                        report.addRowHeader("DIFFERENCE "+owr.content3.getName());
+                        report.addRowType("DIFFERENCE "+owr.content3.getName(),"VALUE");
+                        
+                        report.addRowHeader("STUDENT "+owr.content3.getName());
+                        report.addRowType("STUDENT "+owr.content3.getName(),"VALUE");
+                            
+                        report.addRowHeader("SD");
+                        report.addRowType("SD","VALUE");
+                    }*/  
+                    //Заполнение карты цветов для MEAN DA
+                    report.getColorMap().put("MEAN DA "+owr.content3.getName(),Collections.nCopies(sampleList.size()*owr.group2samples.size(), Color.GREEN));
+                }
+                //Группы
+                if (!dontshowgroups)
+                {
+                    //Группы NPS
+                    agList = owr.wig_NPSReportList.get(0).groupslist;   
+                    for (InterviewGroup ag: agList)
+                    {
+                        report.addRowHeader(ag.getName());
+                        report.addRowType(ag.getName(),"VALUE;DA;PERCENTAGES;NOBOTTOMBORDER");
+                            
+                        report.addRowHeader("Значимости "+ag.getName());
+                        report.addRowType("Значимости "+ag.getName(),"VALUE;NOCHANGEODD;DA");
+                    }
+                }
+                //NPS
+                if (!dontshownps)
+                {
+                    report.addRowHeader("NPS "+owr.content3.getName());
+                    report.addRowType("NPS "+owr.content3.getName(),"VALUE;DA;PERCENTAGES;NOBOTTOMBORDER");
+                        
+                    report.addRowHeader("NPSDA 2s");
+                    report.addRowType("NPSDA 2s","VALUE;NOCHANGEODD;DA");
+                        
+                    report.addRowHeader("ConfInt");
+                    report.addRowType("ConfInt","VALUE");
                 }
                 
-                report.addRowHeader("SEMEAN "+owr.content3.getName());
-                report.addRowType("SEMEAN "+owr.content3.getName(),"VALUE");
-                
-                /*if (debugvals)
+                //Линейный
+                if (!dontshowlinear)
                 {
-                    report.addRowHeader("DIFFERENCE "+owr.content3.getName());
-                    report.addRowType("DIFFERENCE "+owr.content3.getName(),"VALUE");
-                        
-                    report.addRowHeader("STUDENT "+owr.content3.getName());
-                    report.addRowType("STUDENT "+owr.content3.getName(),"VALUE");
-                            
-                    report.addRowHeader("SD");
-                    report.addRowType("SD","VALUE");
-                }*/    
                     
-                report.addRowHeader("NPS "+owr.content3.getName());
-                report.addRowType("NPS "+owr.content3.getName(),"VALUE;DA;PERCENTAGES;NOBOTTOMBORDER");
-                        
-                report.addRowHeader("NPSDA 2s");
-                report.addRowType("NPSDA 2s","VALUE;NOCHANGEODD;DA");
-                        
-                report.addRowHeader("ConfInt");
-                report.addRowType("ConfInt","VALUE");
-                        
-                        
-                //Группы NPS
-                agList = owr.wig_NPSReportList.get(0).groupslist;   
-                for (InterviewGroup ag: agList)
-                {
-                    report.addRowHeader(ag.getName());
-                    report.addRowType(ag.getName(),"VALUE;DA;PERCENTAGES;NOBOTTOMBORDER");
-                            
-                    report.addRowHeader("Значимости "+ag.getName());
-                    report.addRowType("Значимости "+ag.getName(),"VALUE;NOCHANGEODD;DA");
+                    
                 }
-                
-                //Заполнение карты цветов для MEAN DA
-                report.getColorMap().put("MEAN DA "+owr.content3.getName(),Collections.nCopies(sampleList.size()*owr.group2samples.size(), Color.GREEN));
             }
             
             //Заголовки разделов (переменная content1)
@@ -233,201 +255,256 @@ public class Olga1ReportFactory implements ReportFactory
             
             
             //Средние
-            List<Number> semeanlist = new ArrayList<>();
-            List<Number> varmeanlist = new ArrayList<>();
-            List<Number> meanlist = new ArrayList<>();
-            
-            for(int j=0;j<owr.group2samples.size();j++)
+            if (!dontshowmean)
             {
-                ArithmeticMeanReport currentmeanreport=owr.meanReportList.get(j);
-                Double curval = currentmeanreport.meanList.get(0);
-                Double cursemean = currentmeanreport.semeanList.get(0);
-                Double curweight = currentmeanreport.sizeList.get(0);
-                Double curvar = currentmeanreport.varianceList.get(0);
-                Double curdisperse = Math.pow(currentmeanreport.varianceList.get(0), 2);
                 
-                meanlist.add(curval);
-                semeanlist.add(cursemean);
+            
+                List<Number> semeanlist = new ArrayList<>();
+                List<Number> varmeanlist = new ArrayList<>();
+                List<Number> meanlist = new ArrayList<>();
+            
+                for(int j=0;j<owr.group2samples.size();j++)
+                {   
+                    ArithmeticMeanReport currentmeanreport=owr.meanReportList.get(j);
+                    Double curval = currentmeanreport.meanList.get(0);
+                    Double cursemean = currentmeanreport.semeanList.get(0);
+                    Double curweight = currentmeanreport.sizeList.get(0);
+                    Double curvar = currentmeanreport.varianceList.get(0);
+                    Double curdisperse = Math.pow(currentmeanreport.varianceList.get(0), 2);
                 
-                if (previosowr!=null)
-                {
+                    meanlist.add(ReportUtils.round(curval,fpdigits));
+                    semeanlist.add(ReportUtils.round(cursemean,fpdigits));
                 
-                    ArithmeticMeanReport previosmeanreport=previosowr.meanReportList.get(j);
-                    Double prevval = previosmeanreport.meanList.get(0);
-                    Double prevweight = previosmeanreport.sizeList.get(0);
-                    Double prevdisperse = Math.pow(previosmeanreport.varianceList.get(0),2);
-                    Double davalue  = ReportUtils.getStudentDAVal2(prevval,curval,prevdisperse,curdisperse,prevweight,curweight,1-confLevel);
-                    Color color = ReportUtils.getColorFromDiff(davalue);
-                    mcList.add(color);
-                }
-                else
-                {
-                    mcList.add(Color.BLACK);
-                }
-                
-            }
-            report.addStrToList(owr.meandastringList, "MEAN DA "+owr.content3.getName());
-            report.addToList(meanlist, "MEAN "+owr.content3.getName());
-            
-            
-            report.addToList(semeanlist, "SEMEAN "+owr.content3.getName());
-            if (debugvals)
-            {
-                report.addToList(varmeanlist, "VARIANCE "+owr.content3.getName());
-            }
-            
-           
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            //Значимости NPS
-            
-            for(int j=0;j<owr.group2samples.size();j++)
-            {
-                if (previosowr!=null)
-                {
-                    NPSgetter rep1 = previosowr.wig_NPSReportList.get(j);
-                    NPSgetter rep2 = owr.wig_NPSReportList.get(j);
-                                
-                        if (rep1!=null&&rep2!=null)
-                        {    
-                            DAReport crossdarep = new DAReport(rep1, rep2, owr.content2.getName(), owr.content2.getName(), confLevel, universe);
-                            Double nps1 = rep1.getNps();
-                            Double nps2 = rep2.getNps();
-                            String conclusion2s = crossdarep.conclusion2s;
-                            if ((conclusion2s!=null)&&(conclusion2s.equals("Different")))
-                                if (nps2>nps1)
-                                {
-                                    cList.add(Color.BLUE);
-                                }
-                                else
-                                {
-                                    cList.add(Color.RED);
-                                }
-                                else
-                                    cList.add(Color.BLACK);
-                        }
-                        else
-                           cList.add(Color.BLACK);
-                }
-                else
-                {
-                    cList.add(Color.BLACK);
-                }    
-            }
-            
-            
-            
-            
-            List<String> ganormDAlist = null;
-            Map<String,List<Number>> grValList = new HashMap<>();
-            for (InterviewGroup ag: agList)
-            {
-                String gname = ag.getName();
-                List<Number> valList = new ArrayList<>();
-                for (int k=0;k<owr.wig_NPSReportList.size();k++)
-                {
-                    WeightedInterviewGroupNPSReport currentrep = owr.wig_NPSReportList.get(k),oldrep;
-                    Double size = currentrep.getGroupedTotal();
-                    Double count = currentrep.weightedCountmap.getOrDefault(currentrep.findGroupByName(gname),0.0);
-                    
-                    Double percent = size>0?count/size*100.0:0.0;
-                    
                     if (previosowr!=null)
                     {
-                        oldrep=previosowr.wig_NPSReportList.get(k);
-                        Double oldsize = oldrep.getGroupedTotal();
-                        Double oldcount = oldrep.weightedCountmap.getOrDefault(oldrep.findGroupByName(gname),0.0);
-                        Double oldpercent = oldsize>0?oldcount/oldsize*100.0:0.0;
-                        Double davalue = ReportUtils.getNormDAVal(oldpercent, percent, oldsize, size);
+                        
+                        ArithmeticMeanReport previosmeanreport=previosowr.meanReportList.get(j);
+                        Double prevval = previosmeanreport.meanList.get(0);
+                        Double prevweight = previosmeanreport.sizeList.get(0);
+                        Double prevdisperse = Math.pow(previosmeanreport.varianceList.get(0),2);
+                        Double davalue  = ReportUtils.getStudentDAVal2(prevval,curval,prevdisperse,curdisperse,prevweight,curweight,1-confLevel);
                         Color color = ReportUtils.getColorFromDiff(davalue);
-                        report.addToColorMap(gname,color);
+                        mcList.add(color);
                     }
                     else
                     {
-                        report.addToColorMap(gname,Color.BLACK);
+                        mcList.add(Color.BLACK);
                     }
-                    valList.add(report.round_p(percent));
+                
                 }
-                grValList.put(gname, valList);
-                report.addToList(valList,gname);
-                        
-                if (owr.ganormDAMap.containsKey(gname))
+                report.addStrToList(owr.meandastringList, "MEAN DA "+owr.content3.getName());
+                report.addToList(meanlist, "MEAN "+owr.content3.getName());
+            
+            
+                report.addToList(semeanlist, "SEMEAN "+owr.content3.getName());
+                if (debugvals)
                 {
-                    ganormDAlist=owr.ganormDAMap.get(gname);
-                    report.addStrToList(ganormDAlist, "Значимости "+gname);
-                    report.getColorMap().put("Значимости "+gname, Collections.nCopies(sampleList.size()*owr.group2samples.size(), Color.GREEN));
+                    report.addToList(varmeanlist, "VARIANCE "+owr.content3.getName());
                 }
+            
             }
             
-            List<Number> confIntlist = new ArrayList<>();
-            List<Number> npscountlist = new ArrayList<>();
-            List<String> da2slist = new ArrayList<>();
-            for(int j=0;j<owr.wig_NPSReportList.size();j++)
+            //NPS
+            if (!dontshownps)
             {
-                Double nps = owr.wig_NPSReportList.get(j).getNps()==null?0:owr.wig_NPSReportList.get(j).getNps();
-                npscountlist.add(report.round_p(nps));
-                
-                String da = owr.dastringarray2s[j];
-                da2slist.add(da);
-                
-                Double ci=owr.wig_NPSReportList.get(j).getConfInterval(confLevel, universe);
-                confIntlist.add(ci);
-            }
-            report.addToList(npscountlist, "NPS "+owr.content3.getName());
-            report.addStrToList(da2slist,"NPSDA 2s");
-            report.addToList(confIntlist, "ConfInt");
+                //Значимости NPS
+                for(int j=0;j<owr.group2samples.size();j++)
+                {
+                    if (previosowr!=null)
+                    {
+                        NPSgetter rep1 = previosowr.wig_NPSReportList.get(j);
+                        NPSgetter rep2 = owr.wig_NPSReportList.get(j);
+                                
+                            if (rep1!=null&&rep2!=null)
+                            {    
+                                DAReport crossdarep = new DAReport(rep1, rep2, owr.content2.getName(), owr.content2.getName(), confLevel, universe);
+                                Double nps1 = rep1.getNps();
+                                Double nps2 = rep2.getNps();
+                                String conclusion2s = crossdarep.conclusion2s;
+                                if ((conclusion2s!=null)&&(conclusion2s.equals("Different")))
+                                    if (nps2>nps1)
+                                    {
+                                        cList.add(Color.BLUE);
+                                    }
+                                    else
+                                    {
+                                        cList.add(Color.RED);
+                                    }
+                                    else
+                                        cList.add(Color.BLACK);
+                            }
+                            else
+                                cList.add(Color.BLACK);
+                    }
+                    else
+                    {
+                        cList.add(Color.BLACK);
+                    }    
+                }
             
+            
+                List<String> ganormDAlist = null;
+                Map<String,List<Number>> grValList = new HashMap<>();
+                for (InterviewGroup ag: agList)
+                {
+                    String gname = ag.getName();
+                    List<Number> valList = new ArrayList<>();
+                    for (int k=0;k<owr.wig_NPSReportList.size();k++)
+                    {
+                        WeightedInterviewGroupNPSReport currentrep = owr.wig_NPSReportList.get(k),oldrep;
+                        Double size = currentrep.getGroupedTotal();
+                        Double count = currentrep.weightedCountmap.getOrDefault(currentrep.findGroupByName(gname),0.0);
+                    
+                        Double percent = size>0?count/size*100.0:0.0;
+                    
+                        if (previosowr!=null)
+                        {
+                            oldrep=previosowr.wig_NPSReportList.get(k);
+                            Double oldsize = oldrep.getGroupedTotal();
+                            Double oldcount = oldrep.weightedCountmap.getOrDefault(oldrep.findGroupByName(gname),0.0);
+                            Double oldpercent = oldsize>0?oldcount/oldsize*100.0:0.0;
+                            Double davalue = ReportUtils.getNormDAVal(oldpercent, percent, oldsize, size);
+                            Color color = ReportUtils.getColorFromDiff(davalue);
+                            report.addToColorMap(gname,color);
+                        }
+                        else
+                        {
+                            report.addToColorMap(gname,Color.BLACK);
+                        }
+                        valList.add(report.round(percent));
+                    }
+                    grValList.put(gname, valList);
+                    report.addToList(valList,gname);
+                        
+                    if (owr.ganormDAMap.containsKey(gname))
+                    {
+                        ganormDAlist=owr.ganormDAMap.get(gname);
+                        report.addStrToList(ganormDAlist, "Значимости "+gname);
+                        report.getColorMap().put("Значимости "+gname, Collections.nCopies(sampleList.size()*owr.group2samples.size(), Color.GREEN));
+                    }
+                }
+            
+                List<Number> confIntlist = new ArrayList<>();
+                List<Number> npscountlist = new ArrayList<>();
+                List<String> da2slist = new ArrayList<>();
+                for(int j=0;j<owr.wig_NPSReportList.size();j++)
+                {
+                    Double nps = owr.wig_NPSReportList.get(j).getNps()==null?0:owr.wig_NPSReportList.get(j).getNps();
+                    npscountlist.add(report.round(nps));
+                
+                    String da = owr.dastringarray2s[j];
+                    da2slist.add(da);
+                    
+                    Double ci=owr.wig_NPSReportList.get(j).getConfInterval(confLevel, universe);
+                    confIntlist.add(ReportUtils.round(ci, fpdigits));
+                }
+                report.addToList(npscountlist, "NPS "+owr.content3.getName());
+                report.addStrToList(da2slist,"NPSDA 2s");
+                report.addToList(confIntlist, "ConfInt");
+            }
+            //Групповой отчет 
+            if (dontshownps&&(!dontshowgroups))
+            {
+                
+            }
             
             //Линейный отчет
-            if ((owr.wig_LinearReportList!=null)&&(!owr.wig_LinearReportList.isEmpty()))
+            if (!dontshowlinear)
             {
-                String rowname=null;
-                for (String val:uniquevallist)
+                if ((owr.wig_LinearReportList!=null)&&(!owr.wig_LinearReportList.isEmpty()))
                 {
-                    if (report.hasProperty("ShowAnswersText")&&report.getProperty("ShowAnswersText").equalsIgnoreCase("true")&&
-                                    (owr.content3.getAnswerCodeMap()!=null)&&(owr.content3.getAnswerCodeMap().isEmpty()==false))
-                    {    
-                        String answer = owr.content3.getAnswerCodeMap().get(val);
-                        if ((answer!=null)&&(!answer.isEmpty()))
-                            rowname=answer;
+                    String rowname=null;
+                    for (String val:uniquevallist)
+                    {
+                        List<Number> lineartlist = new ArrayList<>();
+                        List<String> normDAlist = new ArrayList<>();
+                        
+                        if (report.hasProperty("ShowAnswersText")&&report.getProperty("ShowAnswersText").equalsIgnoreCase("true")&&
+                           (owr.content3.getAnswerCodeMap()!=null)&&(owr.content3.getAnswerCodeMap().isEmpty()==false))
+                        {    
+                            String answer = owr.content3.getAnswerCodeMap().get(val);
+                            if ((answer!=null)&&(!answer.isEmpty()))
+                                rowname=answer;
+                            else
+                                rowname = val;
+                        }
                         else
+                        {
                             rowname = val;
-                    }
-                    else
-                    {
-                        rowname = val;
-                    }
-                            
-                    report.addRowHeader(rowname);
-                    if (owr.linormDAMap!=null&&owr.linormDAMap.containsKey(val))
-                    {
-                        report.addRowHeader("Значимость "+rowname);
-                        report.addRowType("Значимость "+rowname,"VALUE;NOCHANGEODD;DA");
-                        report.addRowType(rowname,"VALUE;DA;NOBOTTOMBORDER;PERCENTAGES");
-                    }
-                    else
-                    {
-                        report.addRowType(rowname,"VALUE;DA;PERCENTAGES");
-                    }
+                        }
+                        
+                        report.addRowHeader(rowname);
+                        if (owr.linormDAMap!=null&&owr.linormDAMap.containsKey(val))
+                        {
+                            report.addRowHeader("Значимость "+rowname);
+                            report.addRowType("Значимость "+rowname,"VALUE;NOCHANGEODD;DA");
+                            report.addRowType(rowname,"VALUE;DA;NOBOTTOMBORDER;PERCENTAGES");
+                        }
+                        else
+                        {
+                            report.addRowType(rowname,"VALUE;DA;PERCENTAGES");
+                        }
+                        for(int j=0;j<owr.wig_LinearReportList.size();j++)
+                        {
+                            WeightedInterviewGroupReport lr = owr.wig_LinearReportList.get(j);
+                            WeightedInterviewGroupReport oldlr = previosowr!=null?previosowr.wig_LinearReportList.get(j):null;
+                                
+                            double countcur = lr.weightedCountmap.getOrDefault(lr.findGroupByName(val), 0.0);
+                            double weightcur = lr.getTotalGroupedWeight();
+                            double v = weightcur!=0?countcur*100.0/weightcur:0.0;
+                            double lrpercent = report.round(v);
+                                
+                            if (oldlr!=null)
+                            {
+                                double countold = oldlr.weightedCountmap.getOrDefault(oldlr.findGroupByName(val), 0.0);
+                                double weightold = oldlr.getTotalGroupedWeight();
+                                double oldv = weightold!=0?countold*100.0/weightold:0.0;
+                                double oldlrpercent = report.round(oldv);
+                                Double davalue = ReportUtils.getNormDAVal(oldlrpercent, lrpercent, weightold, weightcur);
+                                Color color = ReportUtils.getColorFromDiff(davalue);
+                                report.addToColorMap(rowname,color);
+                            }
+                            else
+                            {
+                                report.addToColorMap(rowname,Color.BLACK);
+                            }
+                                
+                            lineartlist.add(lrpercent);
+                        }
+                        report.addToList(lineartlist, rowname);
+                        if (owr.linormDAMap.containsKey(val))
+                        {
+                            normDAlist=owr.linormDAMap.get(val);
+                            report.addStrToList(normDAlist, "Значимость "+rowname);
+                            report.getColorMap().put("Значимость "+rowname, Collections.nCopies(sampleList.size()*owr.group2samples.size(), Color.GREEN ));
+                        }
+                    }  
                 }
             }
-                           
         }
-        report.getColorMap().put("NPS "+content3Name, cList);
-        report.getColorMap().put("MEAN "+content3Name, mcList);
+        if (!dontshownps)
+            report.getColorMap().put("NPS "+content3Name, cList);
+        if (!dontshowmean)
+            report.getColorMap().put("MEAN "+content3Name, mcList);
         return report;
     
     }
     
     
-    
+    public int getFPDIGITSFromProperties(Properties reportProperties)
+    {
+        if (reportProperties==null)
+            return Report.DEFAULTFPDIGITS;
+        
+        if (reportProperties.contains("fpdigits"))
+            return ReportUtils.getIntFromProperties("fpdigits", Report.DEFAULTFPDIGITS, reportProperties);
+        
+        if (reportProperties.contains("FPDIGITS"))
+            return ReportUtils.getIntFromProperties("FPDIGITS", Report.DEFAULTFPDIGITS, reportProperties);
+        
+        return Report.DEFAULTFPDIGITS;
+            
+    }
     
     
     
