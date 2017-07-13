@@ -43,7 +43,10 @@ import org.apache.poi.xssf.usermodel.XSSFColor;
  */
 public class Report 
 {
-    private final static int FPDIGITS = 1; 
+    public final static int DEFAULTFPDIGITS = 1;
+    private int fpDIGITS = DEFAULTFPDIGITS;
+
+    
     private int repRow = 0;
     private String mainHeader="";
     private Properties reportProperties = new Properties();
@@ -84,6 +87,10 @@ public class Report
         return colorMap;
     }
     
+    void setFpDIGITS(int fpDIGITS) 
+    {
+        this.fpDIGITS = fpDIGITS;
+    }
     
     public Map<String,String> getRowAnswerCodeMap(String rowheader)
     {
@@ -236,6 +243,21 @@ public class Report
         return null;
     }
     
+    public int getFPDIGITSFromProperties()
+    {
+        if (reportProperties==null)
+            return DEFAULTFPDIGITS;
+        
+        if (hasProperty("fpdigits"))
+            return ReportUtils.getIntFromProperties("fpdigits", DEFAULTFPDIGITS, reportProperties);
+        
+        if (hasProperty("FPDIGITS"))
+            return ReportUtils.getIntFromProperties("FPDIGITS", DEFAULTFPDIGITS, reportProperties);
+        
+        return DEFAULTFPDIGITS;
+            
+    }
+    
     public String getMainHeaderFromProperties()
     {
         if (hasProperty("mainheader"))
@@ -317,6 +339,9 @@ public class Report
             }
         }
         
+        //Округление действительных (цифры после запятой)
+        fpDIGITS = getFPDIGITSFromProperties();
+
         //Разделение сэмплов по переменной SplitBySample
         List<UniqueList<Map<Content,String>>> splittedSamples = new ArrayList<>();
         List<String> splittedNames = new ArrayList<>();
@@ -1288,8 +1313,8 @@ public class Report
                         sampleWidth=1;
                     }
                     meanheaderlist.add(meanreport.sampleSize);
-                    long templ =  Math.round(meanreport.mean*100);
-                    meanlist.add(templ/100.0);
+                    double templ =  ReportUtils.round(meanreport.mean, fpDIGITS);
+                    meanlist.add(templ);
                 }
                 reportValues.put(totalrowheader,meanheaderlist);
                 reportValues.put("Среднее",meanlist);
@@ -1408,7 +1433,7 @@ public class Report
                     }
                     List<Number> baselist = new ArrayList<>();
                     double basesize = ContentUtils.countWeights(mfreport.getWeightContentName(), interviews);
-                    baselist.add(round(basesize));
+                    baselist.add(ReportUtils.round(basesize, fpDIGITS));
                     addToList(baselist, totalrowheader);
                     
                     for (int ind = 0; ind<mfreport.getRowNames().size(); ind++)
@@ -1769,7 +1794,7 @@ public class Report
                                 {
                                      addToColorMap(groupName,Color.BLACK);
                                 }
-                                valList.add(round_p(percent));
+                                valList.add(round(percent));
                                 
                             }
                             addToList(valList, linearRepGroupNamesList.get(j));
@@ -2086,7 +2111,7 @@ public class Report
                             {
                                 addToColorMap(gname,Color.BLACK);
                             }
-                            valList.add(round_p(percent));
+                            valList.add(round(percent));
                             
                         }
                         grValList.put(gname, valList);
@@ -2105,7 +2130,7 @@ public class Report
                     for(int j=0;j<olga.npsReportList.size();j++)
                     {
                         Double nps = olga.npsReportList.get(j).getNps()==null?0:olga.npsReportList.get(j).getNps();
-                        npscountlist.add(round_p(nps));
+                        npscountlist.add(round(nps));
                     }
                     addToList(npscountlist, "NPS "+olga.content3.getName());
                     
@@ -2128,7 +2153,7 @@ public class Report
                         //Double ci = olga.confIntervalList.get(j);
                         //oldconfIntlist.add(round(ci));
                         Double newci=olga.newconfIntervalList.get(j);
-                        confIntlist.add(round(newci));
+                        confIntlist.add(ReportUtils.round(newci,fpDIGITS));
                     }
                     addToList(confIntlist, "ConfInt");
                     
@@ -2141,7 +2166,7 @@ public class Report
                         List<Number> sdcountlist = new ArrayList<>();
                         for(int j=0;j<olga.npsReportList.size();j++)
                         {
-                            sdcountlist.add(round(olga.npsReportList.get(j).getStandartDeviation()));
+                            sdcountlist.add(ReportUtils.round(olga.npsReportList.get(j).getStandartDeviation(),fpDIGITS));
                         }
                         addToList(sdcountlist, "SD");
                     }
@@ -2192,12 +2217,12 @@ public class Report
                                 LinearReport oldlr = previosolga!=null?previosolga.linearReportList.get(j):null;
                                 
                                 double v = lr.getTotal()!=0?lr.getStatmap().getOrDefault(val, 0.0)*100.0/lr.getTotal():0.0;
-                                double lrpercent = round_p(v);
+                                double lrpercent = round(v);
                                 
                                 if (oldlr!=null)
                                 {
                                     double oldv = oldlr.getTotal()!=0?oldlr.getStatmap().getOrDefault(val, 0.0)*100.0/oldlr.getTotal():0.0;
-                                    double oldlrpercent = round_p(oldv);
+                                    double oldlrpercent = round(oldv);
                                     Double davalue = ReportUtils.getNormDAVal(oldlrpercent, lrpercent, oldlr.getTotal(), lr.getTotal());
                                     Color color = ReportUtils.getColorFromDiff(davalue);
                                     addToColorMap(rowname,color);
@@ -2230,7 +2255,7 @@ public class Report
                     List<Number> olgameanlist = new ArrayList<>();
                     for(int j=0;j<olga.meanReportList.size();j++)
                     {
-                        olgameanlist.add(ReportUtils.round((olga.meanReportList.get(j).meanList.get(0)), 3));
+                        olgameanlist.add(ReportUtils.round((olga.meanReportList.get(j).meanList.get(0)),fpDIGITS));
                     }
                     addToList(olgameanlist, "MEAN "+olga.content3.getName());
                     
@@ -2271,7 +2296,7 @@ public class Report
                         List<Number> olgavariancelist = new ArrayList<>();
                         for(int j=0;j<olga.meanReportList.size();j++)
                         {
-                            olgavariancelist.add(ReportUtils.round((olga.meanReportList.get(j).varianceList.get(0)), 3));
+                            olgavariancelist.add(ReportUtils.round((olga.meanReportList.get(j).varianceList.get(0)), fpDIGITS));
                         }   
                         addToList(olgavariancelist, "VARIANCE "+olga.content3.getName());
                     }
@@ -2282,8 +2307,8 @@ public class Report
                     List<Number> olgaconfintsemeanlist = new ArrayList<>();
                     for(int j=0;j<olga.meanReportList.size();j++)
                     {
-                        olgasemeanlist.add(ReportUtils.round((olga.meanReportList.get(j).semeanList.get(0)), 3));
-                        olgaconfintsemeanlist.add(ReportUtils.round((olga.meanReportList.get(j).semeanList.get(0)*1.96), 3));
+                        olgasemeanlist.add(ReportUtils.round((olga.meanReportList.get(j).semeanList.get(0)),fpDIGITS));
+                        olgaconfintsemeanlist.add(ReportUtils.round(olga.meanReportList.get(j).semeanList.get(0)*1.96,fpDIGITS));
                     }
                     addToList(olgasemeanlist, "SEMEAN "+olga.content3.getName());
                     addToList(olgaconfintsemeanlist, "SEMEAN Conf. Interval "+olga.content3.getName());
@@ -2508,17 +2533,20 @@ public class Report
     }
     double round(double d)
     {
-        return ReportUtils.round(d, FPDIGITS);
+        return round_p(d);
     }
     double round_p(double d)
     {
         boolean percentages = false;
-        int percentages_fpsigns=FPDIGITS;
+        int percentages_fpsigns=DEFAULTFPDIGITS;
         String v = reportProperties.getProperty("percentages");
         v=v==null?reportProperties.getProperty("Percentages"):v;
         v=v==null?reportProperties.getProperty("PERCENTAGES"):v;
+          
         if ((v!=null)&&v.equalsIgnoreCase("true"))
         {
+          
+          {
             String percentages_fpsigns_s = reportProperties.getProperty("PERC_FPSigns");
             if (percentages_fpsigns_s!=null)
             {
@@ -2528,16 +2556,17 @@ public class Report
                 }
                 catch (NumberFormatException nfe)
                 {
-                    reportProperties.setProperty("PERC_FPSigns", String.valueOf(FPDIGITS));
+                    reportProperties.setProperty("PERC_FPSigns", String.valueOf(fpDIGITS));
                 }
             }
             else
             {
-                reportProperties.setProperty("PERC_FPSigns", String.valueOf(FPDIGITS));
+                reportProperties.setProperty("PERC_FPSigns", String.valueOf(fpDIGITS));
             }
             return d/100;
+          }
         }
-        return ReportUtils.round(d, FPDIGITS);
+        return ReportUtils.round(d, fpDIGITS);
     }
     
     long round0(double d)
