@@ -19,7 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  *
@@ -98,7 +100,7 @@ public class MergedFrequencyReport
     public MergedFrequencyReport (UniqueList<Map<Content,String>> interviews, Content content1, Properties properties, TemplateNode<String> rootNode) throws GroupsFileNotFoundException, InvalidTemplateFileFormatException, ReportParamsNotDefinedException, VariableNotFoundException, InvalidFilterException, IOException, ReportFileNotFoundException, InvalidGroupsFileFormatException, NoSampleDataException
     {
         TreeMap<Integer,String> filtermap = null;
-        TreeMap<Integer,String> basemap = null;
+        TreeMap<Integer,String> basemap = getBasesMap(properties);
         TreeMap<Integer,String> rownamesmap=null;
         //Если не указаны Rownames
         if (properties.stringPropertyNames().contains("ByVariable"))
@@ -109,10 +111,12 @@ public class MergedFrequencyReport
                 int rowcounter = 1;
                 rownamesmap=new TreeMap<>();
                 filtermap=new TreeMap<>();
+                
                 for (Map.Entry<String,String> entry: byVaryable.getAnswerCodeMap().entrySet())
                 {
-                    rownamesmap.put(rowcounter, entry.getValue());
-                    filtermap.put(rowcounter, byVaryable.getName()+"("+entry.getKey()+")");
+                    Integer key = Integer.parseInt(entry.getKey());
+                    rownamesmap.put(key, entry.getValue());
+                    filtermap.put(key, byVaryable.getName()+"("+entry.getKey()+")");
                     rowcounter++;
                 }    
             }
@@ -121,7 +125,6 @@ public class MergedFrequencyReport
         {
             rownamesmap = getRowNamesMap(properties);
             filtermap = getFiltersMap(properties);
-            basemap = getBasesMap(properties);
         }
         
         
