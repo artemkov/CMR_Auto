@@ -987,8 +987,17 @@ public class ReportProcessor
         
         Map<String,String> rowTypeMap = report.getRowTypeMap();
         
-        if (report.getVolumeWidth()>0)
-            System.out.print("");
+        String fpDigitsByExcel = properties.getProperty("FPDIGITSBYEXCEL");
+        boolean useExcelDigitsFormatting = false;
+        
+        int fpd = report.getFPDIGITS();
+        fpDigitsByExcel=fpDigitsByExcel==null?properties.getProperty("fpdigitsbyexcel"):fpDigitsByExcel;
+        if ((fpDigitsByExcel!=null)&&(fpDigitsByExcel.equalsIgnoreCase("true")))
+        {
+            useExcelDigitsFormatting=true;
+        }
+        
+        
         if ((rowTypeMap.isEmpty())||(!rowTypeMap.containsKey(rowheader))||(rowTypeMap.get(rowheader).contains("VALUE")))
         {
             DataFormat df =  sheet.getWorkbook().createDataFormat();
@@ -999,20 +1008,22 @@ public class ReportProcessor
             v=v==null?properties.getProperty("PERCENTAGES"):v;
             
             if (v!=null)
-                
+            {    
                 if (v.equalsIgnoreCase("true"))
                 {
                     percentages=true;
-                    String vv = properties.getProperty("PERC_FPSigns", "1");
+                    String vv = properties.getProperty("PERC_FPSigns", Integer.toString(fpd));
                     try
                     {
                         percentages_fpsigns=Integer.parseInt(vv);
                     }
                     catch (NumberFormatException nfe)
                     {
-                        percentages_fpsigns=1;
+                        percentages_fpsigns=fpd;
                     }
                 }
+            
+            }
             
             if (isOdd)
             {
@@ -1036,21 +1047,24 @@ public class ReportProcessor
                 
                     
             }
-            if (rowTypeMap.get(rowheader).contains("PERCENTAGES")&&column>0)
-                if (percentages)
-                {
-                    String zeroes="";
-                    for (int i=0;i<percentages_fpsigns;i++)
-                        zeroes+="0";
-                    style.setDataFormat(df.getFormat("0."+zeroes+"%"));
-                }
-                else
-                {
-                    style.setDataFormat(df.getFormat("General"));
-                }
+            if ((rowTypeMap.get(rowheader).contains("PERCENTAGES")&&column>0)&&percentages)
+            {
+                String zeroes="";
+                for (int i=0;i<percentages_fpsigns;i++)
+                    zeroes+="0";
+                style.setDataFormat(df.getFormat("0."+zeroes+"%"));
+            }
             else
             {
-                style.setDataFormat(df.getFormat("General"));    
+                if (useExcelDigitsFormatting)
+                {
+                    String zeroes="";
+                    for (int i=0;i<fpd;i++)
+                        zeroes+="0";
+                    style.setDataFormat(df.getFormat("0."+zeroes));
+                }
+                else
+                    style.setDataFormat(df.getFormat("General"));    
             }
             
             return style;
