@@ -49,7 +49,6 @@ import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.FontFamily;
 import org.apache.poi.ss.usermodel.FontUnderline;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -74,8 +73,6 @@ public class ReportProcessor
             
             //1
             //Стиль ячейки borderboldStyle
-        
-            
             CellStyle borderboldStyle = wb.createCellStyle();
             borderboldStyle.setAlignment(CellStyle.ALIGN_CENTER);
             borderboldStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
@@ -100,15 +97,16 @@ public class ReportProcessor
             borderStyleOdd.setBorderLeft(CellStyle.BORDER_THIN);
             borderStyleOdd.setBorderRight(CellStyle.BORDER_THIN);
             borderStyleOdd.setBorderTop(CellStyle.BORDER_THIN);
-            borderStyleOdd.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-            borderStyleOdd.setFillPattern(CellStyle.SOLID_FOREGROUND);
-            
+            //borderStyleOdd.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            //borderStyleOdd.setFillPattern(CellStyle.SOLID_FOREGROUND);
+            borderStyleOdd.setFillPattern(CellStyle.NO_FILL);
             XSSFFont font2= wb.createFont();
             font2.setFontHeightInPoints((short)10);
             font2.setFontName("Arial");
             font2.setColor(IndexedColors.BLACK.getIndex());
             font2.setBold(false);
             borderStyleOdd.setFont(font2);
+            int index = borderStyleOdd.getFontIndex();
             
             //3
             //Стиль ячейки borderStyleNotOdd
@@ -118,9 +116,10 @@ public class ReportProcessor
             borderStyleNotOdd.setBorderLeft(CellStyle.BORDER_THIN);
             borderStyleNotOdd.setBorderRight(CellStyle.BORDER_THIN);
             borderStyleNotOdd.setBorderTop(CellStyle.BORDER_THIN);
-            borderStyleNotOdd.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-            borderStyleNotOdd.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
-            borderStyleNotOdd.setFillPattern(CellStyle.LESS_DOTS);
+            //borderStyleNotOdd.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            //borderStyleNotOdd.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
+            borderStyleNotOdd.setFillPattern(CellStyle.NO_FILL);
+            //borderStyleNotOdd.setFillPattern(CellStyle.LESS_DOTS);
             borderStyleNotOdd.setFont(font2);
             
             //4
@@ -147,6 +146,7 @@ public class ReportProcessor
             headerStyle2.setFont(hfont2);
             
             
+            
             //6
             //Стиль ячейки baseStyle
             CellStyle baseStyle = wb.createCellStyle();
@@ -167,8 +167,8 @@ public class ReportProcessor
             sampleHeaderStyle.setBorderBottom(CellStyle.BORDER_DOUBLE);
             sampleHeaderStyle.setWrapText(false);
             XSSFFont sampleHeaderFont= wb.createFont();
-            sampleHeaderFont.setFontHeightInPoints((short)12);
-            sampleHeaderFont.setFontName("Colibri");
+            sampleHeaderFont.setFontHeightInPoints((short)10);
+            sampleHeaderFont.setFontName("Arial");
             sampleHeaderFont.setColor(IndexedColors.DARK_GREEN.getIndex());
             sampleHeaderFont.setBold(true);
             sampleHeaderFont.setItalic(true);
@@ -183,8 +183,8 @@ public class ReportProcessor
             borderStyleOddEnd1.setBorderLeft(CellStyle.BORDER_THIN);
             borderStyleOddEnd1.setBorderRight(CellStyle.BORDER_DOUBLE);
             borderStyleOddEnd1.setBorderTop(CellStyle.BORDER_THIN);
-            borderStyleOddEnd1.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-            borderStyleOddEnd1.setFillPattern(CellStyle.SOLID_FOREGROUND);
+            //borderStyleOddEnd1.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            //borderStyleOddEnd1.setFillPattern(CellStyle.SOLID_FOREGROUND);
             borderStyleOddEnd1.setFont(font2);
             
             //9
@@ -195,9 +195,10 @@ public class ReportProcessor
             borderStyleNotOddEnd1.setBorderLeft(CellStyle.BORDER_THIN);
             borderStyleNotOddEnd1.setBorderRight(CellStyle.BORDER_DOUBLE);
             borderStyleNotOddEnd1.setBorderTop(CellStyle.BORDER_THIN);
-            borderStyleNotOddEnd1.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-            borderStyleNotOddEnd1.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
-            borderStyleNotOddEnd1.setFillPattern(CellStyle.LESS_DOTS);
+            //borderStyleNotOddEnd1.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            //borderStyleNotOddEnd1.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
+            //borderStyleNotOddEnd1.setFillPattern(CellStyle.LESS_DOTS);
+            borderStyleNotOddEnd1.setFillPattern(CellStyle.NO_FILL);
             borderStyleNotOddEnd1.setFont(font2);
             
             //10
@@ -220,8 +221,8 @@ public class ReportProcessor
             borderStyleOddEnd2.setBorderLeft(CellStyle.BORDER_THIN);
             borderStyleOddEnd2.setBorderRight(CellStyle.BORDER_MEDIUM);
             borderStyleOddEnd2.setBorderTop(CellStyle.BORDER_THIN);
-            borderStyleOddEnd2.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-            borderStyleOddEnd2.setFillPattern(CellStyle.SOLID_FOREGROUND);
+            //borderStyleOddEnd2.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            //borderStyleOddEnd2.setFillPattern(CellStyle.SOLID_FOREGROUND);
             borderStyleOddEnd2.setFont(font2);
             
             //12
@@ -232,9 +233,9 @@ public class ReportProcessor
             borderStyleNotOddEnd2.setBorderLeft(CellStyle.BORDER_THIN);
             borderStyleNotOddEnd2.setBorderRight(CellStyle.BORDER_MEDIUM);
             borderStyleNotOddEnd2.setBorderTop(CellStyle.BORDER_THIN);
-            borderStyleNotOddEnd2.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-            borderStyleNotOddEnd2.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
-            borderStyleNotOddEnd2.setFillPattern(CellStyle.LESS_DOTS);
+            //borderStyleNotOddEnd2.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            //borderStyleNotOddEnd2.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
+            //borderStyleNotOddEnd2.setFillPattern(CellStyle.LESS_DOTS);
             borderStyleNotOddEnd2.setFont(font2);
             
             //13
@@ -261,15 +262,15 @@ public class ReportProcessor
             volumeHeaderStyle.setFillForegroundColor(IndexedColors.PINK.getIndex());
             volumeHeaderStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
             XSSFFont volumeHeaderFont= wb.createFont();
-            volumeHeaderFont.setFontHeightInPoints((short)11);
-            volumeHeaderFont.setFontName("Colibri");
+            volumeHeaderFont.setFontHeightInPoints((short)10);
+            volumeHeaderFont.setFontName("Arial");
             volumeHeaderFont.setColor(IndexedColors.BLACK.getIndex());
             volumeHeaderFont.setBold(false);
             volumeHeaderFont.setItalic(false);
             volumeHeaderStyle.setFont(volumeHeaderFont);
             
              //15
-            //Стиль ячейки volumeHeader
+            //Стиль ячейки volumeHeaderEnd
             CellStyle volumeHeaderStyleEnd = wb.createCellStyle();
             volumeHeaderStyleEnd.setBorderLeft(CellStyle.BORDER_MEDIUM);
             volumeHeaderStyleEnd.setBorderRight(CellStyle.BORDER_DOUBLE);
@@ -679,7 +680,7 @@ public class ReportProcessor
         boolean isOdd = false;
         boolean isFirst = true;
         boolean noBottomFlag=false, noTopFlag = false;
-        //curRowNumb++;
+        
         
         //Главный заголовок
         XSSFRow r = sheet.createRow(curRowNumb);
@@ -882,6 +883,9 @@ public class ReportProcessor
             }
             int column = 1;
             
+            
+            if (rowheader.equals("MEAN A1"))
+                System.out.println(rowheader);
             for (Object value: values)
             {
                 
@@ -907,27 +911,30 @@ public class ReportProcessor
                         continue;
                     }
                     
-                    
+                    XSSFFont font2 = style.getFont();
                     if (colList.get(column-1)==Color.GREEN)
                     {
-                        XSSFFont font2 = sheet.getWorkbook().getFontAt((short)8);
-                        CellUtil.setFont(cell, sheet.getWorkbook(), font2);
+                        font2 = sheet.getWorkbook().getFontAt((short)8);
+                        
                     }
                     else if (colList.get(column-1)==Color.BLUE)
                     {
-                        XSSFFont font2 = sheet.getWorkbook().getFontAt((short)9);
-                        CellUtil.setFont(cell, sheet.getWorkbook(), font2);
+                        font2 = sheet.getWorkbook().getFontAt((short)9);
                     }
                     else if (colList.get(column-1)==Color.RED)
                     {
-                        XSSFFont font2 = sheet.getWorkbook().getFontAt((short)10);
-                        CellUtil.setFont(cell, sheet.getWorkbook(), font2);
+                        font2 = sheet.getWorkbook().getFontAt((short)10);
                     }
                     else
                     {
-                        XSSFFont font2 = sheet.getWorkbook().getFontAt((short)0);
-                        CellUtil.setFont(cell, sheet.getWorkbook(), font2);
+                        font2 = sheet.getWorkbook().getFontAt((short)2);
                     }
+                    font2.setFontName(style.getFont().getFontName());
+                    //font2.setFamily(style.getFont().getFamily());
+                    font2.setFontHeight(style.getFont().getFontHeight());
+                    font2.setBold(style.getFont().getBold());
+                    font2.setItalic(style.getFont().getItalic());
+                    CellUtil.setFont(cell, sheet.getWorkbook(), font2);
                 }
                 else
                 {
@@ -987,8 +994,17 @@ public class ReportProcessor
         
         Map<String,String> rowTypeMap = report.getRowTypeMap();
         
-        if (report.getVolumeWidth()>0)
-            System.out.print("");
+        String fpDigitsByExcel = properties.getProperty("FPDIGITSBYEXCEL");
+        boolean useExcelDigitsFormatting = false;
+        
+        int fpd = report.getFPDIGITS();
+        fpDigitsByExcel=fpDigitsByExcel==null?properties.getProperty("fpdigitsbyexcel"):fpDigitsByExcel;
+        if ((fpDigitsByExcel!=null)&&(fpDigitsByExcel.equalsIgnoreCase("true")))
+        {
+            useExcelDigitsFormatting=true;
+        }
+        
+        
         if ((rowTypeMap.isEmpty())||(!rowTypeMap.containsKey(rowheader))||(rowTypeMap.get(rowheader).contains("VALUE")))
         {
             DataFormat df =  sheet.getWorkbook().createDataFormat();
@@ -999,58 +1015,74 @@ public class ReportProcessor
             v=v==null?properties.getProperty("PERCENTAGES"):v;
             
             if (v!=null)
-                
+            {    
                 if (v.equalsIgnoreCase("true"))
                 {
                     percentages=true;
-                    String vv = properties.getProperty("PERC_FPSigns", "1");
+                    String vv = properties.getProperty("PERC_FPSigns", Integer.toString(fpd));
                     try
                     {
                         percentages_fpsigns=Integer.parseInt(vv);
                     }
                     catch (NumberFormatException nfe)
                     {
-                        percentages_fpsigns=1;
+                        percentages_fpsigns=fpd;
                     }
                 }
+            
+            }
             
             if (isOdd)
             {
                 style = borderStyleOdd;
+                int index = style.getFontIndex();
+                
                 if ((report.getVolumeWidth()>0)&&(column%report.getVolumeWidth()==0))
                     style = borderStyleOddEnd2;
                 else
                     style = borderStyleOdd;
                 if ((column)%report.getSampleWidth()==0)
                     style = borderStyleOddEnd1;
+                Font f = style.getFont();
+                System.out.print("");
             }
             else
             {
                 style = borderStyleNotOdd;
+                int index = style.getFontIndex();
+                
                 if ((report.getVolumeWidth()>0)&&(column%report.getVolumeWidth()==0))
                     style = borderStyleNotOddEnd2;
                 else
                     style = borderStyleNotOdd;
                 if ((column)%report.getSampleWidth()==0)
                     style = borderStyleNotOddEnd1;
-                
+                Font f = style.getFont();
+                System.out.print("");
                     
             }
-            if (rowTypeMap.get(rowheader).contains("PERCENTAGES")&&column>0)
-                if (percentages)
+            if ((rowTypeMap.get(rowheader).contains("PERCENTAGES")&&column>0)&&percentages)
+            {
+                String zeroes="";
+                for (int i=0;i<percentages_fpsigns;i++)
+                    zeroes+="0";
+                style.setDataFormat(df.getFormat("0."+zeroes+"%"));
+            }
+            else
+            {
+                if (useExcelDigitsFormatting)
                 {
                     String zeroes="";
-                    for (int i=0;i<percentages_fpsigns;i++)
+                    for (int i=0;i<fpd;i++)
                         zeroes+="0";
-                    style.setDataFormat(df.getFormat("0."+zeroes+"%"));
+                    style.setDataFormat(df.getFormat("0."+zeroes));
                 }
                 else
                 {
-                    style.setDataFormat(df.getFormat("General"));
+                    style.setDataFormat(df.getFormat("General")); 
+                    Font f = style.getFont();
+                    System.out.print("");
                 }
-            else
-            {
-                style.setDataFormat(df.getFormat("General"));    
             }
             
             return style;
