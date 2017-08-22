@@ -74,8 +74,6 @@ public class ReportProcessor
             
             //1
             //Стиль ячейки borderboldStyle
-        
-            
             CellStyle borderboldStyle = wb.createCellStyle();
             borderboldStyle.setAlignment(CellStyle.ALIGN_CENTER);
             borderboldStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
@@ -100,9 +98,8 @@ public class ReportProcessor
             borderStyleOdd.setBorderLeft(CellStyle.BORDER_THIN);
             borderStyleOdd.setBorderRight(CellStyle.BORDER_THIN);
             borderStyleOdd.setBorderTop(CellStyle.BORDER_THIN);
-            borderStyleOdd.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-            borderStyleOdd.setFillPattern(CellStyle.SOLID_FOREGROUND);
-            
+            //borderStyleOdd.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            //borderStyleOdd.setFillPattern(CellStyle.SOLID_FOREGROUND);
             XSSFFont font2= wb.createFont();
             font2.setFontHeightInPoints((short)10);
             font2.setFontName("Arial");
@@ -118,8 +115,8 @@ public class ReportProcessor
             borderStyleNotOdd.setBorderLeft(CellStyle.BORDER_THIN);
             borderStyleNotOdd.setBorderRight(CellStyle.BORDER_THIN);
             borderStyleNotOdd.setBorderTop(CellStyle.BORDER_THIN);
-            borderStyleNotOdd.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-            borderStyleNotOdd.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
+            //borderStyleNotOdd.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            //borderStyleNotOdd.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
             borderStyleNotOdd.setFillPattern(CellStyle.LESS_DOTS);
             borderStyleNotOdd.setFont(font2);
             
@@ -183,8 +180,8 @@ public class ReportProcessor
             borderStyleOddEnd1.setBorderLeft(CellStyle.BORDER_THIN);
             borderStyleOddEnd1.setBorderRight(CellStyle.BORDER_DOUBLE);
             borderStyleOddEnd1.setBorderTop(CellStyle.BORDER_THIN);
-            borderStyleOddEnd1.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-            borderStyleOddEnd1.setFillPattern(CellStyle.SOLID_FOREGROUND);
+            //borderStyleOddEnd1.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            //borderStyleOddEnd1.setFillPattern(CellStyle.SOLID_FOREGROUND);
             borderStyleOddEnd1.setFont(font2);
             
             //9
@@ -195,8 +192,8 @@ public class ReportProcessor
             borderStyleNotOddEnd1.setBorderLeft(CellStyle.BORDER_THIN);
             borderStyleNotOddEnd1.setBorderRight(CellStyle.BORDER_DOUBLE);
             borderStyleNotOddEnd1.setBorderTop(CellStyle.BORDER_THIN);
-            borderStyleNotOddEnd1.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-            borderStyleNotOddEnd1.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
+            //borderStyleNotOddEnd1.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            //borderStyleNotOddEnd1.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
             borderStyleNotOddEnd1.setFillPattern(CellStyle.LESS_DOTS);
             borderStyleNotOddEnd1.setFont(font2);
             
@@ -220,8 +217,8 @@ public class ReportProcessor
             borderStyleOddEnd2.setBorderLeft(CellStyle.BORDER_THIN);
             borderStyleOddEnd2.setBorderRight(CellStyle.BORDER_MEDIUM);
             borderStyleOddEnd2.setBorderTop(CellStyle.BORDER_THIN);
-            borderStyleOddEnd2.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-            borderStyleOddEnd2.setFillPattern(CellStyle.SOLID_FOREGROUND);
+            //borderStyleOddEnd2.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            //borderStyleOddEnd2.setFillPattern(CellStyle.SOLID_FOREGROUND);
             borderStyleOddEnd2.setFont(font2);
             
             //12
@@ -232,9 +229,9 @@ public class ReportProcessor
             borderStyleNotOddEnd2.setBorderLeft(CellStyle.BORDER_THIN);
             borderStyleNotOddEnd2.setBorderRight(CellStyle.BORDER_MEDIUM);
             borderStyleNotOddEnd2.setBorderTop(CellStyle.BORDER_THIN);
-            borderStyleNotOddEnd2.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-            borderStyleNotOddEnd2.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
-            borderStyleNotOddEnd2.setFillPattern(CellStyle.LESS_DOTS);
+            //borderStyleNotOddEnd2.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            //borderStyleNotOddEnd2.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
+            //borderStyleNotOddEnd2.setFillPattern(CellStyle.LESS_DOTS);
             borderStyleNotOddEnd2.setFont(font2);
             
             //13
@@ -269,7 +266,7 @@ public class ReportProcessor
             volumeHeaderStyle.setFont(volumeHeaderFont);
             
              //15
-            //Стиль ячейки volumeHeader
+            //Стиль ячейки volumeHeaderEnd
             CellStyle volumeHeaderStyleEnd = wb.createCellStyle();
             volumeHeaderStyleEnd.setBorderLeft(CellStyle.BORDER_MEDIUM);
             volumeHeaderStyleEnd.setBorderRight(CellStyle.BORDER_DOUBLE);
