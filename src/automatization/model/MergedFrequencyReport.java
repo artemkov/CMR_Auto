@@ -19,7 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  *
@@ -97,9 +99,35 @@ public class MergedFrequencyReport
     
     public MergedFrequencyReport (UniqueList<Map<Content,String>> interviews, Content content1, Properties properties, TemplateNode<String> rootNode) throws GroupsFileNotFoundException, InvalidTemplateFileFormatException, ReportParamsNotDefinedException, VariableNotFoundException, InvalidFilterException, IOException, ReportFileNotFoundException, InvalidGroupsFileFormatException, NoSampleDataException
     {
-        TreeMap<Integer,String> filtermap = getFiltersMap(properties);
+        TreeMap<Integer,String> filtermap = null;
         TreeMap<Integer,String> basemap = getBasesMap(properties);
-        TreeMap<Integer,String> rownamesmap = getRowNamesMap(properties);
+        TreeMap<Integer,String> rownamesmap=null;
+        //Если не указаны Rownames
+        if (properties.stringPropertyNames().contains("ByVariable"))
+        {
+            Content byVaryable = ContentUtils.getContentByNameFromInterviewList(interviews, properties.getProperty("ByVariable"));
+            if (byVaryable!=null)
+            {
+                int rowcounter = 1;
+                rownamesmap=new TreeMap<>();
+                filtermap=new TreeMap<>();
+                
+                for (Map.Entry<String,String> entry: byVaryable.getAnswerCodeMap().entrySet())
+                {
+                    Integer key = Integer.parseInt(entry.getKey());
+                    rownamesmap.put(key, entry.getValue());
+                    filtermap.put(key, byVaryable.getName()+"("+entry.getKey()+")");
+                    rowcounter++;
+                }    
+            }
+        }
+        else
+        {
+            rownamesmap = getRowNamesMap(properties);
+            filtermap = getFiltersMap(properties);
+        }
+        
+        
         List<Integer> dalist = getDAInternalList(properties);
         weightContentName = this.getWeightContent(properties);
         Content weightContent = ContentUtils.getContentByNameFromInterviewList(interviews,weightContentName);
@@ -231,7 +259,7 @@ public class MergedFrequencyReport
         return tempmap;
     }
     
-    private TreeMap<Integer,String> getRowNamesMap (Properties properties)
+    private TreeMap<Integer,String> getRowNamesMap (Properties properties) throws VariableNotFoundException
     {
         TreeMap<Integer,String> tempmap = new TreeMap<>();
         for (String key: properties.stringPropertyNames())

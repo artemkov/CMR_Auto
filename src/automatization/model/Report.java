@@ -242,6 +242,11 @@ public class Report
         
         return null;
     }
+    public int getFPDIGITS()
+    {
+        return fpDIGITS;
+    }
+    
     
     public int getFPDIGITSFromProperties()
     {
@@ -655,388 +660,7 @@ public class Report
                 break;
             
                 
-            /*case "CrossSampled NPSDA":
-                //DAReport (UniqueList<Map<Content,String>> interviews1, UniqueList<Map<Content,String>> interviews2, String var1, String var2, Path groupfilepath1,Path groupfilepath2,Double confLevel, Double universe)
-                if (sampleList.size()<2)
-                    throw new NoSampleDataException();
                 
-                if (!hasProperty("groupfile"))
-                    throw new ReportParamsNotDefinedException();
-                //Определяем Excel файл с настройками группы из ячеек параметров
-                Path groupfilepath1 = Paths.get(getProperty("groupfile"));
-                if (!Files.isReadable(groupfilepath1))
-                    throw new GroupsFileNotFoundException(groupfilepath1.toAbsolutePath().toString());
-                Path groupfilepath2 = null;
-                String secondvar = null;
-                if (hasProperty("groupfile2"))
-                {
-                    groupfilepath2=Paths.get(getProperty("groupfile2"));
-                    if (!Files.isReadable(groupfilepath2))
-                        throw new GroupsFileNotFoundException(groupfilepath2.toAbsolutePath().toString());
-                }
-                if (hasProperty("secondvar"))
-                    secondvar = getProperty("secondvar");
-                else
-                    secondvar = content.getName();
-                List<DAReport> dareports = new LinkedList<>();
-                Double universe =1000000.0;
-                Double confLevel =0.95;
-                if (hasProperty("universe"))
-                {
-                    try
-                    {
-                        Double un = Double.parseDouble(getProperty("universe"));
-                        universe = un;
-                    }
-                    catch (NumberFormatException e)
-                    {
-                        
-                    }
-                }
-                if (hasProperty("conflevel"))
-                {
-                    try
-                    {
-                        Double un = Double.parseDouble(getProperty("conflevel"));
-                        confLevel = un;
-                    }
-                    catch (NumberFormatException e)
-                    {
-                        
-                    }
-                }
-                sampleWidth=1;
-                totalrowheader = getHeader()==null?"Отчет NPSDA":getHeader();
-                rowHeaders.add(totalrowheader);
-                rowTypeMap.put(totalrowheader, "HEADER");
-                List<Number> list = new LinkedList<>();
-                list.add(sampleList.get(0).size());
-                reportValues.put(totalrowheader, list);
-                
-                
-                NPSReport npsr = NPSReport.getAnswerGroupsWithNPSFromExcel(groupfilepath1);
-                npsr.computeNPS(sampleList.get(0), content.getName());
-                Double totalgrouped = (double)npsr.getIntGroupedTotal();
-                
-                list = new LinkedList<>();
-                rowHeaders.add("Всего в группах");
-                rowTypeMap.put("Всего в группах", "VALUE");
-                list.add(totalgrouped);
-                addToList(list, "Всего в группах");
-                
-                list = new LinkedList<>();
-                rowHeaders.add("Top");
-                rowTypeMap.put("Top", "VALUE");
-                list.add(npsr.getTops()*10000/totalgrouped/100.0);
-                addToList(list, "Top");
-                
-                list = new LinkedList<>();
-                rowHeaders.add("Passive");
-                rowTypeMap.put("Passive", "VALUE");
-                list.add(npsr.getPassives()*10000/totalgrouped/100.0);
-                addToList(list, "Passive");
-                
-                list = new LinkedList<>();
-                rowHeaders.add("Bottom");
-                rowTypeMap.put("Bottom", "VALUE");
-                list.add(npsr.getBottoms()*10000/totalgrouped/100.0);
-                addToList(list, "Bottom");
-                
-                list = new LinkedList<>();
-                rowHeaders.add("NPS");
-                rowTypeMap.put("NPS", "VALUE");
-                list.add(npsr.getNps());
-                addToList(list, "NPS");
-                
-                list = new LinkedList<>();
-                rowHeaders.add("Стандартное отклонение");
-                rowTypeMap.put("Стандартное отклонение", "VALUE");
-                list.add(Math.round(npsr.getStandartDeviation()*100)/100.0);
-                addToList(list, "Стандартное отклонение");
-                
-                list = new LinkedList<>();
-                rowHeaders.add("Уровень достоверности");
-                rowTypeMap.put("Уровень достоверности", "VALUE");
-                list.add(confLevel);
-                addToList(list, "Уровень достоверности");
-                
-                list = new LinkedList<>();
-                rowHeaders.add("Уровень значимости (2стор)");
-                rowTypeMap.put("Уровень значимости (2стор)", "VALUE");
-                list.add(null);
-                addToList(list, "Уровень значимости (2стор)");
-                
-                list = new LinkedList<>();
-                rowHeaders.add("Уровень значимости (1стор)");
-                rowTypeMap.put("Уровень значимости (1стор)", "VALUE");
-                list.add(null);
-                addToList(list, "Уровень значимости (1стор)");
-                
-                list = new LinkedList<>();
-                rowHeaders.add("Вывод (2стор)");
-                rowTypeMap.put("Вывод (2стор)", "VALUE");
-                list.add(null);
-                addToList(list, "Вывод (2стор)");
-                
-                list = new LinkedList<>();
-                rowHeaders.add("Вывод (1стор)");
-                rowTypeMap.put("Вывод (1стор)", "VALUE");
-                list.add(null);
-                addToList(list, "Вывод (1стор)");
-                
-                
-                
-                for (int i=1;i<sampleList.size();i++)
-                {
-                    zxvzxcv;
-                    DAReport dareport = new DAReport(sampleList.get(i-1),sampleList.get(i),content.getName(),secondvar,groupfilepath1,groupfilepath2,confLevel,universe);
-                    
-                    NPSgetter npsr2 = dareport.getNpsrep2();
-                    dareports.add(dareport);
-                    
-                    list = new LinkedList<>();
-                    list.add(sampleList.get(i).size());
-                    addToList(list, totalrowheader);
-                    
-                    totalgrouped=npsr2.getGroupedTotal();
-                    list = new LinkedList<>();
-                    list.add(totalgrouped);
-                    addToList(list, "Всего в группах");
-                    
-                    list = new LinkedList<>();
-                    list.add(npsr2.getTops()*10000/totalgrouped/100.0);
-                    addToList(list, "Top");
-                    
-                    list = new LinkedList<>();
-                    list.add(npsr2.getPassives()*10000/totalgrouped/100.0);
-                    addToList(list, "Passive");
-                    
-                    list = new LinkedList<>();
-                    list.add(npsr2.getBottoms()*10000/totalgrouped/100.0);
-                    addToList(list, "Bottom");
-                    
-                    list = new LinkedList<>();
-                    list.add(npsr2.getNps());
-                    addToList(list, "NPS");
-                    
-                    list = new LinkedList<>();
-                    list.add(Math.round(npsr2.getStandartDeviation()*100)/100.0);
-                    addToList(list, "Стандартное отклонение");
-                    
-                    list = new LinkedList<>();
-                    list.add(confLevel);
-                    addToList(list, "Уровень достоверности");
-                    
-                    list = new LinkedList<>();
-                    list.add(Math.round(dareport.minimumSigDif2s*100)/100.0);
-                    addToList(list, "Уровень значимости (2стор)");
-                    
-                    list = new LinkedList<>();
-                    list.add(Math.round(dareport.minimumSigDif1s*100)/100.0);
-                    addToList(list, "Уровень значимости (1стор)");
-                    
-                    List<String> stlist = new LinkedList<>();
-                    stlist.add(dareport.conclusion2s);
-                    addStrToList(stlist, "Вывод (2стор)");
-                    
-                    stlist = new LinkedList<>();
-                    stlist.add(dareport.conclusion1s);
-                    addStrToList(stlist, "Вывод (1стор)");
-                    
-                }
-                break;
-            */
-            /*case "NPSDA":
-                String filterstring="All",filterstring2="All";
-                if (!hasProperty("groupfile"))
-                    throw new ReportParamsNotDefinedException();
-                //Определяем Excel файл с настройками группы из ячеек параметров
-                groupfilepath1 = Paths.get(getProperty("groupfile"));
-                
-                    
-                if (hasProperty("filterstring"))
-                        filterstring=getProperty("filterstring");
-                
-                if (!Files.isReadable(groupfilepath1))
-                    throw new GroupsFileNotFoundException(groupfilepath1.toAbsolutePath().toString());
-                groupfilepath2 = null;
-                
-                if (hasProperty("secondvar"))
-                {
-                    secondvar = getProperty("secondvar");
-                    if (hasProperty("groupfile2"))
-                    {
-                        groupfilepath2=Paths.get(getProperty("groupfile2"));
-                        if (!Files.isReadable(groupfilepath2))
-                            throw new GroupsFileNotFoundException(groupfilepath2.toAbsolutePath().toString());
-                    }
-                    if (hasProperty("filterstring2"))
-                        filterstring2=getProperty("filterstring2");
-                }
-                else if (hasProperty("secondtag"))
-                {
-                    String tag = getProperty("secondtag");
-                    TemplateNode<String> node3 = ReportUtils.getReportNodeByTag(level3node.findRootNode(),tag);
-                    secondvar = node3.getParent().getParent().getData();
-                    filterstring2 = node3.getParent().getData();
-                    if (hasProperty("filterstring2"))
-                        filterstring2=getProperty("filterstring2");
-                    Content content2 = ContentUtils.getContentByNameFromInterviewList(sampleList.get(0), secondvar);
-                    Report secondGroupsReport=new Report ();
-                    secondGroupsReport.getMultiSampleReportFromNode(node3, content, sampleList.subList(0, 1), sampleNames);
-                    
-                    if (secondGroupsReport.hasProperty("groupfile"))
-                        groupfilepath2=Paths.get(secondGroupsReport.getProperty("groupfile"));
-                    if (!Files.isReadable(groupfilepath2))
-                        throw new GroupsFileNotFoundException(groupfilepath2.toAbsolutePath().toString());
-                }
-                else
-                    throw new ReportParamsNotDefinedException(); 
-                confLevel=null;universe=null;
-                if (hasProperty("universe"))
-                {
-                    try
-                    {
-                        Double un = Double.parseDouble(getProperty("universe"));
-                        universe = un;
-                    }
-                    catch (NumberFormatException e)
-                    {
-                        
-                    }
-                }
-                if (hasProperty("conflevel"))
-                {
-                    try
-                    {
-                        Double un = Double.parseDouble(getProperty("conflevel"));
-                        confLevel = un;
-                    }
-                    catch (NumberFormatException e)
-                    {
-                        
-                    }
-                }
-                sampleWidth=1;
-                totalrowheader = getHeader()==null?"Отчет NPSDA "+content.getName()+"/"+secondvar:getHeader();
-                rowHeaders.add(totalrowheader);
-                rowTypeMap.put(totalrowheader, "HEADER");
-                sampleWidth=2;
-                
-                int sampleCounter=0;
-                                
-                
-                rowHeaders.add("Всего в группах");
-                rowTypeMap.put("Всего в группах", "VALUE");
-                
-                
-                
-                rowHeaders.add("Top");
-                rowTypeMap.put("Top", "VALUE");
-                
-                
-                
-                rowHeaders.add("Passive");
-                rowTypeMap.put("Passive", "VALUE");
-                
-                
-                rowHeaders.add("Bottom");
-                rowTypeMap.put("Bottom", "VALUE");
-                
-                
-                rowHeaders.add("NPS");
-                rowTypeMap.put("NPS", "VALUE");
-                
-                rowHeaders.add("Стандартное отклонение");
-                rowTypeMap.put("Стандартное отклонение", "VALUE");
-                
-                rowHeaders.add("Уровень достоверности");
-                rowTypeMap.put("Уровень достоверности", "VALUE");
-                
-                rowHeaders.add("Уровень значимости (2стор)");
-                rowTypeMap.put("Уровень значимости (2стор)", "VALUE");
-                
-                rowHeaders.add("Уровень значимости (1стор)");
-                rowTypeMap.put("Уровень значимости (1стор)", "VALUE");
-                
-                rowHeaders.add("Вывод (2стор)");
-                rowTypeMap.put("Вывод (2стор)", "VALUE");
-                
-                rowHeaders.add("Вывод (1стор)");
-                rowTypeMap.put("Вывод (1стор)", "VALUE");
-                
-                for (UniqueList<Map<Content,String>> interviewList: sampleList)
-                {
-                    UniqueList<Map<Content,String>> ilist1 = Filter.filter(interviewList, filterstring);
-                    UniqueList<Map<Content,String>> ilist2 = Filter.filter(interviewList, filterstring2);
-                    DAReport dareport = new DAReport(ilist1,ilist2,content.getName(),secondvar,groupfilepath1,groupfilepath2,confLevel,universe);
-                    list = new LinkedList<>();
-                    list.add(ilist1.size());
-                    list.add(ilist2.size());
-                    addToList(list, totalrowheader);
-                    
-                    NPSReport npsr1 = NPSReport.getAnswerGroupsWithNPSFromExcel(groupfilepath1);
-                    npsr1.computeNPS(ilist1, content.getName());
-                    int totalgrouped1 = npsr1.getIntGroupedTotal();
-                    
-                    NPSReport npsr2 = NPSReport.getAnswerGroupsWithNPSFromExcel(groupfilepath2);
-                    npsr2.computeNPS(ilist2, secondvar);
-                    int totalgrouped2 = npsr2.getIntGroupedTotal();
-                    
-                    list = new LinkedList<>();
-                    list.add(totalgrouped1);list.add(totalgrouped2);
-                    addToList(list, "Всего в группах");
-                    
-                    
-                    list = new LinkedList<>();
-                    list.add(npsr1.getTops()*10000/totalgrouped1/100.0);
-                    list.add(npsr2.getTops()*10000/totalgrouped2/100.0);
-                    addToList(list, "Top");
-                    
-                    list = new LinkedList<>();
-                    list.add(npsr1.getPassives()*10000/totalgrouped1/100.0);
-                    list.add(npsr2.getPassives()*10000/totalgrouped2/100.0);
-                    addToList(list, "Passive");
-                    
-                    list = new LinkedList<>();
-                    list.add(npsr1.getBottoms()*10000/totalgrouped1/100.0);
-                    list.add(npsr2.getBottoms()*10000/totalgrouped2/100.0);
-                    addToList(list, "Bottom");
-                    
-                    list = new LinkedList<>();
-                    list.add(npsr1.getNps());
-                    list.add(npsr2.getNps());
-                    addToList(list, "NPS");
-                    
-                    list = new LinkedList<>();
-                    list.add(Math.round(dareport.sd1*100)/100.0);
-                    list.add(Math.round(dareport.sd2*100)/100.0);
-                    addToList(list, "Стандартное отклонение");
-                    
-                    list = new LinkedList<>();
-                    list.add(dareport.confLevel);list.add(Math.round(dareport.confLevel*100)/100.0);
-                    addToList(list,"Уровень достоверности");
-                    
-                    list = new LinkedList<>();
-                    list.add(null);list.add(Math.round(dareport.minimumSigDif2s*100)/100.0);
-                    addToList(list, "Уровень значимости (2стор)");
-                    
-                    list = new LinkedList<>();
-                    list.add(null);list.add(Math.round(dareport.minimumSigDif1s*100)/100.0);
-                    addToList(list, "Уровень значимости (1стор)");
-                    sampleCounter++;
-                    
-                    List<String> stlist = new LinkedList<>();
-                    stlist.add("");stlist.add(dareport.conclusion2s);
-                    addStrToList(stlist, "Вывод (2стор)");
-                    
-                    stlist = new LinkedList<>();
-                    stlist.add("");stlist.add(dareport.conclusion1s);
-                    addStrToList(stlist, "Вывод (1стор)");
-                }
-                
-                break;
-            */        
                 
                 
             case "Cross":
@@ -1313,7 +937,7 @@ public class Report
                         sampleWidth=1;
                     }
                     meanheaderlist.add(meanreport.sampleSize);
-                    double templ =  ReportUtils.round(meanreport.mean, fpDIGITS);
+                    double templ =  round(meanreport.mean);
                     meanlist.add(templ);
                 }
                 reportValues.put(totalrowheader,meanheaderlist);
@@ -1322,14 +946,6 @@ public class Report
             case "ArithmeticMean":
                 List<UniqueList<Map<Content,String>>> mfsamples = splittedSamples;
                 List<String> mfnames = splittedNames;
-                /* if (hasProperty("SplitSamplesBy"))
-                {
-                    String splitVarName = getProperty("SplitSamplesBy");
-                    
-                    List<UniqueList<Map<Content,String>>> newSamples = splitSamplesBy(splitVarName, sampleList, sampleNames,mfnames);
-                    mfsamples = newSamples;
-                    this.sampleNames=mfnames;
-                }*/
                 if (hasProperty("drawtotal"))
                 {
                     if (getProperty("drawtotal").equalsIgnoreCase("false"))
@@ -1379,14 +995,6 @@ public class Report
                 mfsamples = splittedSamples;
                 mfnames = splittedNames;
                 MergedFrequencyReport mfreport = null, oldmfreport = null;
-                /*if (hasProperty("SplitSamplesBy"))
-                {
-                    String splitVarName = getProperty("SplitSamplesBy");
-                    
-                    List<UniqueList<Map<Content,String>>> newSamples = splitSamplesBy(splitVarName, sampleList, sampleNames,mfnames);
-                    mfsamples = newSamples;
-                    this.sampleNames=mfnames;
-                }*/
                 if (hasProperty("drawtotal"))
                 {
                     if (getProperty("drawtotal").equalsIgnoreCase("false"))
@@ -1825,9 +1433,14 @@ public class Report
                     
                 }
                 break;
-            case "Olga1":
-                ReportFactory rf = new Olga1ReportFactory();
+            case "OlgaMerged":
+                ReportFactory rf = new OlgaMegredReportFactory();
                 Report report = rf.makeReport(level3node,content, reportProperties,splittedSamples,splittedNames);
+                return report;
+                
+            case "Olga1":
+                rf = new Olga1ReportFactory();
+                report = rf.makeReport(level3node,content, reportProperties,splittedSamples,splittedNames);
                 return report;
                 
             case "Olga":
@@ -1924,18 +1537,24 @@ public class Report
                         
                         rowHeaders.add("MEAN "+olga.content3.getName());
                         rowHeaders.add("MEAN DA "+olga.content3.getName());
+                        rowTypeMap.put("MEAN "+olga.content3.getName(),"VALUE;DA;NOBOTTOMBORDER");
+                        rowTypeMap.put("MEAN DA "+olga.content3.getName(),"VALUE;DA;NOCHANGEODD");
                         
                         if (getProperty("DebugVals")!=null&&getProperty("DebugVals").equalsIgnoreCase("true"))
                         {
                             rowHeaders.add("VARIANCE "+olga.content3.getName());
                         }
                     
-                        rowHeaders.add("SEMEAN "+olga.content3.getName());
+                        
                         
                         rowHeaders.add("SEMEAN Conf. Interval "+olga.content3.getName());
+                        rowTypeMap.put("SEMEAN Conf. Interval "+olga.content3.getName(),"VALUE;NOBOTTOMBORDER");
+                        rowHeaders.add("SEMEAN Conf. Interval_ "+olga.content3.getName());
+                        rowTypeMap.put("SEMEAN Conf. Interval_ "+olga.content3.getName(),"VALUE;NOCHANGEODD");
                         
                         if (getProperty("DebugVals")!=null&&getProperty("DebugVals").equalsIgnoreCase("true"))
                         {
+                            rowHeaders.add("SEMEAN "+olga.content3.getName());
                              
                             rowHeaders.add("DIFFERENCE "+olga.content3.getName());
                         
@@ -1951,7 +1570,9 @@ public class Report
                         rowTypeMap.put("NPSDA 2s","VALUE;DA;NOCHANGEODD");
                         
                         rowHeaders.add("ConfInt");
-                        rowTypeMap.put("ConfInt","VALUE;DA");
+                        rowTypeMap.put("ConfInt","VALUE;DA;NOBOTTOMBORDER");
+                        rowHeaders.add("ConfInt_");
+                        rowTypeMap.put("ConfInt_","VALUE;DA;NOCHANGEODD");
                         
                         
                         
@@ -1965,8 +1586,8 @@ public class Report
                         }
                         
                         //Инициализируем карты цветов для величин с измерением значимости
-                        colorMap.put("MEAN DA "+olga.content3.getName(),Collections.nCopies(samples.size()*olga.group2samples.size(), Color.GREEN));
-                        //colorMap.put("MEAN "+olga.content3.getName(),Collections.nCopies(samples.size()*olga.group2samples.size(), Color.BLACK));
+                        colorMap.put("MEAN DA "+olga.content3.getName(),Collections.nCopies(samples.size()*olga.group2samples.size(), Color.BLUE));
+                        colorMap.put("NPSDA 2s",Collections.nCopies(samples.size()*olga.group2samples.size(), Color.BLUE));
                     }
                     
                     List<String>volumenameslist=new ArrayList<>();
@@ -2115,14 +1736,14 @@ public class Report
                             
                         }
                         grValList.put(gname, valList);
-                        //System.out.println(""+this.reportValues);
+                        
                         addToList(valList,gname);
                         
                         if (olga.ganormDAMap.containsKey(gname))
                         {
                             ganormDAlist=olga.ganormDAMap.get(gname);
                             addStrToList(ganormDAlist, "Значимости "+gname);
-                            colorMap.put("Значимости "+gname,Collections.nCopies(samples.size()*olga.group2samples.size(), Color.GREEN));
+                            colorMap.put("Значимости "+gname,Collections.nCopies(samples.size()*olga.group2samples.size(), Color.BLUE));
                         }
                     }
                     
@@ -2147,15 +1768,15 @@ public class Report
                     
                     
                     List<Number> confIntlist = new ArrayList<>();
-                    //List<Number> oldconfIntlist = new ArrayList<>();
+                    List<String> confIntlist_ = new ArrayList<>();
                     for(int j=0;j<olga.newconfIntervalList.size();j++)
                     {
-                        //Double ci = olga.confIntervalList.get(j);
-                        //oldconfIntlist.add(round(ci));
+                        confIntlist_.add("");
                         Double newci=olga.newconfIntervalList.get(j);
-                        confIntlist.add(ReportUtils.round(newci,fpDIGITS));
+                        confIntlist.add(round(newci));
                     }
                     addToList(confIntlist, "ConfInt");
+                    addStrToList(confIntlist_, "ConfInt_");
                     
                     
                     
@@ -2244,14 +1865,13 @@ public class Report
                             {
                                 normDAlist=olga.normDAMap.get(val);
                                 addStrToList(normDAlist, "Значимость "+rowname);
-                                colorMap.put("Значимость "+rowname,Collections.nCopies(samples.size()*olga.group2samples.size(), Color.GREEN));
+                                colorMap.put("Значимость "+rowname,Collections.nCopies(samples.size()*olga.group2samples.size(), Color.BLUE));
                             }
                         }
                     }
                     
                    
                     //Отчет по средним   
-                    rowTypeMap.put("MEAN "+olga.content3.getName(),"VALUE;DA;NOBOTTOMBORDER");
                     List<Number> olgameanlist = new ArrayList<>();
                     for(int j=0;j<olga.meanReportList.size();j++)
                     {
@@ -2259,9 +1879,9 @@ public class Report
                     }
                     addToList(olgameanlist, "MEAN "+olga.content3.getName());
                     
-                    rowTypeMap.put("MEAN DA "+olga.content3.getName(),"VALUE;DA;NOCHANGEODD");
+                    
                     addStrToList(olga.meandastringList, "MEAN DA "+olga.content3.getName());
-                    colorMap.put("MEAN DA "+olga.content3.getName(),Collections.nCopies(samples.size()*olga.group2samples.size(), Color.GREEN));
+                    //colorMap.put("MEAN DA "+olga.content3.getName(),Collections.nCopies(samples.size()*olga.group2samples.size(), Color.GREEN));
                     
                     //Динамические изменения средних (значимости)
                     if (previosolga!=null)
@@ -2296,22 +1916,31 @@ public class Report
                         List<Number> olgavariancelist = new ArrayList<>();
                         for(int j=0;j<olga.meanReportList.size();j++)
                         {
-                            olgavariancelist.add(ReportUtils.round((olga.meanReportList.get(j).varianceList.get(0)), fpDIGITS));
+                            olgavariancelist.add(round(olga.meanReportList.get(j).varianceList.get(0)));
                         }   
                         addToList(olgavariancelist, "VARIANCE "+olga.content3.getName());
+                        
+                        List<Number> olgasemeanlist = new ArrayList<>();
+                        rowTypeMap.put("SEMEAN "+olga.content3.getName(),"VALUE");
+                        for(int j=0;j<olga.meanReportList.size();j++)
+                        {
+                            olgasemeanlist.add(round((olga.meanReportList.get(j).semeanList.get(0))));
+                        }
+                        addToList(olgasemeanlist, "SEMEAN "+olga.content3.getName());
                     }
                     
-                    rowTypeMap.put("SEMEAN "+olga.content3.getName(),"VALUE");
-                    List<Number> olgasemeanlist = new ArrayList<>();
-                    rowTypeMap.put("SEMEAN Conf. Interval "+olga.content3.getName(),"VALUE");
+                    
+                    
+                    
                     List<Number> olgaconfintsemeanlist = new ArrayList<>();
+                    List<String> olgaconfintsemeanlist_ = new ArrayList<>();
                     for(int j=0;j<olga.meanReportList.size();j++)
                     {
-                        olgasemeanlist.add(ReportUtils.round((olga.meanReportList.get(j).semeanList.get(0)),fpDIGITS));
-                        olgaconfintsemeanlist.add(ReportUtils.round(olga.meanReportList.get(j).semeanList.get(0)*1.96,fpDIGITS));
+                        olgaconfintsemeanlist_.add("");
+                        olgaconfintsemeanlist.add(round(olga.meanReportList.get(j).semeanList.get(0)*1.96));
                     }
-                    addToList(olgasemeanlist, "SEMEAN "+olga.content3.getName());
                     addToList(olgaconfintsemeanlist, "SEMEAN Conf. Interval "+olga.content3.getName());
+                    addStrToList(olgaconfintsemeanlist_, "SEMEAN Conf. Interval_ "+olga.content3.getName());
                     
                     if (getProperty("DebugVals")!=null&&getProperty("DebugVals").equalsIgnoreCase("true"))
                     {
@@ -2542,11 +2171,17 @@ public class Report
         String v = reportProperties.getProperty("percentages");
         v=v==null?reportProperties.getProperty("Percentages"):v;
         v=v==null?reportProperties.getProperty("PERCENTAGES"):v;
-          
+        String fpDigitsByExcel = reportProperties.getProperty("FPDIGITSBYEXCEL");
+        fpDigitsByExcel=fpDigitsByExcel==null?reportProperties.getProperty("fpdigitsbyexcel"):fpDigitsByExcel;
+        if ((fpDigitsByExcel!=null)&&(fpDigitsByExcel.equalsIgnoreCase("true")))
+        {
+            if ((v!=null)&&v.equalsIgnoreCase("true"))
+                return d/100;
+            return d;
+        }  
+        
         if ((v!=null)&&v.equalsIgnoreCase("true"))
         {
-          
-          {
             String percentages_fpsigns_s = reportProperties.getProperty("PERC_FPSigns");
             if (percentages_fpsigns_s!=null)
             {
@@ -2564,7 +2199,7 @@ public class Report
                 reportProperties.setProperty("PERC_FPSigns", String.valueOf(fpDIGITS));
             }
             return d/100;
-          }
+          
         }
         return ReportUtils.round(d, fpDIGITS);
     }
