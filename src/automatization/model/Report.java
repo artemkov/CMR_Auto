@@ -1433,9 +1433,14 @@ public class Report
                     
                 }
                 break;
-            case "Olga1":
-                ReportFactory rf = new Olga1ReportFactory();
+            case "OlgaMerged":
+                ReportFactory rf = new OlgaMegredReportFactory();
                 Report report = rf.makeReport(level3node,content, reportProperties,splittedSamples,splittedNames);
+                return report;
+                
+            case "Olga1":
+                rf = new Olga1ReportFactory();
+                report = rf.makeReport(level3node,content, reportProperties,splittedSamples,splittedNames);
                 return report;
                 
             case "Olga":
