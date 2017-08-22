@@ -218,6 +218,23 @@ public class ReportUtils
         return p2;
     }
     
+    public static int getIntFromProperties (String key, int default_value, Properties properties)
+    {
+        if (properties.containsKey(key))
+        {
+            try
+            {
+                int un = Integer.parseInt(properties.getProperty(key));
+                return un;
+            }
+            catch (NumberFormatException e)
+            {
+                        
+            }
+        }
+        return default_value;
+    }
+    
     public static double getDoubleFromProperties (String key, double default_value, Properties properties)
     {
         if (properties.containsKey(key))
