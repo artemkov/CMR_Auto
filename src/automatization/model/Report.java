@@ -44,9 +44,12 @@ import org.apache.poi.xssf.usermodel.XSSFColor;
 public class Report 
 {
     public final static int DEFAULTFPDIGITS = 1;
-    private int fpDIGITS = DEFAULTFPDIGITS;
-
+    public final static Color DEFAULTCOLOR = Color.BLACK;
+    public final static Color DEFAULTPOSITIVECOLOR = Color.BLUE;
+    public final static Color DEFAULTNEGATIVECOLOR = Color.RED;
     
+    
+    private int fpDIGITS = DEFAULTFPDIGITS;
     private int repRow = 0;
     private String mainHeader="";
     private Properties reportProperties = new Properties();
@@ -284,6 +287,12 @@ public class Report
     public void addRowHeader(String header)
     {
         rowHeaders.add(header);
+    }
+    
+    public void addRowHeader(String header, String type)
+    {
+        rowHeaders.add(header);
+        rowTypeMap.put(header, type);
     }
 
     public Map<String, List<? extends Object>> getReportValues() {
@@ -1295,10 +1304,10 @@ public class Report
                         
                         
                         rowHeaders.add("Размер выборки");
-                        rowTypeMap.put("Размер выборки","VALUE");
+                        rowTypeMap.put("Размер выборки","VALUE;HEADER");
                         
                         rowHeaders.add("В группах");
-                        rowTypeMap.put("В группах","VALUE");
+                        rowTypeMap.put("В группах","VALUE;HEADER");
                         
                         //Группы 3
                         for (String grname: linearRepGroupNamesList)
@@ -1412,7 +1421,7 @@ public class Report
                             {
                                 normDAlist=olr.normDAMap.get(groupName);
                                 addStrToList(normDAlist, "Значимость "+groupName);
-                                colorMap.put("Значимость "+groupName,Collections.nCopies(samples.size()*olr.group2samples.size(), Color.GREEN));
+                                colorMap.put("Значимость "+groupName,Collections.nCopies(samples.size()*olr.group2samples.size(), Color.BLUE));
                             }
                             else
                             {
@@ -1529,10 +1538,10 @@ public class Report
                         
                         
                         rowHeaders.add("Размер выборки");
-                        rowTypeMap.put("Размер выборки","VALUE");
+                        rowTypeMap.put("Размер выборки","HEADER");
                         
                         rowHeaders.add("В группах");
-                        rowTypeMap.put("В группах","VALUE");
+                        rowTypeMap.put("В группах","HEADER");
                         
                         
                         rowHeaders.add("MEAN "+olga.content3.getName());
@@ -1773,7 +1782,7 @@ public class Report
                     {
                         confIntlist_.add("");
                         Double newci=olga.newconfIntervalList.get(j);
-                        confIntlist.add(round(newci));
+                        confIntlist.add(round_noperc(newci));
                     }
                     addToList(confIntlist, "ConfInt");
                     addStrToList(confIntlist_, "ConfInt_");
@@ -1875,7 +1884,7 @@ public class Report
                     List<Number> olgameanlist = new ArrayList<>();
                     for(int j=0;j<olga.meanReportList.size();j++)
                     {
-                        olgameanlist.add(ReportUtils.round((olga.meanReportList.get(j).meanList.get(0)),fpDIGITS));
+                        olgameanlist.add(round_noperc(olga.meanReportList.get(j).meanList.get(0).doubleValue()));
                     }
                     addToList(olgameanlist, "MEAN "+olga.content3.getName());
                     
@@ -1916,7 +1925,7 @@ public class Report
                         List<Number> olgavariancelist = new ArrayList<>();
                         for(int j=0;j<olga.meanReportList.size();j++)
                         {
-                            olgavariancelist.add(round(olga.meanReportList.get(j).varianceList.get(0)));
+                            olgavariancelist.add(round_noperc(olga.meanReportList.get(j).varianceList.get(0)));
                         }   
                         addToList(olgavariancelist, "VARIANCE "+olga.content3.getName());
                         
@@ -1924,7 +1933,7 @@ public class Report
                         rowTypeMap.put("SEMEAN "+olga.content3.getName(),"VALUE");
                         for(int j=0;j<olga.meanReportList.size();j++)
                         {
-                            olgasemeanlist.add(round((olga.meanReportList.get(j).semeanList.get(0))));
+                            olgasemeanlist.add(round_noperc((olga.meanReportList.get(j).semeanList.get(0))));
                         }
                         addToList(olgasemeanlist, "SEMEAN "+olga.content3.getName());
                     }
@@ -1937,7 +1946,7 @@ public class Report
                     for(int j=0;j<olga.meanReportList.size();j++)
                     {
                         olgaconfintsemeanlist_.add("");
-                        olgaconfintsemeanlist.add(round(olga.meanReportList.get(j).semeanList.get(0)*1.96));
+                        olgaconfintsemeanlist.add(round_noperc(olga.meanReportList.get(j).semeanList.get(0)*1.96));
                     }
                     addToList(olgaconfintsemeanlist, "SEMEAN Conf. Interval "+olga.content3.getName());
                     addStrToList(olgaconfintsemeanlist_, "SEMEAN Conf. Interval_ "+olga.content3.getName());
@@ -2164,6 +2173,11 @@ public class Report
     {
         return round_p(d);
     }
+    double round_noperc(double d)
+    {
+        return ReportUtils.round(d, fpDIGITS);
+    }
+    
     double round_p(double d)
     {
         boolean percentages = false;

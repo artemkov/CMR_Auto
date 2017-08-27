@@ -74,7 +74,29 @@ public class GroupsCrossReport
         return igroup2;
     }
     
+    public String getVar1NameByIndex(int index)
+    {
+        int ig1size = igroup1.size();
+        int ig2size = igroup2.size();
+        
+        int ig1index = index/ig2size;
+        int ig2index = index%ig2size;
+        
+        String ig1name = igroup1.get(ig1index).getName();
+        return ig1name;
+    }
     
+    public String getVar2NameByIndex(int index)
+    {
+        int ig1size = igroup1.size();
+        int ig2size = igroup2.size();
+        
+        int ig1index = index/ig2size;
+        int ig2index = index%ig2size;
+        
+        String ig2name = igroup2.get(ig2index).getName();
+        return ig2name;
+    }
     
     private Double[][] populateTable (UniqueList<Map<Content,String>> interviewList) throws InvalidFilterException
     {
@@ -300,6 +322,28 @@ public class GroupsCrossReport
         }
         return null;
     }
+    
+    public double getInterviewsByGroupNames (String g1name, String g2name)
+    {
+        for (int i=0;i<igroup1.size();i++)
+        {
+            InterviewGroup g1 = igroup1.get(i);
+            if (g1.getName().equals(g1name))
+            {
+                for (int j=0;j<igroup2.size();j++)
+                {
+                    InterviewGroup g2 = igroup2.get(j);
+                    if (g2.getName().equals(g2name))
+                    {
+                        return data[i][j];
+                    }
+                }
+            }
+        }
+        return -1.0;
+    }
+    
+    
     public boolean isAgrop1fictive() {
         return agrop1fictive;
     }

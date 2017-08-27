@@ -25,6 +25,7 @@ import automatization.model.ReportUtils;
 import automatization.model.StringIntComparator;
 import automatization.model.TemplateNode;
 import automatization.model.UniqueList;
+import com.ibm.statistics.plugin.Alignment;
 import java.awt.Color;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -35,6 +36,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -48,9 +50,12 @@ import java.util.logging.Logger;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.FontUnderline;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellUtil;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -60,6 +65,7 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTColor;
 
 /**
  *
@@ -68,14 +74,26 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class ReportProcessor 
 {
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(ReportProcessor.class);
+    
+    private static Color HEADERCOLOR =  new Color(184, 204, 228);
+    private static int DEFAULTCOLUMNWIDTH = 85;
+    
     private static void loadStyles (XSSFWorkbook wb, Properties properties)
     {
             
+            
+
             //1
             //Стиль ячейки borderboldStyle
-            CellStyle borderboldStyle = wb.createCellStyle();
+            XSSFCellStyle borderboldStyle = wb.createCellStyle();
             borderboldStyle.setAlignment(CellStyle.ALIGN_CENTER);
-            borderboldStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+            
+            //Специальный цвет 184,204,228
+            XSSFColor color;
+            color = new XSSFColor(HEADERCOLOR);
+            
+            
+            borderboldStyle.setFillForegroundColor(color);
             borderboldStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
             borderboldStyle.setBorderBottom(CellStyle.BORDER_THIN);
             borderboldStyle.setBorderLeft(CellStyle.BORDER_THIN);
@@ -91,15 +109,16 @@ public class ReportProcessor
         
             //2
             //Стиль ячейки borderStyleOdd
-            CellStyle borderStyleOdd = wb.createCellStyle();
+            XSSFCellStyle borderStyleOdd = wb.createCellStyle();
+            borderStyleOdd.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
             borderStyleOdd.setAlignment(CellStyle.ALIGN_CENTER);
             borderStyleOdd.setBorderBottom(CellStyle.BORDER_THIN);
             borderStyleOdd.setBorderLeft(CellStyle.BORDER_THIN);
             borderStyleOdd.setBorderRight(CellStyle.BORDER_THIN);
             borderStyleOdd.setBorderTop(CellStyle.BORDER_THIN);
             //borderStyleOdd.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-            //borderStyleOdd.setFillPattern(CellStyle.SOLID_FOREGROUND);
-            borderStyleOdd.setFillPattern(CellStyle.NO_FILL);
+            borderStyleOdd.setFillPattern(CellStyle.SOLID_FOREGROUND);
+            borderStyleOdd.setFillForegroundColor(IndexedColors.WHITE.getIndex());
             XSSFFont font2= wb.createFont();
             font2.setFontHeightInPoints((short)10);
             font2.setFontName("Arial");
@@ -110,7 +129,8 @@ public class ReportProcessor
             
             //3
             //Стиль ячейки borderStyleNotOdd
-            CellStyle borderStyleNotOdd = wb.createCellStyle();
+            XSSFCellStyle borderStyleNotOdd = wb.createCellStyle();
+            borderStyleNotOdd.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
             borderStyleNotOdd.setAlignment(CellStyle.ALIGN_CENTER);
             borderStyleNotOdd.setBorderBottom(CellStyle.BORDER_THIN);
             borderStyleNotOdd.setBorderLeft(CellStyle.BORDER_THIN);
@@ -118,13 +138,14 @@ public class ReportProcessor
             borderStyleNotOdd.setBorderTop(CellStyle.BORDER_THIN);
             //borderStyleNotOdd.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
             //borderStyleNotOdd.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
-            borderStyleNotOdd.setFillPattern(CellStyle.NO_FILL);
+            borderStyleNotOdd.setFillForegroundColor(IndexedColors.WHITE.getIndex());
+            borderStyleNotOdd.setFillPattern(CellStyle.SOLID_FOREGROUND);
             //borderStyleNotOdd.setFillPattern(CellStyle.LESS_DOTS);
             borderStyleNotOdd.setFont(font2);
             
             //4
             //Стиль ячейки headerStyle
-            CellStyle headerStyle = wb.createCellStyle();
+            XSSFCellStyle headerStyle = wb.createCellStyle();
             XSSFFont hfont= wb.createFont();
             hfont.setFontHeightInPoints((short)14);
             hfont.setFontName("Arial");
@@ -135,7 +156,7 @@ public class ReportProcessor
             
             //5
             //Стиль ячейки headerStyle2
-            CellStyle headerStyle2 = wb.createCellStyle();
+            XSSFCellStyle headerStyle2 = wb.createCellStyle();
             headerStyle2.setWrapText(true);
             XSSFFont hfont2= wb.createFont();
             hfont2.setFontHeightInPoints((short)12);
@@ -149,7 +170,7 @@ public class ReportProcessor
             
             //6
             //Стиль ячейки baseStyle
-            CellStyle baseStyle = wb.createCellStyle();
+            XSSFCellStyle baseStyle = wb.createCellStyle();
             XSSFFont basefont= wb.createFont();
             basefont.setFontHeightInPoints((short)12);
             basefont.setFontName("TimesNewRoman");
@@ -160,7 +181,7 @@ public class ReportProcessor
             
             //7
             //Стиль ячейки sampleHeader
-            CellStyle sampleHeaderStyle = wb.createCellStyle();
+            XSSFCellStyle sampleHeaderStyle = wb.createCellStyle();
             sampleHeaderStyle.setBorderLeft(CellStyle.BORDER_DOUBLE);
             sampleHeaderStyle.setBorderRight(CellStyle.BORDER_DOUBLE);
             sampleHeaderStyle.setBorderTop(CellStyle.BORDER_DOUBLE);
@@ -177,20 +198,24 @@ public class ReportProcessor
             
             //8
             //Стиль ячейки borderStyleOddEnd1
-            CellStyle borderStyleOddEnd1 = wb.createCellStyle();
+            XSSFCellStyle borderStyleOddEnd1 = wb.createCellStyle();
+            borderStyleOddEnd1.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
             borderStyleOddEnd1.setAlignment(CellStyle.ALIGN_CENTER);
             borderStyleOddEnd1.setBorderBottom(CellStyle.BORDER_THIN);
             borderStyleOddEnd1.setBorderLeft(CellStyle.BORDER_THIN);
             borderStyleOddEnd1.setBorderRight(CellStyle.BORDER_DOUBLE);
             borderStyleOddEnd1.setBorderTop(CellStyle.BORDER_THIN);
-            //borderStyleOddEnd1.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-            //borderStyleOddEnd1.setFillPattern(CellStyle.SOLID_FOREGROUND);
+            borderStyleOddEnd1.setFillForegroundColor(IndexedColors.WHITE.getIndex());
+            borderStyleOddEnd1.setFillPattern(CellStyle.SOLID_FOREGROUND);
             borderStyleOddEnd1.setFont(font2);
             
             //9
             //Стиль ячейки borderStyleNotOddEnd1
-            CellStyle borderStyleNotOddEnd1 = wb.createCellStyle();
+            XSSFCellStyle borderStyleNotOddEnd1 = wb.createCellStyle();
+            borderStyleNotOddEnd1.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
             borderStyleNotOddEnd1.setAlignment(CellStyle.ALIGN_CENTER);
+            borderStyleNotOddEnd1.setFillForegroundColor(IndexedColors.WHITE.getIndex());
+            borderStyleNotOddEnd1.setFillPattern(CellStyle.SOLID_FOREGROUND);
             borderStyleNotOddEnd1.setBorderBottom(CellStyle.BORDER_THIN);
             borderStyleNotOddEnd1.setBorderLeft(CellStyle.BORDER_THIN);
             borderStyleNotOddEnd1.setBorderRight(CellStyle.BORDER_DOUBLE);
@@ -198,61 +223,69 @@ public class ReportProcessor
             //borderStyleNotOddEnd1.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
             //borderStyleNotOddEnd1.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
             //borderStyleNotOddEnd1.setFillPattern(CellStyle.LESS_DOTS);
-            borderStyleNotOddEnd1.setFillPattern(CellStyle.NO_FILL);
             borderStyleNotOddEnd1.setFont(font2);
             
             //10
             //Стиль ячейки borderboldStyleEnd1
-            CellStyle borderboldStyleEnd1 = wb.createCellStyle();
-            borderboldStyleEnd1.setAlignment(CellStyle.ALIGN_CENTER);
-            borderboldStyleEnd1.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
-            borderboldStyleEnd1.setFillPattern(CellStyle.SOLID_FOREGROUND);
-            borderboldStyleEnd1.setBorderBottom(CellStyle.BORDER_THIN);
-            borderboldStyleEnd1.setBorderLeft(CellStyle.BORDER_THIN);
-            borderboldStyleEnd1.setBorderRight(CellStyle.BORDER_DOUBLE);
-            borderboldStyleEnd1.setBorderTop(CellStyle.BORDER_THIN);
-            borderboldStyleEnd1.setFont(font);
+            //Специальный цвет 184,204,228
+            
+            
+            XSSFCellStyle borderboldStyleEnd1 = wb.createCellStyle();
+            borderboldStyleEnd1.setVerticalAlignment(VerticalAlignment.CENTER);
+            borderboldStyleEnd1.setAlignment(HorizontalAlignment.CENTER);
+            borderboldStyleEnd1.setFillForegroundColor(new XSSFColor(HEADERCOLOR));
+            borderboldStyleEnd1.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            borderboldStyleEnd1.setBorderBottom(BorderStyle.THIN);
+            borderboldStyleEnd1.setBorderLeft(BorderStyle.THIN);
+            borderboldStyleEnd1.setBorderRight(BorderStyle.DOUBLE);
+            borderboldStyleEnd1.setBorderTop(BorderStyle.THIN);
+            borderboldStyleEnd1.setFont(wb.getFontAt((short)1));
+            
             
             //11
             //Стиль ячейки borderStyleOddEnd2
-            CellStyle borderStyleOddEnd2 = wb.createCellStyle();
+            XSSFCellStyle borderStyleOddEnd2 = wb.createCellStyle();
+            borderStyleOddEnd2.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
             borderStyleOddEnd2.setAlignment(CellStyle.ALIGN_CENTER);
             borderStyleOddEnd2.setBorderBottom(CellStyle.BORDER_THIN);
             borderStyleOddEnd2.setBorderLeft(CellStyle.BORDER_THIN);
             borderStyleOddEnd2.setBorderRight(CellStyle.BORDER_MEDIUM);
             borderStyleOddEnd2.setBorderTop(CellStyle.BORDER_THIN);
-            //borderStyleOddEnd2.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-            //borderStyleOddEnd2.setFillPattern(CellStyle.SOLID_FOREGROUND);
+            borderStyleOddEnd2.setFillForegroundColor(IndexedColors.WHITE.getIndex());
+            borderStyleOddEnd2.setFillPattern(CellStyle.SOLID_FOREGROUND);
             borderStyleOddEnd2.setFont(font2);
             
             //12
             //Стиль ячейки borderStyleNotOddEnd2
-            CellStyle borderStyleNotOddEnd2 = wb.createCellStyle();
+            XSSFCellStyle borderStyleNotOddEnd2 = wb.createCellStyle();
+            borderStyleNotOddEnd2.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
             borderStyleNotOddEnd2.setAlignment(CellStyle.ALIGN_CENTER);
             borderStyleNotOddEnd2.setBorderBottom(CellStyle.BORDER_THIN);
             borderStyleNotOddEnd2.setBorderLeft(CellStyle.BORDER_THIN);
             borderStyleNotOddEnd2.setBorderRight(CellStyle.BORDER_MEDIUM);
             borderStyleNotOddEnd2.setBorderTop(CellStyle.BORDER_THIN);
-            //borderStyleNotOddEnd2.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-            //borderStyleNotOddEnd2.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
+            borderStyleNotOddEnd2.setFillForegroundColor(IndexedColors.WHITE.getIndex());
+            borderStyleNotOddEnd2.setFillPattern(CellStyle.SOLID_FOREGROUND);
             //borderStyleNotOddEnd2.setFillPattern(CellStyle.LESS_DOTS);
             borderStyleNotOddEnd2.setFont(font2);
             
             //13
             //Стиль ячейки borderboldStyleEnd2
-            CellStyle borderboldStyleEnd2 = wb.createCellStyle();
+            XSSFCellStyle borderboldStyleEnd2 = wb.createCellStyle();
+            borderboldStyleEnd2.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
             borderboldStyleEnd2.setAlignment(CellStyle.ALIGN_CENTER);
-            borderboldStyleEnd2.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+            borderboldStyleEnd2.setFillForegroundColor(color);
             borderboldStyleEnd2.setFillPattern(CellStyle.SOLID_FOREGROUND);
             borderboldStyleEnd2.setBorderBottom(CellStyle.BORDER_THIN);
             borderboldStyleEnd2.setBorderLeft(CellStyle.BORDER_THIN);
             borderboldStyleEnd2.setBorderRight(CellStyle.BORDER_MEDIUM);
             borderboldStyleEnd2.setBorderTop(CellStyle.BORDER_THIN);
+            font.setBold(true);
             borderboldStyleEnd2.setFont(font);
             
             //14
             //Стиль ячейки volumeHeader
-            CellStyle volumeHeaderStyle = wb.createCellStyle();
+            XSSFCellStyle volumeHeaderStyle = wb.createCellStyle();
             volumeHeaderStyle.setBorderLeft(CellStyle.BORDER_MEDIUM);
             volumeHeaderStyle.setBorderRight(CellStyle.BORDER_MEDIUM);
             volumeHeaderStyle.setBorderTop(CellStyle.BORDER_MEDIUM);
@@ -271,7 +304,7 @@ public class ReportProcessor
             
              //15
             //Стиль ячейки volumeHeaderEnd
-            CellStyle volumeHeaderStyleEnd = wb.createCellStyle();
+            XSSFCellStyle volumeHeaderStyleEnd = wb.createCellStyle();
             volumeHeaderStyleEnd.setBorderLeft(CellStyle.BORDER_MEDIUM);
             volumeHeaderStyleEnd.setBorderRight(CellStyle.BORDER_DOUBLE);
             volumeHeaderStyleEnd.setBorderTop(CellStyle.BORDER_MEDIUM);
@@ -366,7 +399,7 @@ public class ReportProcessor
             XSSFWorkbook wb = new XSSFWorkbook();
             loadStyles(wb,null);
             sheet = wb.createSheet();
-            sheet.setColumnWidth(0, 85*256);
+            sheet.setColumnWidth(0, DEFAULTCOLUMNWIDTH*256);
             Properties level0properties = rootNode.getParams();
             //Обработка шаблона
             for (TemplateNode<String> level1Node: rootNode.getChildren())
@@ -476,169 +509,6 @@ public class ReportProcessor
         }
     }
     
-    /*public static void createMultiSampleReport(TemplateNode<String> rootNode, List<UniqueList<Map<Content,String>>> sampleList, List<String> sampleNames) throws VariableNotFoundException, InvalidFilterException, IOException, ReportParamsNotDefinedException, InvalidTemplateFileFormatException, ReportFileNotFoundException, GroupsFileNotFoundException, InvalidGroupsFileFormatException, NoSampleDataException
-    {
-        String fileName = rootNode.getData();
-        if (!fileName.endsWith(".xlsx"))
-            fileName+=".xlsx";
-        log.info("ReportFile: "+fileName);
-        if (Files.deleteIfExists(Paths.get(fileName)))
-            log.info("File '"+fileName+"'was detected and deleted");
-        
-        XSSFSheet sheet;
-        Integer curRowNumb = 0;
-        Integer reportsCounter=0;
-        int startColumn = 0;
-        List<Report> reportList = new LinkedList<>();
-        try (FileOutputStream outputStream = new FileOutputStream(fileName))
-        {
-            XSSFWorkbook wb = new XSSFWorkbook();
-            loadStyles(wb,null);
-            sheet = wb.createSheet();
-            sheet.setColumnWidth(0, 85*256);
-            //Обработка шаблона
-            for (TemplateNode<String> level1Node: rootNode.getChildren())
-            {
-                String variableName = level1Node.getData();
-                UniqueList<Map<Content,String>> interviewList = sampleList.get(0);
-                if (!interviewList.getFirst().containsKey(new Content(variableName)))
-                {
-                    throw new VariableNotFoundException(variableName);
-                }
-            
-                //Поиск контента
-                Set<Content> cset = interviewList.getFirst().keySet();
-                Iterator<Content> csetiterator = cset.iterator();
-                Content content = null;
-                while(csetiterator.hasNext())
-                {
-                    Content c = csetiterator.next();
-                    if (c.getName().equals(variableName))
-                    {
-                        content = c;
-                        break;
-                    }
-                }
-                curRowNumb = drawVariableHeader(sheet,curRowNumb,content);
-                log.info("Variable header for "+variableName+" was drawn");
-                for (TemplateNode<String> level2Node : level1Node.getChildren())
-                {
-                    //фильтр
-                    String filterString = level2Node.getData();
-                    List<UniqueList<Map<Content,String>>> filteredSampleList = Filter.filter(sampleList, filterString);
-                    curRowNumb = drawBaseHeader(sheet,curRowNumb,level2Node);
-                    log.info("Header "+level2Node.getData()+" was drawn");
-                    //Отчеты составление
-                    for (TemplateNode<String> level3Node : level2Node.getChildren())
-                    {
-                        Report report = new Report();
-                        report.getMultiSampleReportFromNode(level3Node, content, filteredSampleList, sampleNames);
-                        reportList.add(report);
-                        log.info("Drawing <"+report+">...");
-                        curRowNumb = drawReport(report,sheet,curRowNumb);
-                        log.info("Report <"+report+"> was drawn");
-                    }
-                }
-            }
-            wb.write(outputStream);
-        }
-        catch (IOException ex) 
-        {
-            System.out.println("Something wrong with templatefile");
-            throw new TemplateFileIOException();
-        }
-    }*/
-    
-    /*public static void createReport(TemplateNode<String> rootNode, UniqueList<Map<Content,String>> interviewList) throws VariableNotFoundException, InvalidFilterException, IOException, ReportParamsNotDefinedException, InvalidTemplateFileFormatException, ReportFileNotFoundException, GroupsFileNotFoundException, InvalidGroupsFileFormatException
-    {
-        String fileName = rootNode.getData();
-        
-        
-        if (!fileName.endsWith(".xlsx"))
-            fileName+=".xlsx";
-        log.info("ReportFile: "+fileName);
-        if (Files.deleteIfExists(Paths.get(fileName)))
-            log.info("File '"+fileName+"'was detected and deleted");   
-        
-        XSSFSheet sheet;
-        Integer curRowNumb = 0;
-        Integer reportsCounter=0;
-        List<Report> reportList = new LinkedList<>();
-        
-        try (FileOutputStream outputStream = new FileOutputStream(fileName))
-        {
-            XSSFWorkbook wb = new XSSFWorkbook();
-            loadStyles(wb,null);
-            sheet = wb.createSheet();
-            sheet.setColumnWidth(0, 85*256);
-            
-            //Обработка шаблона
-            for (TemplateNode<String> level1Node: rootNode.getChildren())
-            {
-                String variableName = level1Node.getData();
-                if (!interviewList.getFirst().containsKey(new Content(variableName)))
-                {
-                    throw new VariableNotFoundException(variableName);
-                }
-            
-                //Поиск контента
-                Set<Content> cset = interviewList.getFirst().keySet();
-                Iterator<Content> csetiterator = cset.iterator();
-                Content content = null;
-                while(csetiterator.hasNext())
-                {
-                    Content c = csetiterator.next();
-                    if (c.getName().equals(variableName))
-                    {
-                        content = c;
-                        break;
-                    }
-                }
-                if (!level1Node.getZerolevelParams().contains("HIDDEN"))
-                {
-                    curRowNumb = drawVariableHeader(sheet,curRowNumb,content);
-                    log.info("Variable header for "+variableName+" was drawn");
-                }
-                for (TemplateNode<String> level2Node : level1Node.getChildren())
-                {
-                    //фильтр
-                    String filterString = level2Node.getData();
-                    UniqueList<Map<Content,String>> filteredInterviewList = Filter.filter(interviewList, filterString);
-                    if (!level2Node.getZerolevelParams().contains("HIDDEN"))
-                    {
-                        curRowNumb = drawBaseHeader(sheet,curRowNumb,level2Node);
-                        log.info("Header "+level2Node.getData()+" was drawn");
-                    }
-                    
-                    //Отчеты составление
-                    for (TemplateNode<String> level3Node : level2Node.getChildren())
-                    {
-                        Report report = new Report();
-                        report.getReportFromNode(level3Node, content, filteredInterviewList);
-                        reportList.add(report);
-                        log.info("Drawing <"+report+">...");
-                        curRowNumb = drawReport(report,sheet,curRowNumb);
-                        log.info("Report <"+report+"> was drawn");
-                    }
-                    
-                    
-                }
-            }
-            //Рисование отчета
-            for (Report r:reportList)
-            {
-                
-            }
-            
-            wb.write(outputStream);
-        }
-        catch (IOException ex) 
-        {
-            System.out.println("Something wrong with templatefile");
-            throw new TemplateFileIOException();
-        }
-    }*/
-
     private static Integer drawVariableHeader (XSSFSheet sheet, Integer curRowNumb, Content cont)
     {
         XSSFCellStyle headerStyle = sheet.getWorkbook().getCellStyleAt((short)4);
@@ -654,9 +524,7 @@ public class ReportProcessor
         
         //Текст вопроса
         row = sheet.createRow(curRowNumb++);
-        
         cell = row.createCell(0);
-        
         cell.setCellStyle(headerStyle2);
         cell.setCellValue(cont.getText());
         
@@ -788,8 +656,8 @@ public class ReportProcessor
                 }
                 curRowNumb++;
                 continue;
-                
             }
+            
             if (noTopFlag)
             {
                 noTopFlag=false;
@@ -857,13 +725,37 @@ public class ReportProcessor
             
             if (!rowType.contains("NOCHANGEODD"))
                 isOdd=!isOdd;
+            if (rowheader.equals("Размер выборки"))
+                System.out.println("");
+            
+            int column=0;
             XSSFCellStyle style = getStyle(curRowNumb,rowheader,report,sheet,0,isOdd);
-            cell.setCellStyle(style);
+            XSSFCellStyle localstyle=sheet.getWorkbook().createCellStyle();
+            localstyle.cloneStyleFrom(style);
+            
+            cell.setCellStyle(localstyle);
             CellUtil.setAlignment(cell, sheet.getWorkbook(),CellStyle.ALIGN_LEFT);
             if (noBottomFlag)
                 CellUtil.setCellStyleProperty(cell, sheet.getWorkbook(), CellUtil.BORDER_BOTTOM, CellStyle.BORDER_NONE);
             if (noTopFlag)
                 CellUtil.setCellStyleProperty(cell, sheet.getWorkbook(), CellUtil.BORDER_TOP, CellStyle.BORDER_NONE);
+            
+            //
+            XSSFCellStyle dummystyle= sheet.getWorkbook().createCellStyle();
+            if (report.getRowTypeMap().get(rowheader).contains("HEADER"))
+            {
+                dummystyle.setFillForegroundColor(new XSSFColor(HEADERCOLOR));
+                dummystyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+                dummystyle.setBorderBottom(BorderStyle.THIN);
+                dummystyle.setBorderTop(BorderStyle.THIN);
+                dummystyle.setBorderLeft(BorderStyle.THIN);
+                dummystyle.setBorderRight(BorderStyle.DOUBLE);
+                Font font = sheet.getWorkbook().getFontAt((short)1);
+                dummystyle.setFont(font);
+                cell.setCellStyle(dummystyle);
+            }
+            dummystyle.setAlignment(XSSFCellStyle.ALIGN_LEFT);
+            
             cell.setCellValue(rowheader);
             
             
@@ -881,20 +773,28 @@ public class ReportProcessor
                     colList=colMap.get(rowheader);
                 }
             }
-            int column = 1;
+            column = 1;
             
             
-            if (rowheader.equals("MEAN A1"))
-                System.out.println(rowheader);
+            
             for (Object value: values)
             {
-                
-                style = getStyle(curRowNumb,rowheader,report,sheet,column,isOdd);
+                XSSFCellStyle locstyle = getStyle(curRowNumb,rowheader,report,sheet,column,isOdd);
                 cell = row.createCell(column);
                 
                 //XSSFCellStyle clonedstyle = (XSSFCellStyle)style.clone();
+                if (rowheader.equals("Размер выборки"))
+                {
+                        System.out.print("");
+                        
+                }
                 
-                cell.setCellStyle(style);
+                //удалить!!!
+                String fname =  locstyle.getFont().getFontName();
+                boolean fbold = locstyle.getFont().getBold();
+                short sc = locstyle.getFillForegroundColor();
+                
+                cell.setCellStyle(locstyle);
                 if (noBottomFlag)
                     CellUtil.setCellStyleProperty(cell, sheet.getWorkbook(), CellUtil.BORDER_BOTTOM, CellStyle.BORDER_NONE);
                 if (noTopFlag)
@@ -907,11 +807,11 @@ public class ReportProcessor
                     }
                     catch (IndexOutOfBoundsException e)
                     {
-                        style.getFont().setColor(IndexedColors.BLACK.getIndex());
+                        locstyle.getFont().setColor(IndexedColors.BLACK.getIndex());
                         continue;
                     }
                     
-                    XSSFFont font2 = style.getFont();
+                    XSSFFont font2 = locstyle.getFont();
                     if (colList.get(column-1)==Color.GREEN)
                     {
                         font2 = sheet.getWorkbook().getFontAt((short)8);
@@ -938,7 +838,7 @@ public class ReportProcessor
                 }
                 else
                 {
-                    style.getFont().setColor(IndexedColors.BLACK.getIndex());
+                    locstyle.getFont().setColor(IndexedColors.BLACK.getIndex());
                 }
                     
                 
@@ -972,6 +872,21 @@ public class ReportProcessor
             }
             isFirst=false;
         }
+        XSSFRow row = sheet.createRow(0);
+        /*for (int i=0;i<IndexedColors.values().length;i++)
+        {
+            XSSFCellStyle st = sheet.getWorkbook().createCellStyle();
+            st.setFillPattern(CellStyle.SOLID_FOREGROUND);
+            //st.setFillForegroundColor(IndexedColors.values()[i].getIndex());
+            int rr=184;
+            int gg=204;
+            int bb=i*255/IndexedColors.values().length;
+            Color col = new Color(rr, gg, bb);
+            st.setFillForegroundColor(new XSSFColor(col));
+            XSSFCell xssfcell = row.createCell(i);
+            xssfcell.setCellStyle(st);
+            row.getCell(i).setCellValue(rr+" "+gg+" "+bb);
+        }*/
         return curRowNumb;
     }
     
@@ -1044,7 +959,7 @@ public class ReportProcessor
                 if ((column)%report.getSampleWidth()==0)
                     style = borderStyleOddEnd1;
                 Font f = style.getFont();
-                System.out.print("");
+                
             }
             else
             {
@@ -1081,7 +996,7 @@ public class ReportProcessor
                 {
                     style.setDataFormat(df.getFormat("General")); 
                     Font f = style.getFont();
-                    System.out.print("");
+                    
                 }
             }
             
@@ -1090,17 +1005,13 @@ public class ReportProcessor
         else if (rowTypeMap.get(rowheader).contains("HEADER"))
         {
             style = borderboldStyle;
-            
-            
-            
             if ((report.getVolumeWidth()>0)&&(column%report.getVolumeWidth()==0))
                 style =borderboldStyleEnd2;
             else
                 style = borderboldStyle;
             if ((column)%report.getSampleWidth()==0)
                 style = borderboldStyleEnd1;
-            
-                
+            Font f = style.getFont();
             return style;
         }
         else if (rowTypeMap.get(rowheader).contains("ANSWERTEXT"))
@@ -1127,8 +1038,6 @@ public class ReportProcessor
                     style = borderStyleOdd;
                 if ((column)%report.getSampleWidth()==0)
                     style = borderStyleOddEnd1;
-                
-                    
             }
             else
             {
@@ -1139,8 +1048,6 @@ public class ReportProcessor
                     style = borderStyleNotOdd;
                 if ((column)%report.getSampleWidth()==0)
                     style = borderStyleNotOddEnd1;
-                
-                    
             }
             return style;
         }

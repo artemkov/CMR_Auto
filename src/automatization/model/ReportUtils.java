@@ -29,13 +29,13 @@ public class ReportUtils
     {
         if ((diff==null)||(diff==0.0))
         {
-            return Color.BLACK;
+            return Report.DEFAULTCOLOR;
         }
         
         else if (diff<0.0)
-            return Color.BLUE;
+            return Report.DEFAULTPOSITIVECOLOR;
         else
-            return Color.RED;
+            return Report.DEFAULTNEGATIVECOLOR;
         
     }
     public static Double getNormDAVal (double part1, double part2, double ssize1, double ssize2)
