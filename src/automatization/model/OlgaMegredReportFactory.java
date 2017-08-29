@@ -88,6 +88,8 @@ public class OlgaMegredReportFactory implements ReportFactory
         
         //Список цветов шрифта ячеек для динамической значимости в отчете по средним
         List<Color> mcList = new ArrayList<>();
+        //Список цветов шрифта ячеек для динамической значимости в отчете NPS
+        List<Color> cList = new ArrayList<>();
         //список имен переменных Content2
         //если есть "content2List" то вносим его, если "content2"
         List<String> content2List = null;
@@ -117,7 +119,12 @@ public class OlgaMegredReportFactory implements ReportFactory
         
         String firstContent2Name=null;
         List<OlgaWeightedReport> prevowrList,curowrList = null;
-        Map<String,List<OlgaWeightedReport>> content2reportMap = new HashMap<>();        
+        
+        //Карта значений по переменным Content2
+        Map<String,List<OlgaWeightedReport>> content2reportMap = new HashMap<>(); 
+        
+        //Карта ширин для переменных из content2List
+        Map<String,Integer> cont2columnWidthMap = new HashMap<>();
         
         //------------------------
         //ГЛАВНЫЙ ЦИКЛ (ПО СЭМПЛАМ)
@@ -130,9 +137,6 @@ public class OlgaMegredReportFactory implements ReportFactory
             //Инициализация списка отчетов и предыдущего для разных Content2
             prevowrList = curowrList; 
             curowrList = new ArrayList<>(content2List.size());
-            
-            //Карта ширин для переменных из content2List
-            Map<String,Integer> cont2columnWidthMap = new HashMap<>();
             
             int content2counter=0;//счетчик по списку content2List
             
@@ -151,7 +155,8 @@ public class OlgaMegredReportFactory implements ReportFactory
                 content2reportMap.get(content2Name).add(owr);
                 
                 //Занесение значений в карту ширин сэмла
-                cont2columnWidthMap.put(content2Name, owr.gcr.getAgroup2().size());
+                if (i==0)
+                    cont2columnWidthMap.put(content2Name, owr.gcr.getAgroup2().size());
                 
                 if ((i==0)&&(content2counter==0))
                 {
@@ -165,7 +170,7 @@ public class OlgaMegredReportFactory implements ReportFactory
 
                     //Заголовок базы
                     boolean mustdrawtotal = getBooleanFromProperties("drawtotal",true,properties);
-                    report.setNoFirstString(mustdrawtotal);
+                    report.setNoFirstString(!mustdrawtotal);
                 
                     //Уникальные значения линейного отчета
                     uniquevalset = ContentUtils.getContentUniqueValuesFromSampleList(sampleList, owr.content3);
@@ -178,7 +183,7 @@ public class OlgaMegredReportFactory implements ReportFactory
                     //Заголовок имен переменных Content2Name 
                     content2namesheader =  getStringFromProperties("CONTENT2NAMESHEADER", null, properties)==null?"Переменные разбиения":
                         getStringFromProperties("CONTENT2NAMESHEADER", null, properties);
-                    report.addRowHeader(content2namesheader,"HEADER");
+                    report.addRowHeader(content2namesheader,"VOLUMEHEADER");
  
                  
                     //Заголовок значений переменных Content2Name 
@@ -188,9 +193,9 @@ public class OlgaMegredReportFactory implements ReportFactory
                     
                     
                     //Общее
-                    report.addRowHeader("Размер выборки","VALUE");
+                    report.addRowHeader("Размер выборки","HEADER");
                     
-                    report.addRowHeader("В группах","VALUE");
+                    report.addRowHeader("В группах","HEADER");
                     
                     //Средние
                     if (!dontshowmean)
@@ -204,11 +209,16 @@ public class OlgaMegredReportFactory implements ReportFactory
                         if (debugvals)
                         {
                             report.addRowHeader("VARIANCE "+owr.content3.getName());
-                            report.addRowType("VARIANCE "+owr.content3.getName(),"VALUE");
+                            report.addRowType("VARIANCE "+owr.content3.getName(),"VALUE;DA");
+                            
+                            report.addRowHeader("SEMEAN "+owr.content3.getName());
+                            report.addRowType("SEMEAN "+owr.content3.getName(),"VALUE;DA");
                         }
                 
-                        report.addRowHeader("SEMEAN "+owr.content3.getName());
-                        report.addRowType("SEMEAN "+owr.content3.getName(),"VALUE;NOBOTTOMBORDER");
+                        
+                        
+                        report.addRowHeader("SEMEAN Conf. Interval "+owr.content3.getName());
+                        report.addRowType("SEMEAN Conf. Interval "+owr.content3.getName(),"VALUE;NOBOTTOMBORDER");
                         
                         report.addRowHeader("SEMEAN Conf. Interval_"+owr.content3.getName());
                         report.addRowType("SEMEAN Conf. Interval_"+owr.content3.getName(),"VALUE;NOCHANGEODD");
@@ -216,11 +226,11 @@ public class OlgaMegredReportFactory implements ReportFactory
                         if (debugvals)
                         {
                             
-                            report.addRowHeader("DIFFERENCE "+owr.content3.getName(),"VALUE");
+                            //report.addRowHeader("DIFFERENCE "+owr.content3.getName(),"VALUE");
                         
-                            report.addRowHeader("STUDENT "+owr.content3.getName(),"VALUE");
+                            //report.addRowHeader("STUDENT "+owr.content3.getName(),"VALUE");
                             
-                            report.addRowHeader("SD","VALUE");
+                            //report.addRowHeader("SD","VALUE");
                         }
                         
                         
@@ -228,6 +238,17 @@ public class OlgaMegredReportFactory implements ReportFactory
                     //Группы
                     if (!dontshowgroups)
                     {
+                        //NPS
+                        if (!dontshownps)
+                        {   
+                            report.addRowHeader("NPS "+owr.content3.getName(),"VALUE;DA;PERCENTAGES;NOBOTTOMBORDER");
+                                                
+                            report.addRowHeader("NPSDA 2s","VALUE;NOCHANGEODD;DA");
+                        
+                            report.addRowHeader("ConfInt","VALUE;NOBOTTOMBORDER");
+                        
+                            report.addRowHeader("ConfInt_","VALUE;NOCHANGEODD");
+                        }
                         //Группы NPS
                         agList = owr.wig_NPSReportList.get(0).groupslist;   
                         for (InterviewGroup ag: agList)
@@ -236,19 +257,10 @@ public class OlgaMegredReportFactory implements ReportFactory
                             
                             report.addRowHeader("Значимости "+ag.getName(),"VALUE;NOCHANGEODD;DA");
                         }
+                        
                     }
                     
-                    //NPS
-                    if (!dontshownps)
-                    {   
-                        report.addRowHeader("NPS "+owr.content3.getName(),"VALUE;DA;PERCENTAGES;NOBOTTOMBORDER");
-                                                
-                        report.addRowHeader("NPSDA 2s","VALUE;NOCHANGEODD;DA");
-                        
-                        report.addRowHeader("ConfInt","VALUE;NOBOTTOMBORDER");
-                        
-                        report.addRowHeader("ConfInt","VALUE;NOCHANGEODD");
-                    }
+                    
                 }
                 //--------------------------------------
                 //   КОНЕЦ ОФОРМЛЕНИЯ ЗАГОЛОВКОВ РЯДОВ
@@ -268,20 +280,29 @@ public class OlgaMegredReportFactory implements ReportFactory
                 //размер раздела по значению переменной Content1;
                 report.setVolumeWidth(countVolumePartWidth(cont2columnWidthMap));
                 //Заполнение карты цветов для MEAN DA
-                report.getColorMap().put("MEAN DA "+curowrList.get(0).content3.getName(),
+                report.getColorMap().put("MEAN DA "+content3Name,
                         Collections.nCopies
                         (
                                 //общий размер отчета (всего колонок с данными по всем сэмплам)
                                 content1valscount*      //Число значений Content1
                                 sampleList.size()*      //Число сэмплов
                                 report.getVolumeWidth() //Размер (в колонках) отчета по одному значению Content1
-                                /*sampleList.size()*curowrList.stream().mapToInt
-                                (
-                                    (OlgaWeightedReport owr)->owr.content2.getCodesListFromCodeMap().size()
-                                ).sum()*/, 
+                                , 
                                 Report.DEFAULTPOSITIVECOLOR
                         )
                 );
+                report.getColorMap().put("NPSDA 2s",
+                        Collections.nCopies
+                        (
+                                //общий размер отчета (всего колонок с данными по всем сэмплам)
+                                content1valscount*      //Число значений Content1
+                                sampleList.size()*      //Число сэмплов
+                                report.getVolumeWidth() //Размер (в колонках) отчета по одному значению Content1
+                                , 
+                                Report.DEFAULTPOSITIVECOLOR
+                        )
+                );
+                
             }
             
             //Заголовки колонок
@@ -393,6 +414,8 @@ public class OlgaMegredReportFactory implements ReportFactory
                 List<Number> varmeanlist = new ArrayList<>();
                 List<Number> meanlist = new ArrayList<>();
                 List<String> meandastringlist = new ArrayList<>();
+                List<Number> olgaconfintsemeanlist = new ArrayList<>();
+                List<String> olgaconfintsemeanlist_ = new ArrayList<>();
                 
                 
                 ig1counter=0;
@@ -420,6 +443,8 @@ public class OlgaMegredReportFactory implements ReportFactory
                             meandastringlist.add(dastring);
                             meanlist.add(report.round_noperc(curval));
                             semeanlist.add(report.round_noperc(cursemean));
+                            olgaconfintsemeanlist.add(report.round_noperc(cursemean*1.96));
+                            olgaconfintsemeanlist_.add("");
                             varmeanlist.add(report.round_noperc(curvar));
                             if (i>0)
                             {
@@ -443,18 +468,284 @@ public class OlgaMegredReportFactory implements ReportFactory
                     }
                     ig1counter++;
                 }
-                
-                report.addStrToList(meandastringlist, "MEAN DA "+owr.content3.getName());
-                report.addToList(meanlist, "MEAN "+owr.content3.getName());
-                report.addToList(semeanlist, "SEMEAN "+owr.content3.getName());
+                report.addToList(olgaconfintsemeanlist,"SEMEAN Conf. Interval "+content3Name);
+                report.addStrToList(olgaconfintsemeanlist_,"SEMEAN Conf. Interval_"+content3Name);
+                report.addStrToList(meandastringlist, "MEAN DA "+content3Name);
+                report.addToList(meanlist, "MEAN "+content3Name);
                 report.getColorMap().put("MEAN "+content3Name, mcList);
                 
                 if (debugvals)
                 {
-                    report.addToList(varmeanlist, "VARIANCE "+owr.content3.getName());
+                    report.addToList(semeanlist, "SEMEAN "+content3Name);
+                    report.addToList(varmeanlist, "VARIANCE "+content3Name);
                 }
+                
+                
+                
             }
             //------------------------------------------------------------------
+            
+            
+            //---------------------GROUPS&NPS-----------------------------------
+            if (!dontshowgroups)
+            {
+                
+                List<Number> npsvallist = new ArrayList<>();//для NPS
+                List<String> da2slist = new ArrayList<>();//для значимости NPS
+                List<Number> confintlist = new ArrayList<>();//для Conf Int
+                List<String> confintlist_ = new ArrayList<>();//затычка для Conf Int
+                
+                Map<String,List<String>> ganormDAMap = new HashMap<>();//для значимости групп
+                Map<String,List<Number>> grValMap = new HashMap<>();//для групп
+                agList.forEach(group->{
+                    grValMap.put(group.getName(),new ArrayList<>());
+                    ganormDAMap.put(group.getName(),new ArrayList<>());
+                        });
+                
+                ig1counter=0;
+                for (InterviewGroup ig1: ig1List)
+                {
+                    String ig1name = ig1.getName();
+                    int var2counter=0;
+                    for (String var2name: content2List)
+                    {
+                        owr = content2reportMap.get(var2name).get(i);
+                        
+                        final List<InterviewGroup> ig2List = owr.gcr.getAgroup2();
+                        int var2valcounter=0;
+                        for (InterviewGroup ig2: ig2List)
+                        {
+                            int index = var2valcounter+ig1counter*ig2List.size();
+                            NPSgetter curNPSrep = owr.wig_NPSReportList.get(index);
+                            
+                            //NPS-----------------------------------------------
+                            if (!dontshownps)
+                            {
+                                Double curnpsval = curNPSrep==null?null:curNPSrep.getNps();
+                                Double confint = curNPSrep.getConfInterval(confLevel, universe);
+                                npsvallist.add(report.round(curnpsval==null?0.0:curnpsval));
+                                confintlist.add(report.round_noperc(confint));
+                                confintlist_.add("");
+                            
+                                String da = owr.dastringarray2s[index];
+                                da2slist.add(da);
+                                
+                                if (i>0)
+                                {
+                                    OlgaWeightedReport prevowr = content2reportMap.get(var2name).get(i-1);
+                                    NPSgetter prevNPSrep = prevowr.wig_NPSReportList.get(index);
+                                    Double prevnpsval = curNPSrep.getNps();
+                                    
+                                    //da2slist.add(da);
+                                    if (prevNPSrep!=null&&curNPSrep!=null)
+                                    {    
+                                        DAReport crossdarep = new DAReport(prevNPSrep, curNPSrep, var2name, var2name, confLevel, universe);
+                                        String conclusion2s = crossdarep.conclusion2s;
+                                        if ((conclusion2s!=null)&&(conclusion2s.equals("Different")))
+                                            if (curnpsval>prevnpsval)
+                                            {
+                                                cList.add(Report.DEFAULTPOSITIVECOLOR);
+                                            }
+                                            else
+                                            {
+                                                cList.add(Report.DEFAULTNEGATIVECOLOR);
+                                            }
+                                            else
+                                                cList.add(Report.DEFAULTCOLOR);
+                                    }
+                                    else
+                                        cList.add(Report.DEFAULTCOLOR);
+                                }
+                                else
+                                    cList.add(Report.DEFAULTCOLOR);
+                            }
+                            
+                            
+                            //ГРУППЫ--------------------------------------------
+                            for (InterviewGroup ag: agList)
+                            {
+                                String gname = ag.getName();
+                                List<Number> valList = new ArrayList<>();
+                                WeightedInterviewGroupNPSReport currentrep = (WeightedInterviewGroupNPSReport)curNPSrep,oldrep;
+                                Double size = currentrep.getGroupedTotal();
+                                Double count = currentrep.weightedCountmap.getOrDefault(currentrep.findGroupByName(gname),0.0);
+                                Double percent = size>0?count/size*100.0:0.0;
+                                grValMap.get(gname).add(report.round(percent));
+                                if (i>0)
+                                {
+                                    oldrep=content2reportMap.get(var2name).get(i-1).wig_NPSReportList.get(index);
+                                    Double oldsize = currentrep.getGroupedTotal();
+                                    Double oldcount = oldrep.weightedCountmap.getOrDefault(oldrep.findGroupByName(gname),0.0);
+                                    Double oldpercent = oldsize>0?oldcount/oldsize*100.0:0.0;
+                                    Double davalue = ReportUtils.getNormDAVal(oldpercent, percent, oldsize, size);
+                                    Color color = ReportUtils.getColorFromDiff(davalue);
+                                    report.addToColorMap(gname,color);
+                                }
+                                else
+                                {
+                                    report.addToColorMap(gname,Report.DEFAULTCOLOR);
+                                }
+                                //нормальные значимости групп
+                                if (owr.ganormDAMap.containsKey(gname))
+                                {
+                                    String ganormDAval=owr.ganormDAMap.get(gname).get(index);
+                                    ganormDAMap.get(gname).add(ganormDAval);
+                                    report.addToColorMap("Значимости "+gname, Report.DEFAULTPOSITIVECOLOR);
+                                }
+                            }
+                            var2valcounter++;
+                        }
+                        var2counter++;
+                    }
+                    ig1counter++;
+                }
+                
+                for (InterviewGroup ag: agList)
+                {
+                    report.addToList(grValMap.get(ag.getName()),ag.getName());
+                    report.addStrToList(ganormDAMap.get(ag.getName()), "Значимости "+ag.getName());
+                }
+                
+                if (!dontshownps)
+                {        
+                    report.addToList(npsvallist, "NPS "+content3Name);
+                    report.addStrToList(da2slist,"NPSDA 2s");
+                    report.addToList(confintlist,"ConfInt");
+                    report.addStrToList(confintlist_, "ConfInt_");
+                    report.getColorMap().put("NPS "+content3Name, cList);
+                }
+                
+                
+                
+                
+            }
+            //------------------------------------------------------------------
+            
+            //------Линейный----------------------------------------------------
+            if (!dontshowlinear)
+            {
+                String rowname=null;
+                
+                Map<String,String> valtorownameMap = new HashMap<>();//карта код ответа -> заголовок ряда отчета
+                Map<String,List<String>> lrnormDAMap = new HashMap<>();//для значимости групп
+                Map<String,List<Number>> lrValMap = new HashMap<>();//для групп
+                List<Number> lineartlist = new ArrayList<>();
+                List<String> normDAlist = new ArrayList<>();
+                
+                
+                for (String val:uniquevalset)
+                {
+                    
+                        
+                    if (report.hasProperty("ShowAnswersText")&&report.getProperty("ShowAnswersText").equalsIgnoreCase("true")&&
+                       (owr.content3.getAnswerCodeMap()!=null)&&(owr.content3.getAnswerCodeMap().isEmpty()==false))
+                    {    
+                        String answer = owr.content3.getAnswerCodeMap().get(val);
+                        if ((answer!=null)&&(!answer.isEmpty()))
+                            rowname=answer;
+                        else
+                            rowname = val;
+                    }
+                    else
+                        rowname = val;
+                    valtorownameMap.put(val, rowname);
+                    report.addRowHeader(rowname);
+                    lrValMap.put(rowname,new ArrayList<>());
+                    
+                        if (owr.linormDAMap!=null&&owr.linormDAMap.containsKey(val))
+                        {
+                            report.addRowHeader("Значимость "+rowname);
+                            report.addRowType("Значимость "+rowname,"VALUE;NOCHANGEODD;DA");
+                            report.addRowType(rowname,"VALUE;DA;NOBOTTOMBORDER;PERCENTAGES");
+                            lrnormDAMap.put(rowname,new ArrayList<>());
+                            report.getColorMap().put("Значимость "+rowname,
+                                Collections.nCopies(
+                                    //общий размер отчета (всего колонок с данными по всем сэмплам)
+                                    content1valscount*      //Число значений Content1
+                                    sampleList.size()*      //Число сэмплов
+                                    report.getVolumeWidth() //Размер (в колонках) отчета по одному значению Content1
+                                    ,Report.DEFAULTPOSITIVECOLOR)
+                                );
+                        }
+                        else
+                        {
+                            report.addRowType(rowname,"VALUE;DA;PERCENTAGES");
+                        }
+                        
+                }
+                
+                ig1counter=0;
+                for (InterviewGroup ig1: ig1List)
+                {
+                    String ig1name = ig1.getName();
+                    int var2counter=0;
+                    for (String var2name: content2List)
+                    {
+                        owr = content2reportMap.get(var2name).get(i);
+                        OlgaWeightedReport previosowr = null;
+                        if (i>0) 
+                            previosowr= content2reportMap.get(var2name).get(i-1);
+                        final List<InterviewGroup> ig2List = owr.gcr.getAgroup2();
+                        int var2valcounter=0;
+                        for (InterviewGroup ig2: ig2List)
+                        {
+                            int index = var2valcounter+ig1counter*ig2List.size();
+                            WeightedInterviewGroupReport lr = owr.wig_LinearReportList.get(index);
+                            WeightedInterviewGroupReport oldlr = previosowr!=null?previosowr.wig_LinearReportList.get(index):null;
+                            
+                            for (String val:uniquevalset)
+                            {
+                                String rowheader=valtorownameMap.getOrDefault(val, val);
+                                double countcur = lr.weightedCountmap.getOrDefault(lr.findGroupByName(val), 0.0);
+                                double weightcur = lr.getTotalGroupedWeight();
+                                double v = weightcur!=0?countcur*100.0/weightcur:0.0;
+                                double lrpercent = report.round(v);
+                                if (oldlr!=null)
+                                {
+                                    double countold = oldlr.weightedCountmap.getOrDefault(oldlr.findGroupByName(val), 0.0);
+                                    double weightold = oldlr.getTotalGroupedWeight();
+                                    double oldv = weightold!=0?countold*100.0/weightold:0.0;
+                                    double oldlrpercent = report.round(oldv);
+                                    Double davalue = ReportUtils.getNormDAVal(oldlrpercent, lrpercent, weightold, weightcur);
+                                    Color color = ReportUtils.getColorFromDiff(davalue);
+                                    report.addToColorMap(rowheader,color);
+                                }
+                                else
+                                {
+                                    report.addToColorMap(rowheader,Report.DEFAULTCOLOR);
+                                }
+                                if (lrnormDAMap.containsKey(rowheader))
+                                {
+                                    String daval =owr.linormDAMap.get(val).get(index);
+                                    lrnormDAMap.get(rowheader).add(daval);
+                                }
+                                lrValMap.get(rowheader).add(lrpercent);
+                            }
+                            
+                            
+                            var2valcounter++;
+                            
+                        }
+                        var2counter++;
+                    }
+                    ig1counter++;
+                }
+                for (String val:uniquevalset)
+                {
+                    String rowheader=valtorownameMap.getOrDefault(val, val);
+                    lineartlist = lrValMap.get(rowheader);
+                    if (lrnormDAMap.containsKey(rowheader))
+                    {
+                        normDAlist=lrnormDAMap.get(rowheader);
+                        report.addStrToList(normDAlist, "Значимость "+rowheader);
+                        
+                    }
+                    report.addToList(lineartlist, rowheader);
+                }
+                
+            }
+            
+            
             
             System.out.println("Новый сэмпл:"+(i+1));
             
@@ -465,6 +756,7 @@ public class OlgaMegredReportFactory implements ReportFactory
         //размер сэмпла
         report.setSampleWidth(report.getVolumeWidth()*content1valscount);
         
+        report.setColumnHeaderWidthMap(cont2columnWidthMap);
         
         return report;
     }

@@ -48,6 +48,7 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.FillPatternType;
@@ -55,9 +56,11 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.FontUnderline;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellUtil;
+import org.apache.poi.ss.util.RegionUtil;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
@@ -290,7 +293,8 @@ public class ReportProcessor
             volumeHeaderStyle.setBorderRight(CellStyle.BORDER_MEDIUM);
             volumeHeaderStyle.setBorderTop(CellStyle.BORDER_MEDIUM);
             volumeHeaderStyle.setBorderBottom(CellStyle.BORDER_MEDIUM);
-            volumeHeaderStyle.setAlignment(CellStyle.ALIGN_CENTER);
+            //volumeHeaderStyle.setAlignment(HorizontalAlignment.CENTER);
+            volumeHeaderStyle.setAlignment(CellStyle.ALIGN_CENTER_SELECTION);
             volumeHeaderStyle.setWrapText(false);
             volumeHeaderStyle.setFillForegroundColor(IndexedColors.PINK.getIndex());
             volumeHeaderStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
@@ -298,7 +302,7 @@ public class ReportProcessor
             volumeHeaderFont.setFontHeightInPoints((short)10);
             volumeHeaderFont.setFontName("Arial");
             volumeHeaderFont.setColor(IndexedColors.BLACK.getIndex());
-            volumeHeaderFont.setBold(false);
+            volumeHeaderFont.setBold(true);
             volumeHeaderFont.setItalic(false);
             volumeHeaderStyle.setFont(volumeHeaderFont);
             
@@ -309,7 +313,7 @@ public class ReportProcessor
             volumeHeaderStyleEnd.setBorderRight(CellStyle.BORDER_DOUBLE);
             volumeHeaderStyleEnd.setBorderTop(CellStyle.BORDER_MEDIUM);
             volumeHeaderStyleEnd.setBorderBottom(CellStyle.BORDER_MEDIUM);
-            volumeHeaderStyleEnd.setAlignment(CellStyle.ALIGN_CENTER);
+            volumeHeaderStyleEnd.setAlignment(CellStyle.ALIGN_CENTER_SELECTION);
             volumeHeaderStyleEnd.setWrapText(false);
             volumeHeaderStyleEnd.setFillForegroundColor(IndexedColors.PINK.getIndex());
             volumeHeaderStyleEnd.setFillPattern(CellStyle.SOLID_FOREGROUND);
@@ -682,38 +686,48 @@ public class ReportProcessor
                 XSSFCell cell = row.createCell(0);
                 XSSFCellStyle style = sheet.getWorkbook().getCellStyleAt((short)14);
                 XSSFCellStyle style_end = sheet.getWorkbook().getCellStyleAt((short)15);
+                XSSFCellStyle style_volend = sheet.getWorkbook().getCellStyleAt((short)14);
                 cell.setCellStyle(style_end);
                 cell.setCellValue(rowheader);
                 
                 int volumewidth = report.getVolumeWidth();
                 int samplewidth = report.getSampleWidth();
+                
                 int column=1;
                 for (int i=0; i<values.size(); i++)
                 {
+                    volumewidth = report.getColumnHeaderWidthMap().getOrDefault(values.get(i), volumewidth);
+                    int prevcolumn=column;
+                    column += volumewidth;
+                    XSSFCell c = row.createCell(prevcolumn);
                     
-                    int cellNumb = 1+i*volumewidth;
-                    cell = row.createCell(cellNumb);
                     
                     
-                    int handler = sheet.addMergedRegion(new CellRangeAddress(
+                    
+                    CellRangeAddress cra = new CellRangeAddress(
                         curRowNumb, //first row (0-based)
                         curRowNumb, //last row  (0-based)
-                        cellNumb, //first column (0-based)
-                        (i+1)*volumewidth  //last column  (0-based)
-                    ));
-                    int ratio =samplewidth/ volumewidth;
-                    int lastColumnN = (i+1)*volumewidth;
-                    XSSFCell lastcell = row.createCell(lastColumnN);
-                    if (lastColumnN%samplewidth==0)
-                        lastcell.setCellStyle(style_end);
+                        prevcolumn, //first column (0-based)
+                        column-1  //last column  (0-based)
+                    );
+                    int handler = sheet.addMergedRegion(cra);
+                    RegionUtil.setBorderTop(CellStyle.BORDER_MEDIUM, cra, sheet, sheet.getWorkbook());
+                    RegionUtil.setBorderBottom(CellStyle.BORDER_MEDIUM, cra, sheet, sheet.getWorkbook());
+                    if ((column-1)%samplewidth==0)
+                    {
+                        RegionUtil.setBorderRight(CellStyle.BORDER_DOUBLE, cra, sheet, sheet.getWorkbook());
+                        c.setCellStyle(style_end);
+                    }
                     else
-                        lastcell.setCellStyle(style);
+                        c.setCellStyle(style);
                     
-                    if ((i+1)%ratio==0)
-                        cell.setCellStyle(style_end);
-                    else
-                        cell.setCellStyle(style);
-                    cell.setCellValue((String)values.get(i));
+                    String v = values.get(i).toString();
+                    CellUtil.setAlignment(cell, sheet.getWorkbook(),CellStyle.ALIGN_CENTER);
+                    
+                    
+                    c.setCellValue(v);
+                    
+                    
                 }
                 curRowNumb++;
                 continue;
@@ -725,8 +739,7 @@ public class ReportProcessor
             
             if (!rowType.contains("NOCHANGEODD"))
                 isOdd=!isOdd;
-            if (rowheader.equals("Размер выборки"))
-                System.out.println("");
+            
             
             int column=0;
             XSSFCellStyle style = getStyle(curRowNumb,rowheader,report,sheet,0,isOdd);
@@ -744,11 +757,13 @@ public class ReportProcessor
             XSSFCellStyle dummystyle= sheet.getWorkbook().createCellStyle();
             if (report.getRowTypeMap().get(rowheader).contains("HEADER"))
             {
+                
                 dummystyle.setFillForegroundColor(new XSSFColor(HEADERCOLOR));
                 dummystyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
                 dummystyle.setBorderBottom(BorderStyle.THIN);
                 dummystyle.setBorderTop(BorderStyle.THIN);
                 dummystyle.setBorderLeft(BorderStyle.THIN);
+                
                 dummystyle.setBorderRight(BorderStyle.DOUBLE);
                 Font font = sheet.getWorkbook().getFontAt((short)1);
                 dummystyle.setFont(font);
@@ -779,15 +794,12 @@ public class ReportProcessor
             
             for (Object value: values)
             {
+                if (rowheader.equals("В группах"))
+                    System.out.print("");
                 XSSFCellStyle locstyle = getStyle(curRowNumb,rowheader,report,sheet,column,isOdd);
                 cell = row.createCell(column);
                 
-                //XSSFCellStyle clonedstyle = (XSSFCellStyle)style.clone();
-                if (rowheader.equals("Размер выборки"))
-                {
-                        System.out.print("");
-                        
-                }
+                
                 
                 //удалить!!!
                 String fname =  locstyle.getFont().getFontName();
@@ -856,6 +868,7 @@ public class ReportProcessor
                     }
                 }
                 
+                
                 if (value==null)
                     cell.setCellValue("");
                 else
@@ -919,7 +932,24 @@ public class ReportProcessor
             useExcelDigitsFormatting=true;
         }
         
-        
+        final Map<String,Integer> widthMap = report.getColumnHeaderWidthMap();
+        List<Integer> subvolumeCellIndexes = new ArrayList<>();
+        int count=0;
+        if (widthMap!=null)
+            for (int i=0; i<report.getSampleNames().size();i++)
+            {
+                for (int j=0;j<report.getSampleWidth()/report.getVolumeWidth();j++)
+                {
+                    String content2ListProperty = properties.getProperty("content2List");
+                    String content2List[] = content2ListProperty.split("[,;]");
+                    for (String cont2name: content2List)
+                    {
+                        count+=widthMap.get(cont2name);
+                        subvolumeCellIndexes.add(count);
+                    }
+                }
+                
+            }
         if ((rowTypeMap.isEmpty())||(!rowTypeMap.containsKey(rowheader))||(rowTypeMap.get(rowheader).contains("VALUE")))
         {
             DataFormat df =  sheet.getWorkbook().createDataFormat();
@@ -928,6 +958,7 @@ public class ReportProcessor
             String v = properties.getProperty("percentages");
             v=v==null?properties.getProperty("Percentages"):v;
             v=v==null?properties.getProperty("PERCENTAGES"):v;
+            
             
             if (v!=null)
             {    
@@ -946,35 +977,57 @@ public class ReportProcessor
                 }
             
             }
+            if (rowheader.equals("VARIANCE A1"))
+                System.out.print("");
             
             if (isOdd)
             {
                 style = borderStyleOdd;
-                int index = style.getFontIndex();
+                style.setBorderRight(BorderStyle.THIN);
                 
-                if ((report.getVolumeWidth()>0)&&(column%report.getVolumeWidth()==0))
-                    style = borderStyleOddEnd2;
-                else
-                    style = borderStyleOdd;
                 if ((column)%report.getSampleWidth()==0)
+                {
                     style = borderStyleOddEnd1;
-                Font f = style.getFont();
-                
+                    style.setBorderRight(BorderStyle.DOUBLE);
+                }
+                else
+                if ((report.getVolumeWidth()>0)&&(column%report.getVolumeWidth()==0))
+                {
+                    style = borderStyleOddEnd2;
+                    style.setBorderRight(BorderStyle.MEDIUM);
+                }
+                else
+                if (subvolumeCellIndexes.contains(column))
+                {
+                    style = borderStyleOddEnd1;
+                    style.setBorderRight(BorderStyle.MEDIUM_DASHED);
+                }
             }
             else
             {
                 style = borderStyleNotOdd;
-                int index = style.getFontIndex();
+                style.setBorderRight(BorderStyle.THIN);
                 
-                if ((report.getVolumeWidth()>0)&&(column%report.getVolumeWidth()==0))
-                    style = borderStyleNotOddEnd2;
-                else
-                    style = borderStyleNotOdd;
                 if ((column)%report.getSampleWidth()==0)
+                {
                     style = borderStyleNotOddEnd1;
-                Font f = style.getFont();
-                System.out.print("");
+                    style.setBorderRight(BorderStyle.DOUBLE);
+                }
+                else
+                if ((report.getVolumeWidth()>0)&&(column%report.getVolumeWidth()==0))
+                {
+                    style = borderStyleNotOddEnd2;
+                    style.setBorderRight(BorderStyle.MEDIUM);
+                }
+                else
+                if (subvolumeCellIndexes.contains(column))
+                {
+                    style = borderStyleNotOddEnd1;
+                    style.setBorderRight(BorderStyle.MEDIUM_DASHED);
+                }
                     
+               
+                
             }
             if ((rowTypeMap.get(rowheader).contains("PERCENTAGES")&&column>0)&&percentages)
             {
@@ -1009,9 +1062,19 @@ public class ReportProcessor
                 style =borderboldStyleEnd2;
             else
                 style = borderboldStyle;
+            
+            if ((column)%report.getSampleWidth()==0)
+            {    
+                style = borderboldStyleEnd1;
+                style.setBorderRight(BorderStyle.DOUBLE);
+            }
+            else if (subvolumeCellIndexes.contains(column))
+            {
+                style = borderboldStyleEnd1;
+                style.setBorderRight(BorderStyle.MEDIUM_DASHED);
+            }
             if ((column)%report.getSampleWidth()==0)
                 style = borderboldStyleEnd1;
-            Font f = style.getFont();
             return style;
         }
         else if (rowTypeMap.get(rowheader).contains("ANSWERTEXT"))
@@ -1022,9 +1085,16 @@ public class ReportProcessor
             else
                 style = borderboldStyle;
             if ((column)%report.getSampleWidth()==0)
+            {
                 style = borderboldStyleEnd1;
+                style.setBorderRight(BorderStyle.DOUBLE);
+            }
+            else if (subvolumeCellIndexes.contains(column))
+            {
+                style = borderboldStyleEnd1;
+                style.setBorderRight(BorderStyle.MEDIUM_DASHED);
+            }   
             
-                
             return style;
         }
         else
@@ -1037,7 +1107,17 @@ public class ReportProcessor
                 else
                     style = borderStyleOdd;
                 if ((column)%report.getSampleWidth()==0)
+                {
                     style = borderStyleOddEnd1;
+                    style.setBorderRight(BorderStyle.DOUBLE);
+                }
+                if (subvolumeCellIndexes.contains(column))
+                {
+                    style = borderStyleOddEnd1;
+                    style.setBorderRight(BorderStyle.MEDIUM_DASHED);
+                }
+                
+                
             }
             else
             {
@@ -1046,8 +1126,18 @@ public class ReportProcessor
                     style = borderStyleNotOddEnd2;
                 else
                     style = borderStyleNotOdd;
+                
                 if ((column)%report.getSampleWidth()==0)
+                {
                     style = borderStyleNotOddEnd1;
+                    style.setBorderRight(BorderStyle.DOUBLE);
+                }
+                if (subvolumeCellIndexes.contains(column))
+                {
+                    style = borderStyleNotOddEnd1;
+                    style.setBorderRight(BorderStyle.MEDIUM_DASHED);
+                }
+                
             }
             return style;
         }

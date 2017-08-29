@@ -134,10 +134,12 @@ public class Olga1ReportFactory implements ReportFactory
                     {
                         report.addRowHeader("VARIANCE "+owr.content3.getName());
                         report.addRowType("VARIANCE "+owr.content3.getName(),"VALUE");
+                        
+                        report.addRowHeader("SEMEAN "+owr.content3.getName());
+                        report.addRowType("SEMEAN "+owr.content3.getName(),"VALUE");
                     }
                 
-                    report.addRowHeader("SEMEAN "+owr.content3.getName());
-                    report.addRowType("SEMEAN "+owr.content3.getName(),"VALUE");
+                    
                 
                     /*if (debugvals)
                     {

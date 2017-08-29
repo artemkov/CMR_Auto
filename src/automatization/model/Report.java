@@ -62,9 +62,19 @@ public class Report
     private Map<String,Map<String,String>> rowAnswerCodeMap = null;
     private Map<String,String> rowTypeMap = new HashMap<>();
     private Map<String,List<Color>> colorMap = new HashMap<>();
+    private Map<String,Integer> columnHeaderWidthMap = new HashMap<>();
+
+    public final Map<String, Integer> getColumnHeaderWidthMap() {
+        return columnHeaderWidthMap;
+    }
+
+    public void setColumnHeaderWidthMap(Map<String, Integer> columnHeaderWidthMap) {
+        this.columnHeaderWidthMap = columnHeaderWidthMap;
+    }
     private List<String> sampleNames = new LinkedList<>();
     private int volumeWidth = 0;
     private int sampleWidth = 1;
+    
     
     private boolean noFirstString = false;
 
