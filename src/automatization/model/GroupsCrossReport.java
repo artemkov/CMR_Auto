@@ -224,7 +224,10 @@ public class GroupsCrossReport
             secondvarname = node3.getParent().getParent().getData();
                     
             content2 = ContentUtils.getContentByNameFromInterviewList(interviews, secondvarname);
-                    
+            //выход через исключение, если не найдена переменная
+            if (content2==null)
+                throw new VariableNotFoundException(secondvarname);        
+            
             secondGroupsReport=new Report ();
             List<UniqueList<Map<Content,String>>> fictiveSampleList = new ArrayList<>();
             fictiveSampleList.add(interviews);
@@ -267,6 +270,9 @@ public class GroupsCrossReport
         {
             secondvarname = properties.getProperty("secondvar");
             content2=ContentUtils.getContentByNameFromInterviewList(interviews, secondvarname);
+            //выход через исключение, если не найдена переменная
+            if (content2==null)
+                throw new VariableNotFoundException(secondvarname);
             //вариант 2.1 указаны: имя второй переменной и файл описания групп
             if (properties.containsKey("groupfile2"))
             {

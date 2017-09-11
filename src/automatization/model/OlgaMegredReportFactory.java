@@ -26,7 +26,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
 import java.util.stream.Stream;
 
@@ -86,6 +88,13 @@ public class OlgaMegredReportFactory implements ReportFactory
         boolean dontshownps = getBooleanFromProperties("noNPS",false,properties);
         boolean dontshowlinear = getBooleanFromProperties("noLinear",false,properties);
         
+        if (getBooleanFromProperties("LinearOnly",false,properties))
+        {
+            dontshowmean=true;
+            dontshowgroups=true;
+            dontshownps=true;
+        }
+        
         //Список цветов шрифта ячеек для динамической значимости в отчете по средним
         List<Color> mcList = new ArrayList<>();
         //Список цветов шрифта ячеек для динамической значимости в отчете NPS
@@ -131,9 +140,9 @@ public class OlgaMegredReportFactory implements ReportFactory
         //------------------------
         for (int i=0; i<sampleList.size(); i++)
         {
-            //Если нет второй переменной разбиения вернуть отчет пустой
+            //Если нет второй переменной то исключение
             if (content2List==null)
-                return null;
+                throw new ReportParamsNotDefinedException("Не заданы параметры content2List или secondvar");
             //Инициализация списка отчетов и предыдущего для разных Content2
             prevowrList = curowrList; 
             curowrList = new ArrayList<>(content2List.size());
@@ -145,9 +154,16 @@ public class OlgaMegredReportFactory implements ReportFactory
             for (String content2Name: content2List)
             {
                 //Получаем данные отчета OlgaWeightedReport для переменной content2Name
+                /*Properties p2 = new Properties(properties);
+                p2.setProperty("secondvar", content2Name);
+                p2=ReportUtils.mergeProperties(p2, properties);*/
                 properties.put("secondvar", content2Name);
                 
+                
                 OlgaWeightedReport owr = new OlgaWeightedReport(sampleList.get(i), content, properties, level3node.findRootNode());
+                
+                
+                
                 OlgaWeightedReport prevowr = i>0?prevowrList.get(content2counter):null;
                 curowrList.add(owr);
                 if (i==0)
@@ -160,6 +176,10 @@ public class OlgaMegredReportFactory implements ReportFactory
                 
                 if ((i==0)&&(content2counter==0))
                 {
+                    //Главный заголовок по умолчанию
+                    String qtext = (owr.content3!=null&&owr.content3.getText()!=null&&!owr.content3.getText().isEmpty())?" \""+owr.content3.getText()+"\"":"";
+                    report.setMainHeader("Значимости для "+qtext);
+                    
                     //Имя первой переменной в Content2List
                     firstContent2Name=content2Name;
                     
@@ -172,9 +192,27 @@ public class OlgaMegredReportFactory implements ReportFactory
                     boolean mustdrawtotal = getBooleanFromProperties("drawtotal",true,properties);
                     report.setNoFirstString(!mustdrawtotal);
                 
+                    //Уточнение имени рабочей переменной (большие или маленькие буквы)
+                    if (owr.content3!=null)
+                        content3Name=owr.content3.getName();
+                    
                     //Уникальные значения линейного отчета
-                    uniquevalset = ContentUtils.getContentUniqueValuesFromSampleList(sampleList, owr.content3);
-                
+                    if (!dontshownps)
+                    {
+                        //Если нет каких-то значений Content3 во всех сэмплах, то они не войдут в таблицу
+                        
+                        uniquevalset = ContentUtils.getContentUniqueValuesFromSampleList(sampleList, owr.content3);
+                        //uniquevalset= owr.content3.getAnswerCodeMap().values();
+                    }
+                        
+                    else
+                    {
+                        List<InterviewGroup> glist = owr.wig_LinearReportList.get(0).groupslist;
+                        Set<String> uvals = glist.stream().map(ig0->ig0.getName()).collect(Collectors.toSet());
+                        
+                        uniquevalset= new TreeSet(new StringIntComparator());
+                        uniquevalset.addAll(uvals);
+                    }
                     //Заголовок разделов (заголовок 1)
                     volumeheader = getStringFromProperties("VOLUMEHEADER", null, properties)==null?owr.content1.getName():
                         getStringFromProperties("VOLUMEHEADER", null, properties);                        
@@ -200,19 +238,19 @@ public class OlgaMegredReportFactory implements ReportFactory
                     //Средние
                     if (!dontshowmean)
                     {
-                        report.addRowHeader("MEAN "+owr.content3.getName());
-                        report.addRowType("MEAN "+owr.content3.getName(),"VALUE;DA;NOBOTTOMBORDER");
+                        report.addRowHeader("MEAN "+content3Name);
+                        report.addRowType("MEAN "+content3Name,"VALUE;DA;NOBOTTOMBORDER");
                 
-                        report.addRowHeader("MEAN DA "+owr.content3.getName());
-                        report.addRowType("MEAN DA "+owr.content3.getName(),"VALUE;DA;NOCHANGEODD");
+                        report.addRowHeader("MEAN DA "+content3Name);
+                        report.addRowType("MEAN DA "+content3Name,"VALUE;DA;NOCHANGEODD");
                         
                         if (debugvals)
                         {
-                            report.addRowHeader("VARIANCE "+owr.content3.getName());
-                            report.addRowType("VARIANCE "+owr.content3.getName(),"VALUE;DA");
+                            report.addRowHeader("VARIANCE "+content3Name);
+                            report.addRowType("VARIANCE "+content3Name,"VALUE;DA");
                             
-                            report.addRowHeader("SEMEAN "+owr.content3.getName());
-                            report.addRowType("SEMEAN "+owr.content3.getName(),"VALUE;DA");
+                            report.addRowHeader("SEMEAN "+content3Name);
+                            report.addRowType("SEMEAN "+content3Name,"VALUE;DA");
                         }
                 
                         
@@ -241,22 +279,31 @@ public class OlgaMegredReportFactory implements ReportFactory
                         //NPS
                         if (!dontshownps)
                         {   
-                            report.addRowHeader("NPS "+owr.content3.getName(),"VALUE;DA;PERCENTAGES;NOBOTTOMBORDER");
+                            report.addRowHeader("NPS "+content3Name,"VALUE;DA;PERCENTAGES;NOBOTTOMBORDER");
                                                 
                             report.addRowHeader("NPSDA 2s","VALUE;NOCHANGEODD;DA");
                         
                             report.addRowHeader("ConfInt","VALUE;NOBOTTOMBORDER");
                         
                             report.addRowHeader("ConfInt_","VALUE;NOCHANGEODD");
-                        }
-                        //Группы NPS
-                        agList = owr.wig_NPSReportList.get(0).groupslist;   
-                        for (InterviewGroup ag: agList)
-                        {
-                            report.addRowHeader(ag.getName(),"VALUE;DA;PERCENTAGES;NOBOTTOMBORDER");
                             
-                            report.addRowHeader("Значимости "+ag.getName(),"VALUE;NOCHANGEODD;DA");
+                            //Группы NPS
+                            agList = owr.wig_NPSReportList.get(0).groupslist;   
+                            List<String> gnameList = agList.stream().map(InterviewGroup::getName).collect(toList());
+                            //gnameList.sort(new StringIntComparator());
+                            for (String name: gnameList)
+                            {
+                                report.addRowHeader(name,"VALUE;DA;PERCENTAGES;NOBOTTOMBORDER");
+                                report.addRowHeader("Значимости "+name,"VALUE;NOCHANGEODD;DA");
+                            }
                         }
+                        //noNPS=true
+                        else
+                        {
+                            
+                        }
+                        
+                        
                         
                     }
                     
@@ -340,8 +387,10 @@ public class OlgaMegredReportFactory implements ReportFactory
                 for (String var2name: content2List)
                 {
                     List<InterviewGroup> ig2list = content2reportMap.get(var2name).get(0).gcr.getAgroup2();
+                    
+                    List<String> addtolist = ig2list.stream().map(InterviewGroup::getName).collect(toList());
                     report.addStrToList(
-                        ig2list.stream().map(InterviewGroup::getName).collect(toList()), 
+                        addtolist, 
                     content2valsheader);
                 }
                 //--------------------------------
@@ -395,7 +444,12 @@ public class OlgaMegredReportFactory implements ReportFactory
                     for (InterviewGroup ig2: ig2List)
                     {
                         String ig2name = ig2.getName();
-                        double value = owr.wig_NPSReportList.get(var2valcounter+ig1counter*ig2List.size()).getGroupedTotal();
+                        double value = 0;
+                        if (!dontshownps)
+                            value = owr.wig_NPSReportList.get(var2valcounter+ig1counter*ig2List.size()).getGroupedTotal();
+                        else if (!dontshowlinear)
+                            value = owr.wig_LinearReportList.get(var2valcounter+ig1counter*ig2List.size()).getTotalGroupedWeight();
+                           
                         groupedtotalcountlist.add(report.round_noperc(value));
                         var2valcounter++;
                     }
@@ -487,7 +541,7 @@ public class OlgaMegredReportFactory implements ReportFactory
             
             
             //---------------------GROUPS&NPS-----------------------------------
-            if (!dontshowgroups)
+            if (!dontshownps)
             {
                 
                 List<Number> npsvallist = new ArrayList<>();//для NPS
@@ -606,8 +660,8 @@ public class OlgaMegredReportFactory implements ReportFactory
                     report.addStrToList(ganormDAMap.get(ag.getName()), "Значимости "+ag.getName());
                 }
                 
-                if (!dontshownps)
-                {        
+                      
+                {
                     report.addToList(npsvallist, "NPS "+content3Name);
                     report.addStrToList(da2slist,"NPSDA 2s");
                     report.addToList(confintlist,"ConfInt");
@@ -633,6 +687,8 @@ public class OlgaMegredReportFactory implements ReportFactory
                 List<String> normDAlist = new ArrayList<>();
                 
                 
+                
+                if (!dontshownps)
                 for (String val:uniquevalset)
                 {
                     
@@ -654,8 +710,7 @@ public class OlgaMegredReportFactory implements ReportFactory
                     
                         if (owr.linormDAMap!=null&&owr.linormDAMap.containsKey(val))
                         {
-                            report.addRowHeader("Значимость "+rowname);
-                            report.addRowType("Значимость "+rowname,"VALUE;NOCHANGEODD;DA");
+                            report.addRowHeader("Значимость "+rowname,"VALUE;NOCHANGEODD;DA");
                             report.addRowType(rowname,"VALUE;DA;NOBOTTOMBORDER;PERCENTAGES");
                             lrnormDAMap.put(rowname,new ArrayList<>());
                             report.getColorMap().put("Значимость "+rowname,
@@ -671,7 +726,30 @@ public class OlgaMegredReportFactory implements ReportFactory
                         {
                             report.addRowType(rowname,"VALUE;DA;PERCENTAGES");
                         }
+                }
+                else
+                {
+                    for (String val:uniquevalset)
+                    {
                         
+                        report.addRowHeader(val, "VALUE;DA;NOBOTTOMBORDER;PERCENTAGES");
+                        
+                        lrValMap.put(val,new ArrayList<>()); 
+                        if (owr.linormDAMap!=null&&owr.linormDAMap.containsKey(val))
+                        {
+                            report.addRowHeader("Значимость "+val, "VALUE;NOCHANGEODD;DA");
+                            lrnormDAMap.put(val,new ArrayList<>());
+                            report.getColorMap().put("Значимость "+val,
+                                Collections.nCopies(
+                                    //общий размер отчета (всего колонок с данными по всем сэмплам)
+                                    content1valscount*      //Число значений Content1
+                                    sampleList.size()*      //Число сэмплов
+                                    report.getVolumeWidth() //Размер (в колонках) отчета по одному значению Content1
+                                    ,Report.DEFAULTPOSITIVECOLOR)
+                                );
+                        }
+                        
+                    }
                 }
                 
                 ig1counter=0;
@@ -695,7 +773,15 @@ public class OlgaMegredReportFactory implements ReportFactory
                             
                             for (String val:uniquevalset)
                             {
-                                String rowheader=valtorownameMap.getOrDefault(val, val);
+                                String rowheader=val;
+                                if (!dontshownps)
+                                {
+                                    rowheader=valtorownameMap.getOrDefault(val, val);
+                                }
+                                else
+                                {
+                                    System.out.print("");
+                                }
                                 double countcur = lr.weightedCountmap.getOrDefault(lr.findGroupByName(val), 0.0);
                                 double weightcur = lr.getTotalGroupedWeight();
                                 double v = weightcur!=0?countcur*100.0/weightcur:0.0;
@@ -720,6 +806,7 @@ public class OlgaMegredReportFactory implements ReportFactory
                                     lrnormDAMap.get(rowheader).add(daval);
                                 }
                                 lrValMap.get(rowheader).add(lrpercent);
+                                
                             }
                             
                             

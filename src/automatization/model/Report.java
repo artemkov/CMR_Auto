@@ -1314,10 +1314,10 @@ public class Report
                         
                         
                         rowHeaders.add("Размер выборки");
-                        rowTypeMap.put("Размер выборки","VALUE;HEADER");
+                        rowTypeMap.put("Размер выборки","HEADER");
                         
                         rowHeaders.add("В группах");
-                        rowTypeMap.put("В группах","VALUE;HEADER");
+                        rowTypeMap.put("В группах","HEADER");
                         
                         //Группы 3
                         for (String grname: linearRepGroupNamesList)
@@ -1431,7 +1431,7 @@ public class Report
                             {
                                 normDAlist=olr.normDAMap.get(groupName);
                                 addStrToList(normDAlist, "Значимость "+groupName);
-                                colorMap.put("Значимость "+groupName,Collections.nCopies(samples.size()*olr.group2samples.size(), Color.BLUE));
+                                colorMap.put("Значимость "+groupName,Collections.nCopies(samples.size()*olr.group2samples.size(), Report.DEFAULTPOSITIVECOLOR));
                             }
                             else
                             {
@@ -2069,10 +2069,11 @@ public class Report
         else
         {
             rowHeaders.add(mapKey);
+            
             int maxsize = getMaxListSize();
             if (this.rowTypeMap.containsKey(mapKey))
             {
-                if (this.rowTypeMap.get(mapKey).equalsIgnoreCase("VOLUMEHEADER"))
+                if (this.rowTypeMap.get(mapKey).contains("VOLUMEHEADER"))
                 {
                     maxsize=this.getSampleWidth()/this.getVolumeWidth();
                 }
@@ -2093,6 +2094,8 @@ public class Report
             return 0;
         for (Map.Entry<String,List<? extends Object>>entry:reportValues.entrySet())
         {
+            if (this.rowTypeMap.get(entry.getKey()).contains("VOLUMEHEADER"))
+                continue;
             int size = entry.getValue().size();
             if (size>maxsize)
                 maxsize=size;

@@ -763,10 +763,11 @@ public class ReportProcessor
                 dummystyle.setBorderBottom(BorderStyle.THIN);
                 dummystyle.setBorderTop(BorderStyle.THIN);
                 dummystyle.setBorderLeft(BorderStyle.THIN);
-                
-                dummystyle.setBorderRight(BorderStyle.DOUBLE);
+                dummystyle.setBorderRight(style.getBorderRight());
                 Font font = sheet.getWorkbook().getFontAt((short)1);
                 dummystyle.setFont(font);
+                //System.out.println("DUMMY!!! Ряд: "+rowheader+" Тип: "+report.getRowTypeMap().get(rowheader)
+                //    +" Стиль: "+dummystyle.getIndex()+" Правая граница: "+dummystyle.getBorderRightEnum());
                 cell.setCellStyle(dummystyle);
             }
             dummystyle.setAlignment(XSSFCellStyle.ALIGN_LEFT);
@@ -794,8 +795,7 @@ public class ReportProcessor
             
             for (Object value: values)
             {
-                if (rowheader.equals("В группах"))
-                    System.out.print("");
+                
                 XSSFCellStyle locstyle = getStyle(curRowNumb,rowheader,report,sheet,column,isOdd);
                 cell = row.createCell(column);
                 
@@ -868,6 +868,7 @@ public class ReportProcessor
                     }
                 }
                 
+                //System.out.println(getStyleInfo(rowheader,report,column,cell.getCellStyle()));
                 
                 if (value==null)
                     cell.setCellValue("");
@@ -885,7 +886,7 @@ public class ReportProcessor
             }
             isFirst=false;
         }
-        XSSFRow row = sheet.createRow(0);
+        
         /*for (int i=0;i<IndexedColors.values().length;i++)
         {
             XSSFCellStyle st = sheet.getWorkbook().createCellStyle();
@@ -901,6 +902,11 @@ public class ReportProcessor
             row.getCell(i).setCellValue(rr+" "+gg+" "+bb);
         }*/
         return curRowNumb;
+    }
+    private static String getStyleInfo (String rowheader, Report report, int column, XSSFCellStyle style)
+    {
+        return "Ряд: "+rowheader+" Тип: "+report.getRowTypeMap().get(rowheader)+" Колонка: "+column
+                    +" Стиль: "+style.getIndex()+" Правая граница: "+style.getBorderRightEnum();
     }
     
     private static XSSFCellStyle getStyle(Integer curRowNumb, String rowheader, Report report, XSSFSheet sheet, int column, boolean isOdd) 
@@ -935,12 +941,13 @@ public class ReportProcessor
         final Map<String,Integer> widthMap = report.getColumnHeaderWidthMap();
         List<Integer> subvolumeCellIndexes = new ArrayList<>();
         int count=0;
-        if (widthMap!=null)
+        if (widthMap!=null&&!widthMap.isEmpty())
             for (int i=0; i<report.getSampleNames().size();i++)
             {
                 for (int j=0;j<report.getSampleWidth()/report.getVolumeWidth();j++)
                 {
                     String content2ListProperty = properties.getProperty("content2List");
+                    
                     String content2List[] = content2ListProperty.split("[,;]");
                     for (String cont2name: content2List)
                     {
@@ -1052,7 +1059,7 @@ public class ReportProcessor
                     
                 }
             }
-            
+            style.setBorderRight(getBorderStyle(column,subvolumeCellIndexes,report));
             return style;
         }
         else if (rowTypeMap.get(rowheader).contains("HEADER"))
@@ -1075,6 +1082,7 @@ public class ReportProcessor
             }
             if ((column)%report.getSampleWidth()==0)
                 style = borderboldStyleEnd1;
+            style.setBorderRight(getBorderStyle(column,subvolumeCellIndexes,report));
             return style;
         }
         else if (rowTypeMap.get(rowheader).contains("ANSWERTEXT"))
@@ -1094,7 +1102,7 @@ public class ReportProcessor
                 style = borderboldStyleEnd1;
                 style.setBorderRight(BorderStyle.MEDIUM_DASHED);
             }   
-            
+            style.setBorderRight(getBorderStyle(column,subvolumeCellIndexes,report));
             return style;
         }
         else
@@ -1109,13 +1117,13 @@ public class ReportProcessor
                 if ((column)%report.getSampleWidth()==0)
                 {
                     style = borderStyleOddEnd1;
-                    style.setBorderRight(BorderStyle.DOUBLE);
+                    
                 }
                 if (subvolumeCellIndexes.contains(column))
                 {
                     style = borderStyleOddEnd1;
-                    style.setBorderRight(BorderStyle.MEDIUM_DASHED);
                 }
+                
                 
                 
             }
@@ -1130,15 +1138,16 @@ public class ReportProcessor
                 if ((column)%report.getSampleWidth()==0)
                 {
                     style = borderStyleNotOddEnd1;
-                    style.setBorderRight(BorderStyle.DOUBLE);
+                    
                 }
                 if (subvolumeCellIndexes.contains(column))
                 {
                     style = borderStyleNotOddEnd1;
-                    style.setBorderRight(BorderStyle.MEDIUM_DASHED);
                 }
                 
+                
             }
+            style.setBorderRight(getBorderStyle(column,subvolumeCellIndexes,report));
             return style;
         }
     }
@@ -1185,7 +1194,24 @@ public class ReportProcessor
         
     }
 
-    
+    private static BorderStyle getBorderStyle (int column, List<Integer> subvolumeCellIndexes, Report report)
+    {
+        if ((column)%report.getSampleWidth()==0)
+        {
+            return BorderStyle.DOUBLE;
+        }
+        else
+        if ((report.getVolumeWidth()>0)&&(column%report.getVolumeWidth()==0))
+        {
+            return BorderStyle.MEDIUM;
+        }
+        else
+        if (subvolumeCellIndexes.contains(column))
+        {
+            return BorderStyle.MEDIUM_DASHED;
+        }
+        return BorderStyle.THIN;
+    }
     
     
 }

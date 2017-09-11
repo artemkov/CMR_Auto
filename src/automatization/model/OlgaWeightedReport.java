@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import static java.util.stream.Collectors.toList;
 
 /**
  *
@@ -39,6 +40,7 @@ public class OlgaWeightedReport
     
     Content content1,content2,content3;
     Path groupfile1,groupfile2,groupfile3;
+    private int variant=0;
     
     GroupsCrossReport gcr = null;
     //List<NPSReport> npsReportList = new ArrayList<>();
@@ -72,7 +74,14 @@ public class OlgaWeightedReport
         boolean dontshownps = getBooleanFromProperties("noNPS",false,properties);
         boolean dontshowlinear = getBooleanFromProperties("noLinear",false,properties);
         boolean dontshowgroups = getBooleanFromProperties("noGroups",false,properties);
-
+        if (getBooleanFromProperties("LinearOnly",false,properties))
+        {
+            dontshownps=true;
+            dontshowmean=true;
+            dontshowgroups=true;
+        }
+        
+        
         //Cтроим кросс часть
         gcr = new GroupsCrossReport(interviews, content1, properties, rootNode);
         content2 = gcr.getContent2();
@@ -98,24 +107,26 @@ public class OlgaWeightedReport
         
         //Переменная 3
         String thirdvarname = ReportUtils.getStringFromProperties("thirdvar",null,properties);
-        if (thirdvarname==null)
+        if (!dontshownps)
         {
-            throw new ReportParamsNotDefinedException("Не указан необходимый параметр 'thirdvar'");
+            if (thirdvarname==null)
+            {
+                throw new ReportParamsNotDefinedException("Не указан необходимый параметр 'thirdvar'");
+            }
+            content3 = ContentUtils.getContentByNameFromInterviewList(interviews, thirdvarname);
+            if (content3==null)
+            {
+                throw new VariableNotFoundException(thirdvarname);
+            }
+            if (properties.containsKey("groupfile3"))
+            {
+                groupfile3 = Paths.get(properties.getProperty("groupfile3"));
+            }
+            else
+            {
+                throw new ReportParamsNotDefinedException("Не указан необходимый параметр 'groupfile3'");
+            }
         }
-        content3 = ContentUtils.getContentByNameFromInterviewList(interviews, thirdvarname);
-        if (content3==null)
-        {
-            throw new VariableNotFoundException(thirdvarname);
-        }
-        if (properties.containsKey("groupfile3"))
-        {
-            groupfile3 = Paths.get(properties.getProperty("groupfile3"));
-        }
-        else
-        {
-            throw new ReportParamsNotDefinedException("Не указан необходимый параметр 'groupfile3'");
-        }
-        
         //ShowAnswerText
         boolean showAnswerText = ReportUtils.getBooleanFromProperties("ShowAnswersText", false, properties);
         
@@ -134,8 +145,10 @@ public class OlgaWeightedReport
                 wig_NPSReportList.add(wigr_npsr);
             }
             
+            
             if (dontshownps&&!dontshowgroups)
             {
+                
                 
             }
             
@@ -144,9 +157,73 @@ public class OlgaWeightedReport
             WeightedInterviewGroupReport wigr_linear = null;
             if (!dontshowlinear)
             {
-                List<InterviewGroup> var3LinearGroupslist = GroupsReport.constructInterviewGroupsFormContent(content3,sample,false);
-                for (InterviewGroup ig: var3LinearGroupslist)
-                    var3LinearGroupsNameslist.add(ig.getName());
+                if (properties.containsKey("thirdvar"))
+                {
+                    
+                    thirdvarname = properties.getProperty("thirdvar");
+                    content3 = ContentUtils.getContentByNameFromInterviewList(interviews, thirdvarname);
+                    variant=1;
+                    if (dontshownps)
+                    {
+                        if (content3==null)
+                        {
+                            throw new VariableNotFoundException(thirdvarname);
+                        }
+                        if (properties.containsKey("groupfile3"))
+                        {
+                            groupfile3 = Paths.get(properties.getProperty("groupfile3"));
+                            variant=2;
+                        }
+            
+                    }
+                    else
+                    {
+                        if (content3==null)
+                            throw new VariableNotFoundException(thirdvarname);
+                        if (properties.containsKey("groupfile3"))
+                        {
+                            groupfile3 = Paths.get(properties.getProperty("groupfile3"));
+                        }
+                        else
+                        {
+                            throw new ReportParamsNotDefinedException("Не указан необходимый параметр 'groupfile3'");
+                        }
+                    }
+                }    
+                else
+                {
+                    content3=null;
+                    if (properties.containsKey("groupfile3"))
+                    {
+                        groupfile3 = Paths.get(properties.getProperty("groupfile3"));
+                        variant=3;
+                    }
+                    else
+                    {
+                        throw new ReportParamsNotDefinedException("Не указан необходимый параметр 'thirdvar' или 'groupfile3'");
+                    }
+            
+                }
+                
+                
+                List<InterviewGroup> var3LinearGroupslist = null;
+                switch (variant)
+                {
+                    case 1: 
+                        var3LinearGroupslist = GroupsReport.constructInterviewGroupsFormContent(content3,sample,false);
+                        break;
+                    case 2:
+                        var3LinearGroupslist=GroupsReport.getInterviewGroupsFromExcel(groupfile3, content3);
+                        break;
+                    case 3:
+                        //Указан только groupfile3 (группы строятся на основании фильтров в groupfile3)
+                        var3LinearGroupslist=GroupsReport.getInterviewGroupsFromExcel(groupfile3, null);
+                        break;
+                }
+                if (var3LinearGroupslist==null)
+                    System.out.print("");
+                var3LinearGroupsNameslist=var3LinearGroupslist.stream().map(InterviewGroup::getName).collect(toList());
+                
                 wigr_linear = new WeightedInterviewGroupReport(var3LinearGroupslist, weightcontent,content3);
                 wigr_linear.populateGroups(sample);
                 wig_LinearReportList.add(wigr_linear);
@@ -158,6 +235,9 @@ public class OlgaWeightedReport
             {
                 Properties props = new Properties();
                 String corrector = (String)properties.getOrDefault("MeanCorrector", "-1");
+                if (properties.getProperty("ComputeRealMean", "false").equalsIgnoreCase("true"))
+                    corrector="";
+                
                 props.setProperty("content1", thirdvarname+corrector);
                 props.setProperty("rowname1", "Среднее для "+thirdvarname);
                 if (properties.containsKey("ExcludeList"))
@@ -220,6 +300,7 @@ public class OlgaWeightedReport
             }
             ganormDAMap.put(curgroupname, grdastringList);
         }
+        
         
         //Линейный
         for (String gname: var3LinearGroupsNameslist)
@@ -353,8 +434,6 @@ public class OlgaWeightedReport
                 {
                     if (j!=k)
                     {
-                        if (j==3&&k==4)
-                            System.out.print("");
                         DAReport darep = new DAReport(wig_NPSReportList.get(i*group2samples.size()/group1samples.size()+j), 
                                                       wig_NPSReportList.get(i*group2samples.size()/group1samples.size()+k), 
                                                       thirdvarname, thirdvarname, 
